@@ -1,5 +1,5 @@
 # **Maksim Petrov**
-![My photo](ic.jpg)  
+![My photo](ic2.png)  
 Profile photo
 
 ---
@@ -19,3 +19,4 @@ Think of me as a bug-squashing, feature-building machine, eager to make a positi
 ## __Code Example__
 ```csharp
 Console.WriteLine("Hello, World!"); 
+
