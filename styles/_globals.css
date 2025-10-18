@@ -1,0 +1,53 @@
+﻿/* Force black background */
+html, body {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    min-height: 100vh;
+}
+
+main, .content {
+    background: #000000 !important;
+    background-color: #000000 !important;
+}
+
+/* Make all sections transparent so black background shows through */
+section {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+.container {
+  max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+.button {
+    font-family: 'FuturaBT-Book';
+    font-weight: 350;
+    font-size: 16px;
+    line-height: 16px;
+    color: var(--color-light);
+    text-decoration: none;
+    position: relative;
+    color: var(--color-light);
+    background-color: transparent;
+    border: 1px solid var(--color-light);
+    padding: 16px 24px 16px 24px;
+    border-radius: var(--border-radius);
+}
+body.no-scroll { overflow: hidden; }
+
