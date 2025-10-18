@@ -1,0 +1,222 @@
+.footer {
+    padding-top: var(--section-padding-y);
+}
+
+.footer__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 120px;
+}
+
+.footer__offers-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 143px;
+    flex-wrap: wrap;
+    row-gap: 30px;
+}
+
+.footer__offers-item {
+    display: flex;
+    column-gap: 17px;
+}
+
+.item__text-upper {
+    font-family: 'FuturaBT-Heavy';
+    font-weight: 900;
+    font-size: 16x;
+    color: var(--color-light);
+    text-align: start;
+}
+
+.item__text-lower {
+    font-family: 'FuturaBT-Book';
+    font-weight: 350;
+    font-size: 16x;
+    color: var(--color-light);
+    text-align: start;
+}
+
+.footer__main {
+    display: flex;
+    justify-content: space-between
+}
+
+.footer__main-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 32px;
+    width: auto;
+    align-items: flex-start
+}
+
+.main-form__title {
+    font-family: 'FuturaBT-Bold';
+    font-weight: 700;
+    font-size: 48px;
+    color: var(--color-light);
+}
+
+.main-form__form {
+    font-family: 'FuturaBT-Regular';
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--color-light);
+    position: relative;
+}
+
+.form__input {
+    width: 399px;
+    height: var(--input-height);
+    padding-inline: 80px;
+    color: var(--color-light);
+    background-color: transparent;
+    border: 1px solid var(--color-light);
+    border-radius: var(--border-radius);
+}
+
+.form__input:focus {
+    outline: none;
+}
+
+.form__button {
+    padding: 16px 40px 16px 40px;
+    background-color: var(--color-light);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    top: 0;
+    right: 0;
+    left: 80%;
+    height: 100%;
+    aspect-ratio: 1;
+    position: absolute;
+}
+
+.main__image {
+    padding-top: 56px;
+}
+
+.footer__copyright {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 40px;
+}
+
+.footer__copyright-text {
+    display: flex;
+    font-family: 'FuturaBT-Book';
+    font-weight: 350;
+    font-size: 16x;
+    color: var(--color-light);
+    text-align: start;
+    column-gap: 8px;
+    align-items: center;
+}
+
+.soc1als-list {
+    display: flex;
+    column-gap: 40px;
+    align-items: center
+}
+
+.main__list-item {
+    font-family: 'FuturaBT-LightCondensed';
+    font-weight: 300;
+    font-size: 20px;
+    color: var(--color-light);
+    text-align: center;
+    text-decoration: none;
+}
+
+.main__list-item:hover {
+    color: var(--color-accent, #fff);
+}
+
+.form__button { cursor: pointer; }
+
+.footer__list-once-title {
+    font-family: 'FuturaBT-ExtraBlackConditalic';
+    font-weight: 950;
+    font-size: 24px;
+    color: var(--color-light);
+    text-align: start;
+}
+
+.footer__list-once {
+    display: flex;
+    flex-direction: column;
+    row-gap: 50px;
+}
+
+.footer__main-links {
+    display: flex;
+    column-gap: 88px;
+}
+
+.footer__list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.main__list {
+     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+@media (max-width: 1280px) {
+    .footer__main {
+        flex-direction: column;
+        row-gap: 20px;
+        align-items: center;
+    }
+
+    .footer__main-form {
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .footer__copyright {
+        flex-direction: column-reverse;
+        row-gap: 20px;
+        align-items: center;
+    }
+}
+
+@media (max-width: 765px) {
+    .footer__main-links {
+        flex-wrap: wrap;
+        row-gap: 20px;
+        justify-content: center;
+    }
+
+    .main-form__title {
+        text-align: center;
+    }
+
+    .form__input {
+        padding-inline: 20px;
+        text-align: center;
+    }
+
+    .form__button {
+    padding: 16px 40px 16px 40px;
+    background-color: var(--color-light);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    top: 100%;
+    right: -60%;
+    left: 15%;
+    height: 100%;
+    aspect-ratio: 1;
+    margin-top: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .form__input {
+        width: auto;
+    }
+}

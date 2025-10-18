@@ -1,0 +1,58 @@
+.catalog {
+    padding-top: var(--section-padding-y);
+}
+
+.catalog__container {
+    text-align: center;
+}
+
+.catalog__button {
+    padding: 18px 24px 18px 24px;
+    margin-top: 121px;
+}
+
+.catalog__button-arrow {
+    padding-left: 4px;
+}
+
+.catalog__item-text {
+    font-family: 'FuturaBT-LightCondensed';
+    font-weight: 300;
+    font-size: 24px;
+    color: var(--color-light);
+    text-align: center;
+}
+
+.catalog__main {
+    margin-top: 121px;
+}
+
+.catalog__main-inner1 {
+    display: flex;
+    column-gap: 47px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.catalog__main-inner2 {
+    display: flex;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    column-gap: 47px;
+    align-items: end;
+    flex-wrap: wrap;
+    justify-content: end;
+}
+
+.catalog__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1024px) {
+    .catalog__main-inner1,
+    .catalog__main-inner2 {
+        justify-content: center;
+    }
+}

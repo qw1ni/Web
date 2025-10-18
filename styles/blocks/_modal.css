@@ -1,0 +1,397 @@
+/* Модальные окна */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal {
+    position: relative;
+    width: 100%;
+    max-width: 90vw;
+    max-height: 90vh;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.modal-dialog {
+    background: var(--color-dark);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* Размеры модальных окон */
+.modal-small {
+    max-width: 400px;
+}
+
+.modal-medium {
+    max-width: 600px;
+}
+
+.modal-large {
+    max-width: 800px;
+}
+
+.modal-fullscreen {
+    max-width: 95vw;
+    max-height: 95vh;
+}
+
+/* Заголовок модального окна */
+.modal-header {
+    padding: 20px 25px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    margin: 0;
+    color: var(--color-light);
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--color-light);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.modal-close:hover {
+    background: var(--color-accent);
+    opacity: 1;
+}
+
+/* Тело модального окна */
+.modal-body {
+    padding: 25px;
+    color: var(--color-light);
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Подвал модального окна */
+.modal-footer {
+    padding: 20px 25px;
+    border-top: var(--border);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Quick View товара */
+.product-quick-view-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.product-quick-view-image {
+    position: relative;
+}
+
+.product-quick-view-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.product-quick-view-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.product-quick-view-info .product-brand {
+    color: var(--color-light);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+.product-quick-view-info .product-name {
+    color: var(--color-light);
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.product-quick-view-info .product-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-quick-view-info .rating-stars {
+    color: #ffc107;
+    font-size: 16px;
+}
+
+.product-quick-view-info .rating-value {
+    color: var(--color-light);
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+.product-quick-view-info .product-price {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-quick-view-info .price-current {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--color-light);
+}
+
+.product-quick-view-info .price-original {
+    font-size: 1.2em;
+    color: var(--color-light);
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.product-quick-view-info .product-description {
+    color: var(--color-light);
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+.product-options {
+    margin: 20px 0;
+}
+
+.size-options label {
+    display: block;
+    color: var(--color-light);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.size-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.size-btn {
+    padding: 8px 12px;
+    border: var(--border);
+    background: transparent;
+    color: var(--color-light);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 40px;
+}
+
+.size-btn:hover {
+    border-color: var(--color-accent);
+}
+
+.size-btn.active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.product-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Подтверждение */
+.confirmation-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.confirmation-icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.confirmation-message {
+    color: var(--color-light);
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Уведомления */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--color-dark);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+    min-width: 300px;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+}
+
+.notification-message {
+    color: var(--color-light);
+    font-weight: 500;
+    flex: 1;
+    margin-right: 15px;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: var(--color-light);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.notification-close:hover {
+    background: var(--color-accent);
+    opacity: 1;
+}
+
+/* Типы уведомлений */
+.notification-success {
+    border-left: 4px solid #28a745;
+}
+
+.notification-error {
+    border-left: 4px solid #dc3545;
+}
+
+.notification-warning {
+    border-left: 4px solid #ffc107;
+}
+
+.notification-info {
+    border-left: 4px solid #17a2b8;
+}
+
+/* Блокировка скролла */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .modal-container {
+        padding: 10px;
+    }
+    
+    .modal-dialog {
+        max-height: 90vh;
+    }
+    
+    .product-quick-view-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .product-quick-view-image img {
+        height: 250px;
+    }
+    
+    .product-actions {
+        flex-direction: column;
+    }
+    
+    .notification {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-header {
+        padding: 15px 20px;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-footer {
+        padding: 15px 20px;
+        flex-direction: column;
+    }
+    
+    .size-buttons {
+        justify-content: center;
+    }
+}

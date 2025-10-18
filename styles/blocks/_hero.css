@@ -1,0 +1,195 @@
+.hero {
+    padding-top: var(--section-padding-y);
+}
+
+.hero__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 80px;
+    align-items: center;
+}
+
+.hero__title {
+    font-family: 'FuturaBT-Medium';
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 100px;
+    color: var(--color-light);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.hero__text {
+    font-family: 'FuturaBT-Book';
+    font-weight: 350;
+    font-size: 16px;
+    line-height: 50px;
+    color: var(--color-light);
+    text-align: center;
+    width: 1064px;
+    height: auto;
+    position: relative;
+}
+
+.hero__button-arrow {
+    padding-left: 4px;
+}
+
+.hero__icon-text1 {
+    display: flex;
+    column-gap: 30px;
+    margin-bottom: 0px;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.hero__icon-text2 {
+    display: flex;
+    column-gap: 30px;
+    margin-bottom: 0px;
+    justify-content: flex-end;
+}
+
+.text__margin {
+    margin: 0px;
+}
+
+@media (max-width: 1024px) {
+   .hero__text {
+    width: 500px;
+    font-size: 12px;
+   }
+    
+}
+
+@media (max-width: 765px) {
+    .hero__text {
+     width: 300px;
+     font-size: 12px;
+    }
+    
+    .hero__title {
+        font-size: 30px;
+        line-height: 40px;
+    }
+    .title__icon2,
+    .title__icon1 {
+        width: 50px;
+        height: 50px;
+    }
+
+    .hero__button {
+        padding: 12px 20px 12px 20px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .hero__title {
+        font-size: 76px;
+    }
+    .hero__text {
+    font-size: 23px;
+   }
+
+}
+
+/* Стили для кнопок */
+.hero__buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.hero__button--secondary {
+    background: transparent;
+    color: #667eea;
+    border: 2px solid #667eea;
+    box-shadow: none;
+}
+
+.hero__button--secondary:hover {
+    background: #667eea;
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 765px) {
+    .hero__buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Стили для роль-специфичных дашбордов */
+.role-dashboard {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.dashboard__header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.dashboard__header h2 {
+    margin: 0 0 10px 0;
+    font-size: 2em;
+}
+
+.dashboard__header p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1.1em;
+}
+
+.dashboard__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.dashboard__actions {
+    display: flex;
+    gap: 15px;
+    padding: 0 30px 30px 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dashboard-btn {
+    padding: 12px 24px;
+    background: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.dashboard-btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Скрытие элементов по ролям */
+.admin-only,
+.manager-only {
+    display: none !important;
+}
+
+body.user-role-admin .admin-only {
+    display: block !important;
+}
+
+body.user-role-manager .manager-only,
+body.user-role-admin .manager-only {
+    display: block !important;
+}

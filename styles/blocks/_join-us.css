@@ -1,0 +1,70 @@
+.join-us {
+    padding-top: var(--section-padding-y);
+}
+
+.join-us__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.join-us__content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+}
+
+.join-us__title {
+    font-family: 'FuturaBT-Medium';
+    font-weight: 500;
+    font-size: 48px;
+    color: var(--color-light);
+    text-transform: uppercase;
+}
+
+.join-us__text {
+    font-family: 'FuturaBT-Book';
+    font-weight: 350;
+    font-size: 24x;
+    color: var(--color-light);
+    text-align: start;
+}
+
+.join-us__image {
+    padding: 40px 40px 40px 40px;
+}
+
+.join-us__button {
+    width: 123px;
+}
+
+@media (max-width: 1280px) {
+    .join-us__container {
+        flex-direction: column-reverse;
+        row-gap: 20px;
+    }
+
+    .join-us__title {
+        text-align: center;
+        width: auto;
+    }
+
+    .join-us__text {
+        text-align: center;
+    }
+
+    .join-us__content {
+        align-items: center;
+        width: auto;
+    }
+}
+
+@media (max-width: 765px) {
+    .join-us__title {
+        font-size: 41px;
+    }
+
+    .join-us__container {
+        padding-inline: 0px;
+    }
+}

@@ -1,0 +1,54 @@
+/* Кнопки Quick View в каталоге */
+.catalog__item {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.catalog__item:hover {
+    transform: translateY(-5px);
+}
+
+.catalog__quick-view-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--color-light);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.catalog__item:hover .catalog__quick-view-btn {
+    opacity: 1;
+}
+
+.catalog__quick-view-btn:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .catalog__quick-view-btn {
+        opacity: 1;
+        position: static;
+        transform: none;
+        margin-top: 10px;
+        width: 100%;
+        background: var(--color-accent);
+    }
+    
+    .catalog__item:hover .catalog__quick-view-btn {
+        transform: none;
+    }
+}

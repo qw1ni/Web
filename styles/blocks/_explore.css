@@ -1,0 +1,75 @@
+.explore {
+    padding-top: var(--section-padding-y);
+}
+
+.explore__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 132px;
+}
+
+.explore__content {
+    width: 776px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 32px;
+}
+
+.explore__title {
+    font-family: 'FuturaBT-Medium';
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 70px;
+    color: var(--color-light);
+    text-transform: uppercase;
+}
+
+.explore__text {
+    font-family: 'FuturaBT-Book';
+    font-weight: 350;
+    font-size: 24x;
+    color: var(--color-light);
+    text-align: start;
+    width: 676px;
+}
+
+@media (max-width: 1280px) {
+    .explore__container {
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .explore__content {
+        align-items: center;
+        text-align: center;
+        width: 300px;
+    }
+
+    .explore__image-container {
+        width: auto;
+    }
+
+    .explore__text {
+        text-align: center;
+        width: auto;
+    }
+}
+
+@media (max-width: 765px) {
+    .explore__container {
+        width: auto;
+        padding-inline: 0px;
+    }
+
+    .explore__text {
+        font-size: 16px;
+        width: 200px;
+    }
+
+    .explore__title {
+        font-size: 41px;
+        width: 200px;
+    }
+}
