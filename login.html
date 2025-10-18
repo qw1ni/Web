@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Nike Website - Sign In</title>
+    <style>
+        /* Override auth styles to match site design */
+        .auth {
+            padding-block: 160px 120px;
+        }
+
+        .auth__container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .auth__card {
+            width: 100%;
+            max-width: 520px;
+            padding: 48px;
+            border: 1px solid var(--color-light);
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.04);
+            color: var(--color-light);
+            display: flex;
+            flex-direction: column;
+            row-gap: 32px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25);
+        }
+
+        :root[data-theme="light"] .auth__card {
+            background-color: rgba(0, 0, 0, 0.04);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth__title {
+            font-family: 'FuturaBT-Bold';
+            font-weight: 700;
+            font-size: 48px;
+            line-height: 1.1;
+            margin: 0;
+        }
+
+        .auth__subtitle {
+            font-family: 'FuturaBT-Regular';
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .auth__form {
+            display: flex;
+            flex-direction: column;
+            row-gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .auth__label {
+            font-family: 'FuturaBT-Medium';
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--color-light);
+            margin: 0;
+        }
+
+        .auth__label.required::after {
+            content: " *";
+            color: #ff6b6b;
+        }
+
+        .auth__input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid var(--color-light);
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--color-light);
+            font-family: 'FuturaBT-Regular';
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .auth__input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth__input.error {
+            border-color: #ff6b6b;
+        }
+
+        .auth__input.valid {
+            border-color: #51cf66;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .auth__options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .auth__checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .auth__checkbox input {
+            margin: 0;
+            accent-color: var(--color-accent);
+        }
+
+        .auth__checkbox-label {
+            font-family: 'FuturaBT-Regular';
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--color-light);
+        }
+
+        .auth__link {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .auth__link:hover {
+            color: var(--color-light);
+        }
+
+        .auth__button {
+            width: 100%;
+            padding: 16px 24px;
+            border: 1px solid var(--color-accent);
+            border-radius: var(--border-radius);
+            background-color: var(--color-accent);
+            color: var(--color-light);
+            font-family: 'FuturaBT-Medium';
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth__button:hover:not(:disabled) {
+            background-color: transparent;
+            color: var(--color-accent);
+        }
+
+        .auth__button:disabled {
+            background: #666;
+            border-color: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth__extra {
+            text-align: center;
+            margin-top: 24px;
+            color: var(--color-light);
+        }
+
+        .auth__test-accounts {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--color-light);
+        }
+
+        .auth__test-title {
+            margin: 0 0 15px 0;
+            color: var(--color-light);
+            font-size: 1.1rem;
+            font-family: 'FuturaBT-Medium';
+        }
+
+        .auth__test-item {
+            margin: 8px 0;
+            color: var(--color-light);
+            font-family: 'FuturaBT-Regular';
+            font-size: 14px;
+        }
+
+        .auth__message {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .auth__message.success {
+            background-color: rgba(81, 207, 102, 0.1);
+            color: #51cf66;
+            border: 1px solid rgba(81, 207, 102, 0.3);
+        }
+
+        .auth__message.error {
+            background-color: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .auth__message.info {
+            background-color: rgba(102, 192, 255, 0.1);
+            color: #66c0ff;
+            border: 1px solid rgba(102, 192, 255, 0.3);
+        }
+
+
+        @media (max-width: 768px) {
+            .auth__container {
+                max-width: 100%;
+                padding: 0 10px;
+            }
+            
+            .auth__card {
+                padding: 20px;
+            }
+            
+            .auth__options {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <section class="auth reveal">
+            <div class="auth__container container">
+                <div class="auth__card">
+                    <h1 class="auth__title">Sign In</h1>
+                    <p class="auth__subtitle">Sign in to your Nike account to track orders, save favorites, and personalize your shopping experience.</p>
+                    <form class="auth__form" id="login-form">
+                        <div class="form-group">
+                            <label class="auth__label required" for="login-email">Email *</label>
+                            <input class="auth__input" type="email" id="login-email" name="email" autocomplete="email"
+                                required placeholder="you@example.com">
+                            <div class="error-message" id="email-error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="auth__label required" for="login-password">Password *</label>
+                            <input class="auth__input" type="password" id="login-password" name="password"
+                                autocomplete="current-password" required placeholder="Enter password">
+                            <div class="error-message" id="password-error"></div>
+                        </div>
+
+                        <div class="auth__options">
+                            <label class="auth__checkbox" for="login-remember">
+                                <input class="auth__checkbox-input" type="checkbox" id="login-remember" name="remember">
+                                <span class="auth__checkbox-label">Remember me</span>
+                            </label>
+                            <a class="auth__link" href="#!">Forgot password?</a>
+                        </div>
+
+                        <button class="auth__button" type="submit" id="login-submit">Sign In</button>
+                    </form>
+                    <p class="auth__extra">Don't have an account? <a class="auth__link" href="./register.html">Create Account</a>
+                    </p>
+                    
+                    <div id="message" class="auth__message" style="display: none;"></div>
+                    
+                    <!-- Тестовые аккаунты -->
+                    <div class="auth__test-accounts">
+                        <h3 class="auth__test-title">Test Accounts:</h3>
+                        <p class="auth__test-item">👨‍💼 Admin: mike.johnson@example.com / password123</p>
+                        <p class="auth__test-item">📊 Manager: sarah.wilson@example.com / password123</p>
+                        <p class="auth__test-item">🛍️ Customer: john.doe@example.com / password123</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <p>&copy; 2024 Sneaker Store. All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        console.log('Страница входа загружена!');
+        
+        // Константы
+        const SESSION_KEY = 'sneaker_store_user_session';
+        const API_URL = 'http://localhost:3000';
+
+        // Обработка формы входа
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Показываем загрузку
+            showMessage('Signing in...', 'info');
+            
+            try {
+                // Получаем пользователя по email
+                const response = await fetch(`${API_URL}/users?email=${email}`);
+                const users = await response.json();
+                
+                if (users.length === 0) {
+                    showMessage('User not found', 'error');
+                    return;
+                }
+                
+                const user = users[0];
+                
+                // Проверяем пароль
+                if (user.password === password) {
+                    // Сохраняем сессию
+                    const session = {
+                        id: user.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        role: user.role,
+                        token: 'mock-jwt-token-' + Date.now()
+                    };
+                    
+                    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+                    
+                    // Обновляем lastLogin
+                    await fetch(`${API_URL}/users/${user.id}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ lastLogin: new Date().toISOString() })
+                    });
+                    
+                    // Показываем успех
+                    showMessage(`Welcome back, ${user.firstName}!`, 'success');
+                    
+                    // Перенаправляем в зависимости от роли
+                    setTimeout(() => {
+                        if (user.role === 'admin') {
+                            window.location.href = './admin.html';
+                        } else if (user.role === 'manager') {
+                            window.location.href = './manager.html';
+                        } else {
+                            window.location.href = './index.html';
+                        }
+                    }, 1000);
+                } else {
+                    showMessage('Invalid password', 'error');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showMessage('Connection error. Please try again.', 'error');
+            }
+        });
+        
+        // Функция показа сообщений
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.style.display = 'block';
+            messageDiv.style.padding = '12px';
+            messageDiv.style.borderRadius = '8px';
+            messageDiv.style.marginTop = '15px';
+            messageDiv.style.textAlign = 'center';
+            
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.border = '1px solid #c3e6cb';
+            } else if (type === 'error') {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+            } else {
+                messageDiv.style.background = '#d1ecf1';
+                messageDiv.style.color = '#0c5460';
+                messageDiv.style.border = '1px solid #bee5eb';
+            }
+        }
+        
+        // Экспортируем для совместимости
+        window.SneakerStoreAuth = {
+            authManager: {
+                isAuthenticated: () => !!localStorage.getItem(SESSION_KEY),
+                getCurrentUser: () => JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'),
+                logout: () => {
+                    localStorage.removeItem(SESSION_KEY);
+                    window.location.reload();
+                }
+            }
+        };
+    </script>
+    
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/accessibility.js"></script>
+</body>
+
+</html>
+
