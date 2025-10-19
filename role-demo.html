@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Sneaker Store - Role Demo</title>
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .demo-header h1 {
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+        }
+        
+        .demo-header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .role-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .role-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .role-card.admin {
+            border-left-color: #dc3545;
+        }
+        
+        .role-card.manager {
+            border-left-color: #28a745;
+        }
+        
+        .role-card.customer {
+            border-left-color: #17a2b8;
+        }
+        
+        .role-card h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.3em;
+        }
+        
+        .role-card p {
+            margin: 0 0 15px 0;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .role-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .role-features li {
+            padding: 5px 0;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .role-features li:before {
+            content: "✅ ";
+            margin-right: 8px;
+        }
+        
+        .test-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .test-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .test-btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .test-btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .test-btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .test-btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .test-btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .test-btn-success:hover {
+            background: #218838;
+        }
+        
+        .test-btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .test-btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .current-role {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #667eea;
+        }
+        
+        .current-role h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        
+        .current-role p {
+            margin: 0;
+            color: #666;
+        }
+        
+        .role-demo {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-element {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .demo-element.admin-only {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .demo-element.manager-only {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .demo-element.customer-only {
+            background: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        
+        .demo-element.hidden {
+            display: none;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .code-example .comment {
+            color: #68d391;
+        }
+        
+        .code-example .keyword {
+            color: #f687b3;
+        }
+        
+        .code-example .string {
+            color: #fbb6ce;
+        }
+    </style>
+</head>
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <div class="demo-container">
+            <div class="demo-header">
+                <h1>👥 Role-Based Access Control Demo</h1>
+                <p>Демонстрация роль-специфичного функционала и разрешений</p>
+            </div>
+
+            <!-- Текущая роль -->
+            <div class="current-role" id="current-role">
+                <h3>Текущая роль: <span id="role-display">Не авторизован</span></h3>
+                <p id="role-description">Войдите в систему для просмотра роль-специфичного контента</p>
+            </div>
+
+            <!-- Тестовые аккаунты -->
+            <div class="role-section">
+                <h2 class="section-title">🔐 Тестовые аккаунты</h2>
+                <div class="test-controls">
+                    <button class="test-btn test-btn-primary" onclick="loginAs('admin')">
+                        Войти как Администратор
+                    </button>
+                    <button class="test-btn test-btn-success" onclick="loginAs('manager')">
+                        Войти как Менеджер
+                    </button>
+                    <button class="test-btn test-btn-secondary" onclick="loginAs('customer')">
+                        Войти как Покупатель
+                    </button>
+                    <button class="test-btn test-btn-danger" onclick="logout()">
+                        Выйти
+                    </button>
+                </div>
+            </div>
+
+            <!-- Роли и их возможности -->
+            <div class="role-section">
+                <h2 class="section-title">👥 Роли и возможности</h2>
+                <div class="role-cards">
+                    <div class="role-card admin">
+                        <h3>🔧 Администратор</h3>
+                        <p>Полный доступ ко всем функциям системы</p>
+                        <ul class="role-features">
+                            <li>Управление пользователями</li>
+                            <li>Управление товарами</li>
+                            <li>Аналитика и отчеты</li>
+                            <li>Настройки системы</li>
+                            <li>Доступ к админ-панели</li>
+                            <li>Экспорт данных</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="role-card manager">
+                        <h3>📊 Менеджер</h3>
+                        <p>Управление товарами и заказами</p>
+                        <ul class="role-features">
+                            <li>Управление ассортиментом</li>
+                            <li>Обработка заказов</li>
+                            <li>Управление складом</li>
+                            <li>Аналитика продаж</li>
+                            <li>Доступ к панели менеджера</li>
+                            <li>Обновление остатков</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="role-card customer">
+                        <h3>🛍️ Покупатель</h3>
+                        <p>Основные функции покупок</p>
+                        <ul class="role-features">
+                            <li>Просмотр каталога</li>
+                            <li>Добавление в корзину</li>
+                            <li>Создание заказов</li>
+                            <li>Управление профилем</li>
+                            <li>Просмотр истории заказов</li>
+                            <li>Избранные товары</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Демонстрация элементов -->
+            <div class="role-section">
+                <h2 class="section-title">🎭 Демонстрация элементов</h2>
+                <div class="role-demo">
+                    <h3>Элементы, видимые в зависимости от роли:</h3>
+                    
+                    <div class="demo-element admin-only hidden">
+                        <strong>🔧 Административные функции:</strong>
+                        <ul>
+                            <li>Управление пользователями</li>
+                            <li>Системная аналитика</li>
+                            <li>Экспорт данных</li>
+                            <li>Настройки безопасности</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="demo-element manager-only hidden">
+                        <strong>📊 Функции менеджера:</strong>
+                        <ul>
+                            <li>Управление товарами</li>
+                            <li>Обработка заказов</li>
+                            <li>Управление складом</li>
+                            <li>Аналитика продаж</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="demo-element customer-only hidden">
+                        <strong>🛍️ Функции покупателя:</strong>
+                        <ul>
+                            <li>Просмотр каталога</li>
+                            <li>Корзина покупок</li>
+                            <li>Профиль пользователя</li>
+                            <li>История заказов</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Статистика по ролям -->
+            <div class="role-section">
+                <h2 class="section-title">📊 Статистика системы</h2>
+                <div class="stats-grid" id="role-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-users">-</div>
+                        <div class="stat-label">Всего пользователей</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="admin-count">-</div>
+                        <div class="stat-label">Администраторов</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="manager-count">-</div>
+                        <div class="stat-label">Менеджеров</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="customer-count">-</div>
+                        <div class="stat-label">Покупателей</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Примеры кода -->
+            <div class="role-section">
+                <h2 class="section-title">💻 Примеры реализации</h2>
+                
+                <h3>Проверка роли пользователя</h3>
+                <div class="code-example">
+<span class="comment">// Проверка роли в JavaScript</span>
+<span class="keyword">function</span> checkUserRole() {
+    <span class="keyword">const</span> authManager = window.SneakerStoreAuth.authManager;
+    <span class="keyword">if</span> (authManager.isAuthenticated()) {
+        <span class="keyword">const</span> user = authManager.getCurrentUser();
+        <span class="keyword">return</span> user.role; <span class="comment">// 'admin', 'manager', 'customer'</span>
+    }
+    <span class="keyword">return</span> <span class="string">'guest'</span>;
+}
+
+<span class="comment">// Показ/скрытие элементов по роли</span>
+<span class="keyword">function</span> updateRoleUI() {
+    <span class="keyword">const</span> role = checkUserRole();
+    <span class="keyword">const</span> adminElements = document.querySelectorAll(<span class="string">'.admin-only'</span>);
+    <span class="keyword">const</span> managerElements = document.querySelectorAll(<span class="string">'.manager-only'</span>);
+    
+    <span class="keyword">if</span> (role === <span class="string">'admin'</span>) {
+        adminElements.forEach(el => el.style.display = <span class="string">'block'</span>);
+        managerElements.forEach(el => el.style.display = <span class="string">'block'</span>);
+    } <span class="keyword">else if</span> (role === <span class="string">'manager'</span>) {
+        adminElements.forEach(el => el.style.display = <span class="string">'none'</span>);
+        managerElements.forEach(el => el.style.display = <span class="string">'block'</span>);
+    } <span class="keyword">else</span> {
+        adminElements.forEach(el => el.style.display = <span class="string">'none'</span>);
+        managerElements.forEach(el => el.style.display = <span class="string">'none'</span>);
+    }
+}
+                </div>
+
+                <h3>CSS для скрытия элементов</h3>
+                <div class="code-example">
+<span class="comment">/* Скрытие элементов по ролям */</span>
+.admin-only,
+.manager-only {
+    display: none !important;
+}
+
+<span class="comment">/* Показ для администраторов */</span>
+body.user-role-admin .admin-only {
+    display: block !important;
+}
+
+<span class="comment">/* Показ для менеджеров и администраторов */</span>
+body.user-role-manager .manager-only,
+body.user-role-admin .manager-only {
+    display: block !important;
+}
+                </div>
+
+                <h3>API проверка разрешений</h3>
+                <div class="code-example">
+<span class="comment">// Проверка разрешений на сервере</span>
+<span class="keyword">function</span> hasPermission(userRole, requiredRole) {
+    <span class="keyword">const</span> roleHierarchy = {
+        <span class="string">'customer'</span>: 1,
+        <span class="string">'manager'</span>: 2,
+        <span class="string">'admin'</span>: 3
+    };
+    
+    <span class="keyword">return</span> roleHierarchy[userRole] >= roleHierarchy[requiredRole];
+}
+
+<span class="comment">// Использование</span>
+<span class="keyword">if</span> (hasPermission(userRole, <span class="string">'manager'</span>)) {
+    <span class="comment">// Показать функции менеджера</span>
+}
+                </div>
+            </div>
+
+            <!-- Тестирование функций -->
+            <div class="role-section">
+                <h2 class="section-title">🧪 Тестирование функций</h2>
+                <div class="test-controls">
+                    <button class="test-btn test-btn-primary" onclick="testRolePermissions()">
+                        Тест разрешений
+                    </button>
+                    <button class="test-btn test-btn-secondary" onclick="testUIElements()">
+                        Тест UI элементов
+                    </button>
+                    <button class="test-btn test-btn-success" onclick="loadRoleStats()">
+                        Загрузить статистику
+                    </button>
+                </div>
+                <div id="test-results" class="test-section" style="display: none;">
+                    <h4>Результаты тестирования:</h4>
+                    <ul id="test-list"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/preloader.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/cart.js"></script>
+    
+    <script>
+        // Тестовые аккаунты
+        const testAccounts = {
+            admin: { email: 'mike.johnson@example.com', password: 'password123' },
+            manager: { email: 'sarah.wilson@example.com', password: 'password123' },
+            customer: { email: 'john.doe@example.com', password: 'password123' }
+        };
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async function() {
+            updateCurrentRole();
+            await loadRoleStats();
+        });
+
+        // Вход под определенной ролью
+        async function loginAs(role) {
+            const account = testAccounts[role];
+            if (!account) return;
+
+            try {
+                await preloader.start();
+                const authManager = window.SneakerStoreAuth.authManager;
+                const result = await authManager.login(account.email, account.password);
+                await preloader.stop();
+
+                if (result.success) {
+                    updateCurrentRole();
+                    updateDemoElements();
+                    preloader.showMessage(`Вход выполнен как ${role}`, 2000, 'success');
+                } else {
+                    preloader.showMessage('Ошибка входа', 3000, 'error');
+                }
+            } catch (error) {
+                await preloader.stop();
+                preloader.showMessage('Ошибка входа: ' + error.message, 3000, 'error');
+            }
+        }
+
+        // Выход из системы
+        function logout() {
+            if (window.SneakerStoreAuth && window.SneakerStoreAuth.authManager) {
+                window.SneakerStoreAuth.authManager.logout();
+                updateCurrentRole();
+                updateDemoElements();
+                preloader.showMessage('Выход выполнен', 2000);
+            }
+        }
+
+        // Обновление отображения текущей роли
+        function updateCurrentRole() {
+            const authManager = window.SneakerStoreAuth.authManager;
+            const roleDisplay = document.getElementById('role-display');
+            const roleDescription = document.getElementById('role-description');
+
+            if (authManager && authManager.isAuthenticated()) {
+                const user = authManager.getCurrentUser();
+                const roleNames = {
+                    admin: 'Администратор',
+                    manager: 'Менеджер',
+                    customer: 'Покупатель'
+                };
+                const roleDescriptions = {
+                    admin: 'Полный доступ ко всем функциям системы',
+                    manager: 'Управление товарами и заказами',
+                    customer: 'Основные функции покупок'
+                };
+
+                roleDisplay.textContent = roleNames[user.role] || user.role;
+                roleDescription.textContent = roleDescriptions[user.role] || 'Неизвестная роль';
+            } else {
+                roleDisplay.textContent = 'Не авторизован';
+                roleDescription.textContent = 'Войдите в систему для просмотра роль-специфичного контента';
+            }
+        }
+
+        // Обновление демо-элементов
+        function updateDemoElements() {
+            const authManager = window.SneakerStoreAuth.authManager;
+            const adminElements = document.querySelectorAll('.demo-element.admin-only');
+            const managerElements = document.querySelectorAll('.demo-element.manager-only');
+            const customerElements = document.querySelectorAll('.demo-element.customer-only');
+
+            // Скрываем все элементы
+            [...adminElements, ...managerElements, ...customerElements].forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            if (authManager && authManager.isAuthenticated()) {
+                const user = authManager.getCurrentUser();
+                
+                if (user.role === 'admin') {
+                    adminElements.forEach(el => el.classList.remove('hidden'));
+                    managerElements.forEach(el => el.classList.remove('hidden'));
+                    customerElements.forEach(el => el.classList.remove('hidden'));
+                } else if (user.role === 'manager') {
+                    managerElements.forEach(el => el.classList.remove('hidden'));
+                    customerElements.forEach(el => el.classList.remove('hidden'));
+                } else if (user.role === 'customer') {
+                    customerElements.forEach(el => el.classList.remove('hidden'));
+                }
+            }
+        }
+
+        // Загрузка статистики ролей
+        async function loadRoleStats() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/users');
+                
+                if (response.success) {
+                    const users = response.data;
+                    const adminCount = users.filter(u => u.role === 'admin').length;
+                    const managerCount = users.filter(u => u.role === 'manager').length;
+                    const customerCount = users.filter(u => u.role === 'customer').length;
+                    
+                    document.getElementById('total-users').textContent = users.length;
+                    document.getElementById('admin-count').textContent = adminCount;
+                    document.getElementById('manager-count').textContent = managerCount;
+                    document.getElementById('customer-count').textContent = customerCount;
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки статистики:', error);
+            }
+        }
+
+        // Тест разрешений
+        function testRolePermissions() {
+            const results = document.getElementById('test-results');
+            const testList = document.getElementById('test-list');
+            
+            results.style.display = 'block';
+            testList.innerHTML = '<li>🔍 Тестирование разрешений...</li>';
+
+            const authManager = window.SneakerStoreAuth.authManager;
+            if (!authManager || !authManager.isAuthenticated()) {
+                testList.innerHTML = '<li>❌ Пользователь не авторизован</li>';
+                return;
+            }
+
+            const user = authManager.getCurrentUser();
+            const tests = [
+                { name: 'Доступ к админ-панели', required: 'admin', has: hasPermission(user.role, 'admin') },
+                { name: 'Доступ к панели менеджера', required: 'manager', has: hasPermission(user.role, 'manager') },
+                { name: 'Доступ к каталогу', required: 'customer', has: hasPermission(user.role, 'customer') },
+                { name: 'Управление товарами', required: 'manager', has: hasPermission(user.role, 'manager') },
+                { name: 'Управление пользователями', required: 'admin', has: hasPermission(user.role, 'admin') }
+            ];
+
+            const results_html = tests.map(test => 
+                `<li>${test.has ? '✅' : '❌'} ${test.name}: ${test.has ? 'Разрешено' : 'Запрещено'}</li>`
+            ).join('');
+
+            testList.innerHTML = results_html;
+        }
+
+        // Тест UI элементов
+        function testUIElements() {
+            const results = document.getElementById('test-results');
+            const testList = document.getElementById('test-list');
+            
+            results.style.display = 'block';
+            testList.innerHTML = '<li>🎭 Тестирование UI элементов...</li>';
+
+            const adminElements = document.querySelectorAll('.admin-only');
+            const managerElements = document.querySelectorAll('.manager-only');
+            const customerElements = document.querySelectorAll('.customer-only');
+
+            const tests = [
+                { name: 'Административные элементы', count: adminElements.length, visible: Array.from(adminElements).filter(el => el.style.display !== 'none').length },
+                { name: 'Элементы менеджера', count: managerElements.length, visible: Array.from(managerElements).filter(el => el.style.display !== 'none').length },
+                { name: 'Элементы покупателя', count: customerElements.length, visible: Array.from(customerElements).filter(el => el.style.display !== 'none').length }
+            ];
+
+            const results_html = tests.map(test => 
+                `<li>📊 ${test.name}: ${test.visible}/${test.count} видимых</li>`
+            ).join('');
+
+            testList.innerHTML = results_html;
+        }
+
+        // Проверка разрешений
+        function hasPermission(userRole, requiredRole) {
+            const roleHierarchy = {
+                'customer': 1,
+                'manager': 2,
+                'admin': 3
+            };
+            
+            return roleHierarchy[userRole] >= roleHierarchy[requiredRole];
+        }
+    </script>
+</body>
+</html>

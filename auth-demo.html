@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Sneaker Store - Auth Demo</title>
+    <style>
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .demo-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .demo-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .test-accounts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .account-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .account-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .account-card .role {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .role-admin {
+            background: #dc3545;
+            color: white;
+        }
+        .role-manager {
+            background: #ffc107;
+            color: #333;
+        }
+        .role-customer {
+            background: #28a745;
+            color: white;
+        }
+        .account-info {
+            margin: 10px 0;
+        }
+        .account-info strong {
+            color: #666;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .current-user {
+            background: #e7f3ff;
+            border: 2px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .current-user h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .current-user .user-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .user-info-item {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+        .user-info-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .user-info-value {
+            color: #333;
+            font-size: 14px;
+        }
+        .test-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status.authenticated {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.not-authenticated {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <div class="demo-container">
+            <div class="demo-header">
+                <h1>🔐 Auth System Demo</h1>
+                <p>Демонстрация системы аутентификации и ролей</p>
+            </div>
+
+            <!-- Текущий статус -->
+            <div class="demo-section">
+                <h2 class="section-title">📊 Текущий статус</h2>
+                <div id="auth-status" class="status not-authenticated">
+                    Не авторизован
+                </div>
+                <div id="current-user-info" class="current-user" style="display: none;">
+                    <h3>👤 Текущий пользователь</h3>
+                    <div class="user-info" id="user-details">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Тестовые аккаунты -->
+            <div class="demo-section">
+                <h2 class="section-title">👥 Тестовые аккаунты</h2>
+                <div class="test-accounts">
+                    <div class="account-card">
+                        <h3>Администратор</h3>
+                        <span class="role role-admin">Admin</span>
+                        <div class="account-info">
+                            <strong>Email:</strong> mike.johnson@example.com<br>
+                            <strong>Пароль:</strong> password123<br>
+                            <strong>Права:</strong> Полный доступ ко всем функциям
+                        </div>
+                        <button class="btn btn-primary" onclick="loginAs('mike.johnson@example.com', 'password123')">
+                            Войти как админ
+                        </button>
+                    </div>
+                    
+                    <div class="account-card">
+                        <h3>Менеджер</h3>
+                        <span class="role role-manager">Manager</span>
+                        <div class="account-info">
+                            <strong>Email:</strong> sarah.wilson@example.com<br>
+                            <strong>Пароль:</strong> password123<br>
+                            <strong>Права:</strong> Управление товарами и заказами
+                        </div>
+                        <button class="btn btn-primary" onclick="loginAs('sarah.wilson@example.com', 'password123')">
+                            Войти как менеджер
+                        </button>
+                    </div>
+                    
+                    <div class="account-card">
+                        <h3>Покупатель</h3>
+                        <span class="role role-customer">Customer</span>
+                        <div class="account-info">
+                            <strong>Email:</strong> john.doe@example.com<br>
+                            <strong>Пароль:</strong> password123<br>
+                            <strong>Права:</strong> Покупки и управление профилем
+                        </div>
+                        <button class="btn btn-primary" onclick="loginAs('john.doe@example.com', 'password123')">
+                            Войти как покупатель
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Тестирование функций -->
+            <div class="demo-section">
+                <h2 class="section-title">🧪 Тестирование функций</h2>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" onclick="testAuth()">Проверить авторизацию</button>
+                    <button class="btn btn-success" onclick="testRoles()">Проверить роли</button>
+                    <button class="btn btn-danger" onclick="logout()">Выйти</button>
+                </div>
+                <div id="test-results"></div>
+            </div>
+
+            <!-- Доступные страницы -->
+            <div class="demo-section">
+                <h2 class="section-title">📄 Доступные страницы</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <h4>Общие страницы</h4>
+                        <a href="index.html" class="btn btn-primary">Главная</a><br>
+                        <a href="login.html" class="btn btn-primary">Вход</a><br>
+                        <a href="register.html" class="btn btn-primary">Регистрация</a>
+                    </div>
+                    <div>
+                        <h4>Для авторизованных</h4>
+                        <a href="profile.html" class="btn btn-success">Профиль</a><br>
+                        <a href="api-example.html" class="btn btn-success">API Demo</a>
+                    </div>
+                    <div>
+                        <h4>Для менеджеров</h4>
+                        <a href="manager.html" class="btn btn-success">Manager Panel</a>
+                    </div>
+                    <div>
+                        <h4>Для администраторов</h4>
+                        <a href="admin.html" class="btn btn-success">Admin Panel</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Информация о системе -->
+            <div class="demo-section">
+                <h2 class="section-title">ℹ️ Информация о системе</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4>🔐 Аутентификация</h4>
+                        <ul>
+                            <li>Валидация email и паролей</li>
+                            <li>Хеширование паролей</li>
+                            <li>Управление сессиями</li>
+                            <li>Автоматический вход после регистрации</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>👥 Роли пользователей</h4>
+                        <ul>
+                            <li><strong>Customer:</strong> Покупки, профиль</li>
+                            <li><strong>Manager:</strong> + управление товарами</li>
+                            <li><strong>Admin:</strong> + управление пользователями</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>🎨 UI/UX</h4>
+                        <ul>
+                            <li>Адаптивный дизайн</li>
+                            <li>Динамическое обновление навигации</li>
+                            <li>Роль-зависимые элементы</li>
+                            <li>Красивые анимации</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>🔧 Технические особенности</h4>
+                        <ul>
+                            <li>JSON Server API</li>
+                            <li>LocalStorage/SessionStorage</li>
+                            <li>Модульная архитектура</li>
+                            <li>Обработка ошибок</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/preloader.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/cart.js"></script>
+    
+    <script>
+        // Обновление статуса при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAuthStatus();
+            
+            // Обновляем статус при изменениях
+            setInterval(updateAuthStatus, 1000);
+        });
+
+        // Обновление статуса аутентификации
+        function updateAuthStatus() {
+            const authManager = window.SneakerStoreAuth.authManager;
+            const statusElement = document.getElementById('auth-status');
+            const userInfoElement = document.getElementById('current-user-info');
+            const userDetailsElement = document.getElementById('user-details');
+            
+            if (authManager.isAuthenticated()) {
+                const user = authManager.getCurrentUser();
+                
+                statusElement.textContent = `✅ Авторизован как ${user.firstName} ${user.lastName} (${user.role})`;
+                statusElement.className = 'status authenticated';
+                
+                userInfoElement.style.display = 'block';
+                userDetailsElement.innerHTML = `
+                    <div class="user-info-item">
+                        <div class="user-info-label">Имя</div>
+                        <div class="user-info-value">${user.firstName} ${user.lastName}</div>
+                    </div>
+                    <div class="user-info-item">
+                        <div class="user-info-label">Email</div>
+                        <div class="user-info-value">${user.email}</div>
+                    </div>
+                    <div class="user-info-item">
+                        <div class="user-info-label">Роль</div>
+                        <div class="user-info-value" style="text-transform: capitalize;">${user.role}</div>
+                    </div>
+                    <div class="user-info-item">
+                        <div class="user-info-label">Последний вход</div>
+                        <div class="user-info-value">${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Никогда'}</div>
+                    </div>
+                `;
+            } else {
+                statusElement.textContent = '❌ Не авторизован';
+                statusElement.className = 'status not-authenticated';
+                userInfoElement.style.display = 'none';
+            }
+        }
+
+        // Вход под определенным пользователем
+        async function loginAs(email, password) {
+            try {
+                const authManager = window.SneakerStoreAuth.authManager;
+                const result = await authManager.login(email, password);
+                
+                if (result.success) {
+                    showMessage('Вход выполнен успешно!', 'success');
+                    updateAuthStatus();
+                } else {
+                    showMessage('Ошибка входа: ' + result.errors.join(', '), 'error');
+                }
+            } catch (error) {
+                showMessage('Ошибка входа: ' + error.message, 'error');
+            }
+        }
+
+        // Тестирование авторизации
+        function testAuth() {
+            const authManager = window.SneakerStoreAuth.authManager;
+            const results = document.getElementById('test-results');
+            
+            let html = '<h4>Результаты тестирования:</h4><ul>';
+            
+            html += `<li>Авторизован: ${authManager.isAuthenticated() ? '✅ Да' : '❌ Нет'}</li>`;
+            
+            if (authManager.isAuthenticated()) {
+                const user = authManager.getCurrentUser();
+                html += `<li>Пользователь: ${user.firstName} ${user.lastName}</li>`;
+                html += `<li>Email: ${user.email}</li>`;
+                html += `<li>Роль: ${user.role}</li>`;
+                html += `<li>ID: ${user.id}</li>`;
+            }
+            
+            html += '</ul>';
+            results.innerHTML = html;
+        }
+
+        // Тестирование ролей
+        function testRoles() {
+            const authManager = window.SneakerStoreAuth.authManager;
+            const results = document.getElementById('test-results');
+            
+            let html = '<h4>Тестирование ролей:</h4><ul>';
+            
+            html += `<li>Администратор: ${authManager.isAdmin() ? '✅ Да' : '❌ Нет'}</li>`;
+            html += `<li>Менеджер: ${authManager.isManager() ? '✅ Да' : '❌ Нет'}</li>`;
+            html += `<li>Покупатель: ${authManager.hasRole('customer') ? '✅ Да' : '❌ Нет'}</li>`;
+            
+            if (authManager.isAuthenticated()) {
+                const user = authManager.getCurrentUser();
+                html += `<li>Текущая роль: ${user.role}</li>`;
+                html += `<li>isAdmin флаг: ${user.isAdmin ? 'Да' : 'Нет'}</li>`;
+            }
+            
+            html += '</ul>';
+            results.innerHTML = html;
+        }
+
+        // Выход из системы
+        function logout() {
+            const authManager = window.SneakerStoreAuth.authManager;
+            authManager.logout();
+            showMessage('Выход выполнен', 'success');
+            updateAuthStatus();
+        }
+
+        // Показ сообщений
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `status ${type === 'success' ? 'authenticated' : 'not-authenticated'}`;
+            messageDiv.textContent = message;
+            
+            const results = document.getElementById('test-results');
+            results.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

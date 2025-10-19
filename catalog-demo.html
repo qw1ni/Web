@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Sneaker Store - Catalog Demo</title>
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .demo-header h1 {
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+        }
+        
+        .demo-header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .demo-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        
+        .feature-card p {
+            margin: 0;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .demo-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-link {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .demo-link h3 {
+            margin: 0 0 10px 0;
+            color: inherit;
+        }
+        
+        .demo-link p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .test-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .test-btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .test-btn-primary:hover {
+            background: #5a6fd8;
+        }
+        
+        .test-btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .test-btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        .test-results {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .test-results h4 {
+            margin: 0 0 15px 0;
+            color: #333;
+        }
+        
+        .test-results ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .test-results li {
+            margin-bottom: 8px;
+            color: #666;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .code-example .comment {
+            color: #68d391;
+        }
+        
+        .code-example .keyword {
+            color: #f687b3;
+        }
+        
+        .code-example .string {
+            color: #fbb6ce;
+        }
+    </style>
+</head>
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <div class="demo-container">
+            <div class="demo-header">
+                <h1>🛍️ Catalog System Demo</h1>
+                <p>Демонстрация системы каталога с поиском, фильтрацией и пагинацией</p>
+            </div>
+
+            <!-- Статистика -->
+            <div class="demo-section">
+                <h2 class="section-title">📊 Статистика каталога</h2>
+                <div class="stats-grid" id="catalog-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-products">-</div>
+                        <div class="stat-label">Всего товаров</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-brands">-</div>
+                        <div class="stat-label">Брендов</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-categories">-</div>
+                        <div class="stat-label">Категорий</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avg-price">-</div>
+                        <div class="stat-label">Средняя цена</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Функции каталога -->
+            <div class="demo-section">
+                <h2 class="section-title">🔧 Функции каталога</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>🔍 Поиск и фильтрация</h3>
+                        <p>Полнотекстовый поиск по названию и описанию товаров. Фильтрация по категориям, брендам, цене, полу, размерам и рейтингу.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📊 Сортировка</h3>
+                        <p>Сортировка по цене, названию, рейтингу, дате добавления. Поддержка как возрастающего, так и убывающего порядка.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📄 Пагинация</h3>
+                        <p>Клиентская пагинация с настраиваемым количеством товаров на странице. Удобная навигация по страницам.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🎨 Виды отображения</h3>
+                        <p>Переключение между сеткой и списком товаров. Адаптивный дизайн для всех устройств.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🛒 Интеграция с корзиной</h3>
+                        <p>Добавление товаров в корзину и избранное прямо из каталога. Быстрый доступ к функциям покупки.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📱 Адаптивность</h3>
+                        <p>Полностью адаптивный дизайн, оптимизированный для мобильных устройств, планшетов и десктопов.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Демо ссылки -->
+            <div class="demo-section">
+                <h2 class="section-title">🚀 Демо страницы</h2>
+                <div class="demo-links">
+                    <a href="catalog.html" class="demo-link">
+                        <h3>📋 Полный каталог</h3>
+                        <p>Основная страница каталога со всеми функциями</p>
+                    </a>
+                    <a href="product-detail.html?id=1" class="demo-link">
+                        <h3>👟 Страница товара</h3>
+                        <p>Детальный просмотр товара с характеристиками</p>
+                    </a>
+                    <a href="api-example.html" class="demo-link">
+                        <h3>🔌 API Demo</h3>
+                        <p>Тестирование API и загрузка данных</p>
+                    </a>
+                    <a href="auth-demo.html" class="demo-link">
+                        <h3>🔐 Auth Demo</h3>
+                        <p>Демонстрация системы аутентификации</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Тестирование функций -->
+            <div class="demo-section">
+                <h2 class="section-title">🧪 Тестирование функций</h2>
+                <div class="test-controls">
+                    <button class="test-btn test-btn-primary" onclick="testSearch()">Тест поиска</button>
+                    <button class="test-btn test-btn-primary" onclick="testFilters()">Тест фильтров</button>
+                    <button class="test-btn test-btn-primary" onclick="testSorting()">Тест сортировки</button>
+                    <button class="test-btn test-btn-secondary" onclick="loadRandomProduct()">Случайный товар</button>
+                    <button class="test-btn test-btn-secondary" onclick="testPagination()">Тест пагинации</button>
+                </div>
+                <div class="test-results" id="test-results">
+                    <h4>Результаты тестирования:</h4>
+                    <ul id="test-list">
+                        <li>Нажмите кнопки выше для тестирования функций</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Примеры использования -->
+            <div class="demo-section">
+                <h2 class="section-title">💻 Примеры использования</h2>
+                
+                <h3>Загрузка товаров из API</h3>
+                <div class="code-example">
+<span class="comment">// Загрузка всех товаров</span>
+<span class="keyword">const</span> apiClient = <span class="keyword">new</span> SneakerStoreAPI.ApiClient();
+<span class="keyword">const</span> response = <span class="keyword">await</span> apiClient.get(<span class="string">'/products'</span>);
+
+<span class="comment">// Фильтрация по бренду</span>
+<span class="keyword">const</span> nikeProducts = <span class="keyword">await</span> apiClient.get(<span class="string">'/products'</span>, {
+    brand: <span class="string">'Nike'</span>
+});
+
+<span class="comment">// Поиск товаров</span>
+<span class="keyword">const</span> searchResults = <span class="keyword">await</span> apiClient.get(<span class="string">'/products'</span>, {
+    q: <span class="string">'jordan'</span>
+});
+                </div>
+
+                <h3>Добавление товара в корзину</h3>
+                <div class="code-example">
+<span class="comment">// Добавление товара в корзину</span>
+<span class="keyword">await</span> SneakerStoreApp.addToCart(productId, <span class="string">'9'</span>, <span class="string">'Black'</span>);
+
+<span class="comment">// Добавление в избранное</span>
+<span class="keyword">await</span> SneakerStoreApp.addToWishlist(productId, <span class="string">'9'</span>, <span class="string">'Black'</span>);
+                </div>
+
+                <h3>Фильтрация и сортировка</h3>
+                <div class="code-example">
+<span class="comment">// Фильтрация по цене и категории</span>
+<span class="keyword">const</span> filteredProducts = products.filter(product => {
+    <span class="keyword">return</span> product.price >= 100 && 
+           product.price <= 200 && 
+           product.category === <span class="string">'Basketball'</span>;
+});
+
+<span class="comment">// Сортировка по цене</span>
+filteredProducts.sort((a, b) => a.price - b.price);
+                </div>
+            </div>
+
+            <!-- Технические детали -->
+            <div class="demo-section">
+                <h2 class="section-title">⚙️ Технические детали</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>API Integration</h3>
+                        <p>Полная интеграция с JSON Server API. Поддержка всех CRUD операций и расширенных запросов.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Client-side Filtering</h3>
+                        <p>Фильтрация выполняется на клиенте для быстрого отклика. Debounce для поиска предотвращает избыточные запросы.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Responsive Design</h3>
+                        <p>CSS Grid и Flexbox для адаптивной верстки. Медиа-запросы для всех размеров экранов.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Performance</h3>
+                        <p>Ленивая загрузка изображений, виртуализация списков, оптимизированные DOM операции.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/preloader.js"></script>
+    <script src="./scripts/auth.js"></script>
+    
+    <script>
+        // Загрузка статистики при инициализации
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadCatalogStats();
+        });
+
+        // Загрузка статистики каталога
+        async function loadCatalogStats() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/products');
+                
+                if (response.success) {
+                    const products = response.data;
+                    const brands = [...new Set(products.map(p => p.brand))];
+                    const categories = [...new Set(products.map(p => p.category))];
+                    const avgPrice = products.reduce((sum, p) => sum + p.price, 0) / products.length;
+                    
+                    document.getElementById('total-products').textContent = products.length;
+                    document.getElementById('total-brands').textContent = brands.length;
+                    document.getElementById('total-categories').textContent = categories.length;
+                    document.getElementById('avg-price').textContent = `$${Math.round(avgPrice)}`;
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки статистики:', error);
+            }
+        }
+
+        // Тест поиска
+        async function testSearch() {
+            const results = document.getElementById('test-list');
+            results.innerHTML = '<li>🔍 Тестирование поиска...</li>';
+            
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const searchTerms = ['jordan', 'nike', 'basketball'];
+                const results = [];
+                
+                for (const term of searchTerms) {
+                    const response = await apiClient.get('/products', { q: term });
+                    if (response.success) {
+                        results.push(`✅ Поиск "${term}": ${response.data.length} товаров`);
+                    } else {
+                        results.push(`❌ Поиск "${term}": ошибка`);
+                    }
+                }
+                
+                document.getElementById('test-list').innerHTML = results.map(r => `<li>${r}</li>`).join('');
+            } catch (error) {
+                document.getElementById('test-list').innerHTML = `<li>❌ Ошибка тестирования поиска: ${error.message}</li>`;
+            }
+        }
+
+        // Тест фильтров
+        async function testFilters() {
+            const results = document.getElementById('test-list');
+            results.innerHTML = '<li>🔧 Тестирование фильтров...</li>';
+            
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const tests = [
+                    { name: 'По бренду Nike', params: { brand: 'Nike' } },
+                    { name: 'По категории Basketball', params: { category: 'Basketball' } },
+                    { name: 'По цене 100-200$', params: { price_gte: 100, price_lte: 200 } },
+                    { name: 'В наличии', params: { inStock: true } }
+                ];
+                
+                const results = [];
+                for (const test of tests) {
+                    const response = await apiClient.get('/products', test.params);
+                    if (response.success) {
+                        results.push(`✅ ${test.name}: ${response.data.length} товаров`);
+                    } else {
+                        results.push(`❌ ${test.name}: ошибка`);
+                    }
+                }
+                
+                document.getElementById('test-list').innerHTML = results.map(r => `<li>${r}</li>`).join('');
+            } catch (error) {
+                document.getElementById('test-list').innerHTML = `<li>❌ Ошибка тестирования фильтров: ${error.message}</li>`;
+            }
+        }
+
+        // Тест сортировки
+        async function testSorting() {
+            const results = document.getElementById('test-list');
+            results.innerHTML = '<li>📊 Тестирование сортировки...</li>';
+            
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/products');
+                
+                if (response.success) {
+                    const products = response.data;
+                    const tests = [
+                        { name: 'По цене (возрастание)', sort: (a, b) => a.price - b.price },
+                        { name: 'По цене (убывание)', sort: (a, b) => b.price - a.price },
+                        { name: 'По рейтингу', sort: (a, b) => b.rating - a.rating },
+                        { name: 'По названию', sort: (a, b) => a.name.localeCompare(b.name) }
+                    ];
+                    
+                    const results = [];
+                    for (const test of tests) {
+                        const sorted = [...products].sort(test.sort);
+                        const isCorrect = test.name.includes('убывание') ? 
+                            sorted[0].price >= sorted[1].price :
+                            sorted[0].price <= sorted[1].price;
+                        results.push(`${isCorrect ? '✅' : '❌'} ${test.name}`);
+                    }
+                    
+                    document.getElementById('test-list').innerHTML = results.map(r => `<li>${r}</li>`).join('');
+                }
+            } catch (error) {
+                document.getElementById('test-list').innerHTML = `<li>❌ Ошибка тестирования сортировки: ${error.message}</li>`;
+            }
+        }
+
+        // Загрузка случайного товара
+        async function loadRandomProduct() {
+            const results = document.getElementById('test-list');
+            results.innerHTML = '<li>🎲 Загрузка случайного товара...</li>';
+            
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/products');
+                
+                if (response.success) {
+                    const products = response.data;
+                    const randomProduct = products[Math.floor(Math.random() * products.length)];
+                    
+                    results.innerHTML = `
+                        <li>✅ Случайный товар загружен:</li>
+                        <li>📦 ${randomProduct.name}</li>
+                        <li>🏷️ ${randomProduct.brand} - $${randomProduct.price}</li>
+                        <li>⭐ Рейтинг: ${randomProduct.rating}/5</li>
+                        <li><a href="product-detail.html?id=${randomProduct.id}" target="_blank">Открыть товар</a></li>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('test-list').innerHTML = `<li>❌ Ошибка загрузки товара: ${error.message}</li>`;
+            }
+        }
+
+        // Тест пагинации
+        async function testPagination() {
+            const results = document.getElementById('test-list');
+            results.innerHTML = '<li>📄 Тестирование пагинации...</li>';
+            
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/products');
+                
+                if (response.success) {
+                    const products = response.data;
+                    const itemsPerPage = 12;
+                    const totalPages = Math.ceil(products.length / itemsPerPage);
+                    
+                    results.innerHTML = `
+                        <li>✅ Всего товаров: ${products.length}</li>
+                        <li>📄 Товаров на странице: ${itemsPerPage}</li>
+                        <li>📊 Всего страниц: ${totalPages}</li>
+                        <li>🔢 Первая страница: товары 1-${Math.min(itemsPerPage, products.length)}</li>
+                        <li>🔢 Последняя страница: товары ${(totalPages - 1) * itemsPerPage + 1}-${products.length}</li>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('test-list').innerHTML = `<li>❌ Ошибка тестирования пагинации: ${error.message}</li>`;
+            }
+        }
+    </script>
+</body>
+</html>
