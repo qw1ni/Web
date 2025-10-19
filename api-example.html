@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneaker Store API Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .section h2 {
+            color: #555;
+            margin-top: 0;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .loading {
+            color: #007bff;
+            font-style: italic;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .success {
+            color: #155724;
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛍️ Sneaker Store API Demo</h1>
+        
+        <!-- Статистика -->
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="users-count">-</div>
+                <div class="stat-label">Пользователи</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="products-count">-</div>
+                <div class="stat-label">Товары</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="carts-count">-</div>
+                <div class="stat-label">Корзины</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="wishlists-count">-</div>
+                <div class="stat-label">Избранное</div>
+            </div>
+        </div>
+
+        <!-- Пользователи -->
+        <div class="section">
+            <h2>👥 Пользователи</h2>
+            <button onclick="loadUsers()">Загрузить пользователей</button>
+            <button onclick="getUserById(1)">Получить пользователя #1</button>
+            <button onclick="searchUsers('john')">Поиск "john"</button>
+            <div class="result" id="users-result"></div>
+        </div>
+
+        <!-- Товары -->
+        <div class="section">
+            <h2>👟 Товары</h2>
+            <button onclick="loadProducts()">Загрузить все товары</button>
+            <button onclick="getProductById(1)">Получить товар #1</button>
+            <button onclick="searchProducts('jordan')">Поиск "jordan"</button>
+            <button onclick="getProductsByBrand('Nike')">Товары Nike</button>
+            <button onclick="getProductsByCategory('Basketball')">Баскетбольные</button>
+            <button onclick="getProductsByPrice(100, 200)">Цена 100-200$</button>
+            <div class="result" id="products-result"></div>
+        </div>
+
+        <!-- Корзины -->
+        <div class="section">
+            <h2>🛒 Корзины</h2>
+            <button onclick="loadCarts()">Загрузить корзины</button>
+            <button onclick="getCartByUserId(1)">Корзина пользователя #1</button>
+            <button onclick="addToCart(1, 1, 1, '9', 'Black/White')">Добавить в корзину</button>
+            <div class="result" id="carts-result"></div>
+        </div>
+
+        <!-- Избранное -->
+        <div class="section">
+            <h2>❤️ Избранное</h2>
+            <button onclick="loadWishlists()">Загрузить избранное</button>
+            <button onclick="getWishlistByUserId(1)">Избранное пользователя #1</button>
+            <button onclick="addToWishlist(1, 5, '9', 'Black/White')">Добавить в избранное</button>
+            <div class="result" id="wishlists-result"></div>
+        </div>
+
+        <!-- Тест API -->
+        <div class="section">
+            <h2>🧪 Тест API</h2>
+            <button onclick="testApiConnection()">Проверить соединение</button>
+            <button onclick="runAllTests()">Запустить все тесты</button>
+            <div class="result" id="test-result"></div>
+        </div>
+    </div>
+
+    <!-- Подключаем API и прелоадер -->
+    <script src="scripts/api.js"></script>
+    <script src="scripts/preloader.js"></script>
+    
+    <script>
+        // Инициализация
+        let apiClient;
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Показываем прелоадер
+            await preloader.start();
+            
+            // Инициализируем API
+            apiClient = new SneakerStoreAPI.ApiClient();
+            
+            // Загружаем статистику
+            await loadStats();
+            
+            console.log('API Demo загружен!');
+        });
+
+        // Загрузка статистики
+        async function loadStats() {
+            try {
+                const [users, products, carts, wishlists] = await Promise.all([
+                    apiClient.get('/users'),
+                    apiClient.get('/products'),
+                    apiClient.get('/carts'),
+                    apiClient.get('/wishlists')
+                ]);
+
+                document.getElementById('users-count').textContent = users.data?.length || 0;
+                document.getElementById('products-count').textContent = products.data?.length || 0;
+                document.getElementById('carts-count').textContent = carts.data?.length || 0;
+                document.getElementById('wishlists-count').textContent = wishlists.data?.length || 0;
+            } catch (error) {
+                console.error('Ошибка загрузки статистики:', error);
+            }
+        }
+
+        // Пользователи
+        async function loadUsers() {
+            showLoading('users-result');
+            try {
+                const response = await apiClient.get('/users');
+                showResult('users-result', response);
+            } catch (error) {
+                showError('users-result', error);
+            }
+        }
+
+        async function getUserById(id) {
+            showLoading('users-result');
+            try {
+                const response = await apiClient.get(`/users/${id}`);
+                showResult('users-result', response);
+            } catch (error) {
+                showError('users-result', error);
+            }
+        }
+
+        async function searchUsers(query) {
+            showLoading('users-result');
+            try {
+                const response = await apiClient.get('/users', { q: query });
+                showResult('users-result', response);
+            } catch (error) {
+                showError('users-result', error);
+            }
+        }
+
+        // Товары
+        async function loadProducts() {
+            showLoading('products-result');
+            try {
+                const response = await apiClient.get('/products');
+                showResult('products-result', response);
+            } catch (error) {
+                showError('products-result', error);
+            }
+        }
+
+        async function getProductById(id) {
+            showLoading('products-result');
+            try {
+                const response = await apiClient.get(`/products/${id}`);
+                showResult('products-result', response);
+            } catch (error) {
+                showError('products-result', error);
+            }
+        }
+
+        async function searchProducts(query) {
+            showLoading('products-result');
+            try {
+                const response = await apiClient.get('/products', { q: query });
+                showResult('products-result', response);
+            } catch (error) {
+                showError('products-result', error);
+            }
+        }
+
+        async function getProductsByBrand(brand) {
+            showLoading('products-result');
+            try {
+                const response = await apiClient.get('/products', { brand });
+                showResult('products-result', response);
+            } catch (error) {
+                showError('products-result', error);
+            }
+        }
+
+        async function getProductsByCategory(category) {
+            showLoading('products-result');
+            try {
+                const response = await apiClient.get('/products', { category });
+                showResult('products-result', response);
+            } catch (error) {
+                showError('products-result', error);
+            }
+        }
+
+        async function getProductsByPrice(min, max) {
+            showLoading('products-result');
+            try {
+                const response = await apiClient.get('/products', { 
+                    price_gte: min, 
+                    price_lte: max 
+                });
+                showResult('products-result', response);
+            } catch (error) {
+                showError('products-result', error);
+            }
+        }
+
+        // Корзины
+        async function loadCarts() {
+            showLoading('carts-result');
+            try {
+                const response = await apiClient.get('/carts');
+                showResult('carts-result', response);
+            } catch (error) {
+                showError('carts-result', error);
+            }
+        }
+
+        async function getCartByUserId(userId) {
+            showLoading('carts-result');
+            try {
+                const response = await apiClient.get('/carts', { userId });
+                showResult('carts-result', response);
+            } catch (error) {
+                showError('carts-result', error);
+            }
+        }
+
+        async function addToCart(cartId, productId, quantity, size, color) {
+            showLoading('carts-result');
+            try {
+                const item = {
+                    productId,
+                    quantity,
+                    size,
+                    color,
+                    price: 100 // Моковая цена
+                };
+                
+                // Получаем текущую корзину
+                const cartResponse = await apiClient.get(`/carts/${cartId}`);
+                if (!cartResponse.success) {
+                    throw new Error('Корзина не найдена');
+                }
+                
+                const cart = cartResponse.data;
+                cart.items.push(item);
+                cart.total = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                cart.updatedAt = new Date().toISOString();
+                
+                const response = await apiClient.put(`/carts/${cartId}`, cart);
+                showResult('carts-result', response);
+            } catch (error) {
+                showError('carts-result', error);
+            }
+        }
+
+        // Избранное
+        async function loadWishlists() {
+            showLoading('wishlists-result');
+            try {
+                const response = await apiClient.get('/wishlists');
+                showResult('wishlists-result', response);
+            } catch (error) {
+                showError('wishlists-result', error);
+            }
+        }
+
+        async function getWishlistByUserId(userId) {
+            showLoading('wishlists-result');
+            try {
+                const response = await apiClient.get('/wishlists', { userId });
+                showResult('wishlists-result', response);
+            } catch (error) {
+                showError('wishlists-result', error);
+            }
+        }
+
+        async function addToWishlist(wishlistId, productId, size, color) {
+            showLoading('wishlists-result');
+            try {
+                const item = {
+                    productId,
+                    size,
+                    color,
+                    addedAt: new Date().toISOString()
+                };
+                
+                // Получаем текущее избранное
+                const wishlistResponse = await apiClient.get(`/wishlists/${wishlistId}`);
+                if (!wishlistResponse.success) {
+                    throw new Error('Избранное не найдено');
+                }
+                
+                const wishlist = wishlistResponse.data;
+                wishlist.items.push(item);
+                wishlist.updatedAt = new Date().toISOString();
+                
+                const response = await apiClient.put(`/wishlists/${wishlistId}`, wishlist);
+                showResult('wishlists-result', response);
+            } catch (error) {
+                showError('wishlists-result', error);
+            }
+        }
+
+        // Тесты
+        async function testApiConnection() {
+            showLoading('test-result');
+            try {
+                const response = await apiClient.get('/users');
+                if (response.success) {
+                    showSuccess('test-result', '✅ API соединение работает!');
+                } else {
+                    showError('test-result', '❌ Ошибка API соединения');
+                }
+            } catch (error) {
+                showError('test-result', '❌ Ошибка API соединения: ' + error.message);
+            }
+        }
+
+        async function runAllTests() {
+            showLoading('test-result');
+            const tests = [];
+            
+            try {
+                // Тест 1: Получение пользователей
+                tests.push('Тест 1: Получение пользователей...');
+                const users = await apiClient.get('/users');
+                tests.push(users.success ? '✅ Пользователи загружены' : '❌ Ошибка загрузки пользователей');
+                
+                // Тест 2: Получение товаров
+                tests.push('Тест 2: Получение товаров...');
+                const products = await apiClient.get('/products');
+                tests.push(products.success ? '✅ Товары загружены' : '❌ Ошибка загрузки товаров');
+                
+                // Тест 3: Поиск товаров
+                tests.push('Тест 3: Поиск товаров...');
+                const search = await apiClient.get('/products', { q: 'jordan' });
+                tests.push(search.success ? '✅ Поиск работает' : '❌ Ошибка поиска');
+                
+                // Тест 4: Фильтрация по бренду
+                tests.push('Тест 4: Фильтрация по бренду...');
+                const nike = await apiClient.get('/products', { brand: 'Nike' });
+                tests.push(nike.success ? '✅ Фильтрация работает' : '❌ Ошибка фильтрации');
+                
+                // Тест 5: Получение корзин
+                tests.push('Тест 5: Получение корзин...');
+                const carts = await apiClient.get('/carts');
+                tests.push(carts.success ? '✅ Корзины загружены' : '❌ Ошибка загрузки корзин');
+                
+                showResult('test-result', tests.join('\n'));
+            } catch (error) {
+                showError('test-result', '❌ Ошибка выполнения тестов: ' + error.message);
+            }
+        }
+
+        // Утилиты для отображения результатов
+        function showLoading(elementId) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '<div class="loading">Загрузка...</div>';
+            element.className = 'result loading';
+        }
+
+        function showResult(elementId, data) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            element.className = 'result success';
+        }
+
+        function showError(elementId, error) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '<div class="error">Ошибка: ' + error.message + '</div>';
+            element.className = 'result error';
+        }
+
+        function showSuccess(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '<div class="success">' + message + '</div>';
+            element.className = 'result success';
+        }
+    </script>
+</body>
+</html>

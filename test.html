@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page - Sneaker Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5a6fd8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Sneaker Store - Тестовая страница</h1>
+        
+        <div class="status">
+            <h3>Статус серверов:</h3>
+            <p id="json-server-status">Проверка JSON Server...</p>
+            <p id="page-status">Страница загружена успешно! ✅</p>
+        </div>
+
+        <div class="status">
+            <h3>Действия:</h3>
+            <button onclick="testJsonServer()">Проверить JSON Server</button>
+            <button onclick="testProducts()">Загрузить товары</button>
+            <button onclick="location.href='index.html'">Перейти на главную</button>
+            <button onclick="location.href='login.html'">Перейти к входу</button>
+        </div>
+
+        <div id="results" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        console.log('Тестовая страница загружена!');
+
+        // Проверка JSON Server
+        async function testJsonServer() {
+            const status = document.getElementById('json-server-status');
+            try {
+                const response = await fetch('http://localhost:3000/products?_limit=1');
+                if (response.ok) {
+                    const data = await response.json();
+                    status.className = 'success';
+                    status.textContent = `JSON Server работает! ✅ (Получен товар: ${data[0]?.name})`;
+                } else {
+                    status.className = 'error';
+                    status.textContent = 'JSON Server не отвечает ❌';
+                }
+            } catch (error) {
+                status.className = 'error';
+                status.textContent = `Ошибка подключения к JSON Server: ${error.message} ❌`;
+            }
+        }
+
+        // Загрузка товаров
+        async function testProducts() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>Загрузка товаров...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:3000/products?_limit=5');
+                if (response.ok) {
+                    const products = await response.json();
+                    results.innerHTML = `
+                        <div class="status success">
+                            <h3>Загружено товаров: ${products.length}</h3>
+                            <ul>
+                                ${products.map(p => `<li>${p.name} - $${p.price}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    results.innerHTML = '<div class="status error">Ошибка загрузки товаров</div>';
+                }
+            } catch (error) {
+                results.innerHTML = `<div class="status error">Ошибка: ${error.message}</div>`;
+            }
+        }
+
+        // Автоматическая проверка при загрузке
+        window.addEventListener('load', () => {
+            testJsonServer();
+        });
+    </script>
+</body>
+</html>

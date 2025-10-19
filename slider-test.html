@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Slider Test</title>
+</head>
+<body>
+    <div class="container" style="padding: 50px;">
+        <h1 style="color: white; text-align: center; margin-bottom: 50px;">Тест слайдера</h1>
+        
+        <div id="test-slider">
+            <div class="slider-slide">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/catalogItem1.svg" alt="Product 1">
+                        <div class="product-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">Nike</div>
+                        <div class="product-name">Air Max Plus 3</div>
+                        <div class="product-price">
+                            <span class="price-current">$120</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-slide">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/catalogItem2.svg" alt="Product 2">
+                        <div class="product-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">Jordan</div>
+                        <div class="product-name">Air Jordan 4</div>
+                        <div class="product-price">
+                            <span class="price-current">$150</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-slide">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/catalogItem3.svg" alt="Product 3">
+                        <div class="product-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">Jordan</div>
+                        <div class="product-name">Air Jordan 13</div>
+                        <div class="product-price">
+                            <span class="price-current">$180</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-slide">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/catalogitem4.svg" alt="Product 4">
+                        <div class="product-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">Jordan</div>
+                        <div class="product-name">Air Jordan 1</div>
+                        <div class="product-price">
+                            <span class="price-current">$160</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-slide">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/catalogItem5.svg" alt="Product 5">
+                        <div class="product-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">Yeezy</div>
+                        <div class="product-name">Boost 350 V2</div>
+                        <div class="product-price">
+                            <span class="price-current">$200</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-slide">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/catalogItem6.svg" alt="Product 6">
+                        <div class="product-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">Vans</div>
+                        <div class="product-name">Old Skool</div>
+                        <div class="product-price">
+                            <span class="price-current">$80</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./scripts/simple-slider.js"></script>
+    <script>
+        console.log('Test page loaded');
+        console.log('SimpleSlider available:', !!window.SimpleSlider);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing slider...');
+            
+            const sliderContainer = document.getElementById('test-slider');
+            if (sliderContainer && window.SimpleSlider) {
+                try {
+                    const slider = new SimpleSlider(sliderContainer, {
+                        autoplay: true,
+                        autoplayDelay: 3000,
+                        showDots: true,
+                        showArrows: true,
+                        infinite: true,
+                        slidesToShow: 4
+                    });
+                    console.log('Slider initialized successfully');
+                } catch (error) {
+                    console.error('Error initializing slider:', error);
+                }
+            } else {
+                console.error('Slider container or SimpleSlider class not found');
+            }
+        });
+    </script>
+</body>
+</html>

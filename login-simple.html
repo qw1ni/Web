@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Sneaker Store - Вход</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header" style="position: absolute; top: 0; width: 100%;">
+        <div class="header__container container">
+            <a href="./index.html" class="header__logo" style="margin: 20px;">
+                <img src="./images/Logo.svg" alt="Nike" loading="lazy" width="80" height="31">
+            </a>
+        </div>
+    </header>
+
+    <main class="content">
+        <section class="auth">
+            <div class="auth__container container">
+                <div class="auth__card">
+                    <h1 class="auth__title">Вход в систему</h1>
+                    <p class="auth__subtitle">Войдите в свой аккаунт для доступа к корзине и заказам</p>
+                    
+                    <form class="auth__form" id="login-form">
+                        <label class="auth__label" for="login-email">Email</label>
+                        <input class="auth__input" type="email" id="login-email" name="email" 
+                               autocomplete="email" required placeholder="you@example.com">
+
+                        <label class="auth__label" for="login-password">Пароль</label>
+                        <input class="auth__input" type="password" id="login-password" name="password"
+                               autocomplete="current-password" required placeholder="Введите пароль">
+
+                        <div class="auth__options">
+                            <label class="auth__checkbox">
+                                <input class="auth__checkbox-input" type="checkbox" id="login-remember" name="remember">
+                                <span class="auth__checkbox-label">Запомнить меня</span>
+                            </label>
+                        </div>
+
+                        <button class="auth__button" type="submit">Войти</button>
+                    </form>
+                    
+                    <p class="auth__extra">
+                        Нет аккаунта? <a class="auth__link" href="./register.html">Зарегистрироваться</a>
+                    </p>
+                    
+                    <div id="message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                        <h3 style="margin: 0 0 10px 0; font-size: 14px;">Тестовые аккаунты:</h3>
+                        <p style="margin: 5px 0; font-size: 12px;">👨‍💼 Администратор: mike.johnson@example.com / password123</p>
+                        <p style="margin: 5px 0; font-size: 12px;">📊 Менеджер: sarah.wilson@example.com / password123</p>
+                        <p style="margin: 5px 0; font-size: 12px;">🛍️ Покупатель: john.doe@example.com / password123</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        console.log('Страница входа загружена!');
+        
+        // Простая система входа
+        const SESSION_KEY = 'sneaker_store_user_session';
+        const API_URL = 'http://localhost:3000';
+
+        // Обработка формы входа
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const messageDiv = document.getElementById('message');
+            
+            // Показываем загрузку
+            showMessage('Вход в систему...', 'info');
+            
+            try {
+                // Получаем пользователя по email
+                const response = await fetch(`${API_URL}/users?email=${email}`);
+                const users = await response.json();
+                
+                if (users.length === 0) {
+                    showMessage('Пользователь не найден', 'error');
+                    return;
+                }
+                
+                const user = users[0];
+                
+                // Проверяем пароль
+                if (user.password === password) {
+                    // Сохраняем сессию
+                    const session = {
+                        id: user.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        role: user.role,
+                        token: 'mock-jwt-token-' + Date.now()
+                    };
+                    
+                    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+                    
+                    // Показываем успех
+                    showMessage(`Добро пожаловать, ${user.firstName}!`, 'success');
+                    
+                    // Перенаправляем в зависимости от роли
+                    setTimeout(() => {
+                        if (user.role === 'admin') {
+                            window.location.href = './admin.html';
+                        } else if (user.role === 'manager') {
+                            window.location.href = './manager.html';
+                        } else {
+                            window.location.href = './index.html';
+                        }
+                    }, 1000);
+                } else {
+                    showMessage('Неверный пароль', 'error');
+                }
+            } catch (error) {
+                console.error('Ошибка входа:', error);
+                showMessage('Ошибка подключения к серверу', 'error');
+            }
+        });
+        
+        // Функция показа сообщений
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.style.display = 'block';
+            
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.border = '1px solid #c3e6cb';
+            } else if (type === 'error') {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+            } else {
+                messageDiv.style.background = '#d1ecf1';
+                messageDiv.style.color = '#0c5460';
+                messageDiv.style.border = '1px solid #bee5eb';
+            }
+        }
+    </script>
+</body>
+</html>
