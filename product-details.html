@@ -1,0 +1,73 @@
+<!-- product-details.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Nike Website — Product Details</title>
+</head>
+
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <section class="visionaries reveal">
+            <div class="visionaries__container container">
+                <div class="visionaries__image">
+                    <img src="./images/visionariesImage.svg" alt="Shoes Graffiti" loading="lazy">
+                </div>
+                <div class="visionaries__content-container">
+                    <div class="visionaries__title" data-i18n-html="true" data-i18n="pd.name">
+                        <p>Air Jordan 4 Retro Lightning</p>
+                    </div>
+                    <div class="visionaries__text" data-i18n="pd.price">
+                        <p>$239.00</p>
+                    </div>
+                    <div class="visionaries__text" data-i18n="pd.desc">
+                        <p>Premium materials, responsive cushioning, and unmistakable Jordan heritage.</p>
+                    </div>
+                    <a href="./cart.html" class="visionaries__button button" data-i18n="pd.add">Add to Cart
+                        <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy"
+                            class="catalog__button-arrow">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="explore reveal">
+            <div class="explore__container container">
+                <div class="explore__image-container">
+                    <img src="./images/catalogItem2.svg" alt="Product Image" loading="lazy">
+                </div>
+                <div class="explore__content">
+                    <div class="explore__title" data-i18n-html="true" data-i18n="pd.features.title">
+                        <p>KEY FEATURES</p>
+                    </div>
+                    <div class="explore__text" data-i18n-html="true" data-i18n="pd.features.list">
+                        <ul>
+                            <li>Zoom Air cushioning</li>
+                            <li>Breathable mesh panels</li>
+                            <li>Heel support frame</li>
+                        </ul>
+                    </div>
+                    <div class="explore__button-container">
+                        <a href="./new-arrivals.html" class="explore__button button"
+                            data-i18n="buttons.exploreMore">Explore More
+                            <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy"
+                                class="catalog__button-arrow">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script src="./scripts/main.js"></script>
+</body>
+
+</html>
+

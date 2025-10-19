@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Sneaker Store - Manager Panel</title>
+    <style>
+        .manager-panel {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .manager-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .manager-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 1.1em;
+        }
+        .manager-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 10px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 2px;
+        }
+        .btn-primary {
+            background: #28a745;
+            color: white;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-success {
+            background: #20c997;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .product-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .product-card p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .stock-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .in-stock {
+            background: #d4edda;
+            color: #155724;
+        }
+        .out-of-stock {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <div class="manager-panel">
+            <div class="manager-header">
+                <h1>📊 Manager Panel</h1>
+                <p>Управление товарами и заказами</p>
+                <div id="manager-user-info"></div>
+            </div>
+
+            <!-- Статистика -->
+            <div class="manager-stats" id="manager-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-products">-</div>
+                    <div class="stat-label">Товары</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-orders">-</div>
+                    <div class="stat-label">Заказы</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-revenue">-</div>
+                    <div class="stat-label">Доход</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="low-stock">-</div>
+                    <div class="stat-label">Низкий остаток</div>
+                </div>
+            </div>
+
+            <!-- Управление товарами -->
+            <div class="manager-section">
+                <h2 class="section-title">👟 Управление товарами</h2>
+                <div id="products-loading" class="loading">Загрузка товаров...</div>
+                <div id="products-error" class="error" style="display: none;"></div>
+                <div class="product-grid" id="products-grid" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Заказы -->
+            <div class="manager-section">
+                <h2 class="section-title">📦 Заказы</h2>
+                <div id="orders-loading" class="loading">Загрузка заказов...</div>
+                <div id="orders-error" class="error" style="display: none;"></div>
+                <table class="data-table" id="orders-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>ID заказа</th>
+                            <th>Пользователь</th>
+                            <th>Товаров</th>
+                            <th>Сумма</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Товары с низким остатком -->
+            <div class="manager-section">
+                <h2 class="section-title">⚠️ Товары с низким остатком</h2>
+                <div id="low-stock-loading" class="loading">Загрузка товаров с низким остатком...</div>
+                <div id="low-stock-error" class="error" style="display: none;"></div>
+                <div class="product-grid" id="low-stock-grid" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/preloader.js"></script>
+    <script src="./scripts/auth.js"></script>
+    
+    <script>
+        // Проверка авторизации при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Проверяем, авторизован ли пользователь и является ли он менеджером
+            if (!window.SneakerStoreAuth || !window.SneakerStoreAuth.authManager.isAuthenticated()) {
+                alert('Необходима авторизация');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            if (!window.SneakerStoreAuth.authManager.isManager()) {
+                alert('Доступ запрещен. Требуются права менеджера');
+                window.location.href = '/index.html';
+                return;
+            }
+
+            // Показываем информацию о пользователе
+            const user = window.SneakerStoreAuth.authManager.getCurrentUser();
+            document.getElementById('manager-user-info').innerHTML = `
+                <p>Добро пожаловать, ${user.firstName} ${user.lastName}!</p>
+                <button class="btn btn-danger" onclick="logout()">Выйти</button>
+            `;
+
+            // Загружаем данные
+            await loadManagerData();
+        });
+
+        // Загрузка данных для панели менеджера
+        async function loadManagerData() {
+            try {
+                await Promise.all([
+                    loadProducts(),
+                    loadOrders(),
+                    loadLowStockProducts(),
+                    loadStats()
+                ]);
+            } catch (error) {
+                console.error('Ошибка загрузки данных:', error);
+            }
+        }
+
+        // Загрузка товаров
+        async function loadProducts() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/products');
+                
+                if (response.success) {
+                    displayProducts(response.data);
+                } else {
+                    showError('products-error', 'Ошибка загрузки товаров');
+                }
+            } catch (error) {
+                showError('products-error', 'Ошибка загрузки товаров: ' + error.message);
+            }
+        }
+
+        // Отображение товаров
+        function displayProducts(products) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            products.slice(0, 12).forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p><strong>Бренд:</strong> ${product.brand}</p>
+                    <p><strong>Категория:</strong> ${product.category}</p>
+                    <p class="price">$${product.price}</p>
+                    <p><strong>Рейтинг:</strong> ${product.rating} ⭐ (${product.reviewsCount} отзывов)</p>
+                    <p><strong>Остаток:</strong> ${product.stockQuantity} шт.</p>
+                    <p><span class="stock-status ${product.inStock ? 'in-stock' : 'out-of-stock'}">
+                        ${product.inStock ? 'В наличии' : 'Нет в наличии'}
+                    </span></p>
+                    <div style="margin-top: 10px;">
+                        <button class="btn btn-primary" onclick="editProduct(${product.id})">Редактировать</button>
+                        <button class="btn btn-success" onclick="updateStock(${product.id})">Обновить остаток</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.getElementById('products-loading').style.display = 'none';
+            document.getElementById('products-grid').style.display = 'grid';
+        }
+
+        // Загрузка заказов
+        async function loadOrders() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/carts');
+                
+                if (response.success) {
+                    displayOrders(response.data);
+                } else {
+                    showError('orders-error', 'Ошибка загрузки заказов');
+                }
+            } catch (error) {
+                showError('orders-error', 'Ошибка загрузки заказов: ' + error.message);
+            }
+        }
+
+        // Отображение заказов
+        function displayOrders(carts) {
+            const tbody = document.getElementById('orders-tbody');
+            tbody.innerHTML = '';
+
+            carts.forEach(cart => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#${cart.id}</td>
+                    <td>Пользователь #${cart.userId}</td>
+                    <td>${cart.items.length}</td>
+                    <td>$${cart.total}</td>
+                    <td>${new Date(cart.createdAt).toLocaleDateString()}</td>
+                    <td><span class="stock-status in-stock">Активен</span></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="viewOrder(${cart.id})">Просмотр</button>
+                        <button class="btn btn-success" onclick="processOrder(${cart.id})">Обработать</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById('orders-loading').style.display = 'none';
+            document.getElementById('orders-table').style.display = 'table';
+        }
+
+        // Загрузка товаров с низким остатком
+        async function loadLowStockProducts() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/products');
+                
+                if (response.success) {
+                    const lowStockProducts = response.data.filter(product => product.stockQuantity < 10);
+                    displayLowStockProducts(lowStockProducts);
+                } else {
+                    showError('low-stock-error', 'Ошибка загрузки товаров с низким остатком');
+                }
+            } catch (error) {
+                showError('low-stock-error', 'Ошибка загрузки товаров с низким остатком: ' + error.message);
+            }
+        }
+
+        // Отображение товаров с низким остатком
+        function displayLowStockProducts(products) {
+            const grid = document.getElementById('low-stock-grid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<p>Нет товаров с низким остатком</p>';
+            } else {
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <h3>${product.name}</h3>
+                        <p><strong>Бренд:</strong> ${product.brand}</p>
+                        <p class="price">$${product.price}</p>
+                        <p><strong>Остаток:</strong> <span style="color: #dc3545; font-weight: bold;">${product.stockQuantity} шт.</span></p>
+                        <div style="margin-top: 10px;">
+                            <button class="btn btn-success" onclick="restockProduct(${product.id})">Пополнить</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            document.getElementById('low-stock-loading').style.display = 'none';
+            document.getElementById('low-stock-grid').style.display = 'grid';
+        }
+
+        // Загрузка статистики
+        async function loadStats() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const [products, carts] = await Promise.all([
+                    apiClient.get('/products'),
+                    apiClient.get('/carts')
+                ]);
+
+                if (products.success) {
+                    document.getElementById('total-products').textContent = products.data.length;
+                    
+                    const lowStockCount = products.data.filter(p => p.stockQuantity < 10).length;
+                    document.getElementById('low-stock').textContent = lowStockCount;
+                }
+
+                if (carts.success) {
+                    document.getElementById('total-orders').textContent = carts.data.length;
+                    const totalRevenue = carts.data.reduce((sum, cart) => sum + cart.total, 0);
+                    document.getElementById('total-revenue').textContent = `$${totalRevenue}`;
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки статистики:', error);
+            }
+        }
+
+        // Действия с товарами
+        function editProduct(productId) {
+            alert(`Редактирование товара #${productId} (функция в разработке)`);
+        }
+
+        function updateStock(productId) {
+            const newStock = prompt('Введите новое количество на складе:');
+            if (newStock !== null && !isNaN(newStock)) {
+                alert(`Обновление остатка для товара #${productId} до ${newStock} шт. (функция в разработке)`);
+            }
+        }
+
+        function restockProduct(productId) {
+            const restockAmount = prompt('Введите количество для пополнения:');
+            if (restockAmount !== null && !isNaN(restockAmount)) {
+                alert(`Пополнение товара #${productId} на ${restockAmount} шт. (функция в разработке)`);
+            }
+        }
+
+        // Действия с заказами
+        function viewOrder(orderId) {
+            alert(`Просмотр заказа #${orderId} (функция в разработке)`);
+        }
+
+        function processOrder(orderId) {
+            if (confirm(`Обработать заказ #${orderId}?`)) {
+                alert(`Заказ #${orderId} обработан (функция в разработке)`);
+            }
+        }
+
+        // Выход из системы
+        function logout() {
+            if (window.SneakerStoreAuth && window.SneakerStoreAuth.authManager) {
+                window.SneakerStoreAuth.authManager.logout();
+            }
+        }
+
+        // Показ ошибок
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
