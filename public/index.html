@@ -1,0 +1,947 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Nike Website</title>
+</head>
+
+<body>
+    <div data-include="header"></div>
+
+    <main class="content" id="main-content" role="main">
+        <section class="hero reveal" aria-label="Главная секция">
+            <div class="hero__container container">
+                <div class="hero__title">
+                    <span class="hero__icon-text1">
+                        <p class="text__margin">THE ESSENCE</p><img src="./images/womanWithShoes.svg"
+                            alt="Woman With Shoes" loading="lazy" class="title__icon1">
+                    </span>
+                    HANDCRAFTED<br>
+                    <span class="hero__icon-text2"><img src="./images/Shoes.svg" alt="Shoes" loading="lazy"
+                            class="title__icon2">
+                        <p class="text__margin">OF FOOTWEAR.</p>
+                    </span>
+                </div>
+                <div class="hero__text">
+                    <p>In terms of footwear, we are the first in Canada to have opened not simple "shops" but real
+                        company outlets that offer the same service as<br> the artisan shops of yesteryear: this to make
+                        you go without fail every time you want to buy a pair of handmade genuine leather shoes.<br>
+                        Without fear of making mistakes and with the certainty that you will be able to wear them
+                        comfortably from the beginning.<br> Are you also curious to find out why hundreds of people
+                        choose us every day?</p>
+                </div>
+                <div class="hero__buttons">
+                    <a href="./about.html" class="hero__button button">
+                        Find Out More
+                        <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy" class="hero__button-arrow">
+                    </a>
+                    <a href="./catalog.html" class="hero__button button hero__button--secondary">
+                        Go to Catalog
+                        <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy" class="hero__button-arrow">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Роль-специфичные дашборды -->
+        <section class="role-dashboard admin-only" style="display: none;">
+            <div class="dashboard__container container">
+                <div class="dashboard__header">
+                    <h2>🔧 Admin Panel</h2>
+                    <p>System management and analytics</p>
+                </div>
+                <div class="dashboard__stats" id="admin-dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="admin-total-users">-</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="admin-total-products">-</div>
+                        <div class="stat-label">Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="admin-total-orders">-</div>
+                        <div class="stat-label">Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="admin-revenue">-</div>
+                        <div class="stat-label">Revenue</div>
+                    </div>
+                </div>
+                <div class="dashboard__actions">
+                    <a href="admin.html" class="dashboard-btn">User Management</a>
+                    <a href="admin.html" class="dashboard-btn">Sales Analytics</a>
+                    <a href="admin.html" class="dashboard-btn">System Settings</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="role-dashboard manager-only" style="display: none;">
+            <div class="dashboard__container container">
+                <div class="dashboard__header">
+                    <h2>📊 Manager Panel</h2>
+                    <p>Product and order management</p>
+                </div>
+                <div class="dashboard__stats" id="manager-dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="manager-low-stock">-</div>
+                        <div class="stat-label">Low Stock</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="manager-pending-orders">-</div>
+                        <div class="stat-label">Pending Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="manager-today-sales">-</div>
+                        <div class="stat-label">Today's Sales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="manager-total-revenue">-</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                </div>
+                <div class="dashboard__actions">
+                    <a href="manager.html" class="dashboard-btn">Product Management</a>
+                    <a href="manager.html" class="dashboard-btn">Order Processing</a>
+                    <a href="manager.html" class="dashboard-btn">Sales Analytics</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="sellers reveal" aria-label="Лучшие продажи">
+            <div class="sellers__container container">
+                <div class="sellers__title">
+                    <h2>Best Sellers</h2>
+                </div>
+                <div class="sellers__slider" id="best-sellers-slider">
+                    <!-- Слайды будут добавлены динамически -->
+                </div>
+            </div>
+        </section>
+
+        <section class="catalog reveal" aria-label="Каталог товаров">
+            <div class="catalog__container container">
+                <div class="catalog__title">
+                    <h2><img src="./images/catalogTitle.svg" alt="Sports Time" loading="lazy"></h2>
+                </div>
+                <div class="catalog__main">
+                    <div class="catalog__main-inner1">
+                        <div class="catalog__item" data-product-id="1">
+                            <img src="./images/catalogItem1.svg" alt="Nike Air Max Plus 3">
+                            <p class="catalog__item-text">Nike Air Max Plus 3</p>
+                            <button class="catalog__quick-view-btn" data-product-id="1">Quick View</button>
+                        </div>
+                        <div class="catalog__item" data-product-id="2">
+                            <img src="./images/catalogItem2.svg" alt="Air Jordan 4 Retro Lightning">
+                            <p class="catalog__item-text">Air Jordan 4 Retro Lightning (Premium Batch)</p>
+                            <button class="catalog__quick-view-btn" data-product-id="2">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="catalog__main-inner2">
+                        <div class="catalog__item" data-product-id="3">
+                            <img src="./images/catalogItem3.svg" alt="Air Jordan 13 Retro Court Purple">
+                            <p class="catalog__item-text">Air Jordan 13 Retro Court Purple (Reflective)</p>
+                            <button class="catalog__quick-view-btn" data-product-id="3">Quick View</button>
+                        </div>
+                        <div class="catalog__item" data-product-id="4">
+                            <img src="./images/catalogitem4.svg" alt="Air Jordan 1 AJKO Blue Red">
+                            <p class="catalog__item-text">Air Jordan 1 AJKO Blue Red</p>
+                            <button class="catalog__quick-view-btn" data-product-id="4">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="catalog__main-inner1">
+                        <div class="catalog__item" data-product-id="5">
+                            <img src="./images/catalogItem5.svg" alt="Yeezy Boost 350 V2 MX Rock">
+                            <p class="catalog__item-text">Yeezy Boost 350 V2 MX Rock (Real Boost)</p>
+                            <button class="catalog__quick-view-btn" data-product-id="5">Quick View</button>
+                        </div>
+                        <div class="catalog__item" data-product-id="6">
+                            <img src="./images/catalogItem6.svg" alt="Vans Old Skool Suede Honey Gold">
+                            <p class="catalog__item-text">Vans Old Skool Suede Honey Gold</p>
+                            <button class="catalog__quick-view-btn" data-product-id="6">Quick View</button>
+                        </div>
+                    </div>
+                </div>
+                <a href="./new-arrivals.html" class="catalog__button button">
+                    Lets Discover More
+                    <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy" class="catalog__button-arrow">
+                </a>
+            </div>
+        </section>
+
+        <section class="explore reveal">
+            <div class="explore__container container">
+                <div class="explore__image-container">
+                    <img src="./images/shadowShoe.svg" alt="Shoe With Shadow" loading="lazy">
+                </div>
+                <div class="explore__content">
+                    <div class="explore__title">
+                        <p>WE PROVIDE MODERN<br> SHOES</p>
+                    </div>
+                    <div class="explore__text">Design for the way you
+                        live your life. Atoms are beautiful in their<br> simplicity, supporting your feet with absolute
+                        comfort.</div>
+                    <div class="explore__button-container">
+                        <a href="./product-details.html" class="explore__button button">
+                            Explore More
+                            <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy"
+                                class="catalog__button-arrow">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sponsors reveal">
+            <div class="sponsors__container container">
+                <ul class="sponsors__list">
+                    <li class="sponsors__item">
+                        <img src="./images/logoAdidas.svg" alt="Logotype Adidas" loading="lazy">
+                    </li>
+                    <li class="sponsors__item">
+                        <img src="./images/logoNike.svg" alt="Logotype Nike" loading="lazy">
+                    </li>
+                    <li class="sponsors__item">
+                        <img src="./images/logoPuma.svg" alt="Logotype Puma" loading="lazy">
+                    </li>
+                    <li class="sponsors__item">
+                        <img src="./images/logoConverse.svg" alt="Logotype Converse" loading="lazy">
+                    </li>
+                    <li class="sponsors__item">
+                        <img src="./images/logoReebok.svg" alt="Logotype Reebok" loading="lazy">
+                    </li>
+                    <li class="sponsors__item">
+                        <img src="./images/logoVans.svg" alt="Logotype Vans" loading="lazy">
+                    </li>
+                    <li class="sponsors__item">
+                        <img src="./images/logoJordan.svg" alt="Logotype Jordan" loading="lazy">
+                    </li>
+                    <li class="sponsors__item">
+                        <img src="./images/logoNB.svg" alt="Logotype NewBalance" loading="lazy">
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="gallery reveal">
+            <div class="gallery__container container">
+                <div class="gallery__content">
+                    <div class="gallery__title">
+                        <p>BEST SHOES FOR<br> THE BEST PEOPLE</p>
+                    </div>
+                    <div class="gallery__text">Design for the way you
+                        live your life. Atoms are beautiful in<br> their simplicity, supporting your feet with absolute
+                        comfort.</div>
+                    <div class="gallery__button-container">
+                        <a href="./product-details.html" class="gallery__button button">
+                            Explore More
+                            <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy"
+                                class="catalog__button-arrow">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="gallery__main">
+                    <div class="gallery__main-container">
+                        <div class="gallery__main-container--inner">
+                            <div class="gallery__main-item large__item">
+                                <img src="./images/shoesOne.svg" alt="Shoes one" loading="lazy">
+                            </div>
+                            <div class="gallery__main--twice">
+                                <div class="gallery__main-item">
+                                    <img src="./images/shoesTwo.svg" alt="Shoes two" loading="lazy">
+                                </div>
+                                <div class="gallery__main-item">
+                                    <img src="./images/shoesThree.svg" alt="Shoes three" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="visionaries reveal">
+            <div class="visionaries__container container">
+                <div class="visionaries__image">
+                    <img src="./images/visionariesImage.svg" alt="Shoes Graffiti" loading="lazy">
+                </div>
+
+                <div class="visionaries__content-container">
+                    <div class="visionaries__title">
+                        <p>WE ARE <span class="title--specific">VISIONARIES</span></p>
+                    </div>
+
+                    <div class="visionaries__text">
+                        <p>Exploring The Boundaries Of Footwear With Expert Design Knowledge And Manufacture In Mind.
+                        </p>
+                    </div>
+                    <div class="visionaries__text">
+                        <p><span class="text--specific">INSIGHTFUL
+                                CREATIVE DIRECTION :</span> Uniting Consumer Insights with progressive manufacturing
+                            methods, we create comprehensive plans to outpace your competition.</p>
+                    </div>
+
+                    <div class="visionaries__text">
+                        <p><span class="text--specific">PURPOSEFUL
+                                DESIGN :</span> We create products that captivate consumers and elevate brands. applying
+                            a refined sense of beauty and style, our designs are alluring.</p>
+                    </div>
+
+                    <div class="visionaries__text">
+                        <p><span
+                                class="text--specific">RELENTLESS INNOVATION :</span> We live to challenge the
+                            boundaries of convention and take advantage of every breakthrough opportunity big or small.
+                            we�ll help you define the cutting-edge of your business.</p>
+                    </div>
+
+                    <a href="./customize.html" class="visionaries__button button">
+                        Customization Available
+                        <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy"
+                            class="catalog__button-arrow">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="stores-map reveal" aria-label="Наши магазины">
+            <div class="stores-map__container container">
+                <div class="stores-map__content">
+                    <div class="stores-map__title">
+                        <h2>Our Stores</h2>
+                        <p>Visit one of our stores in Moscow</p>
+                    </div>
+                    
+                    <div class="stores-map__wrapper">
+                        <div class="stores-map__info">
+                            <div class="store-item">
+                                <div class="store-item__icon">📍</div>
+                                <div class="store-item__content">
+                                    <h3>Nike Store Tverskaya</h3>
+                                    <p>Tverskaya St, 12, Moscow</p>
+                                    <p>+7 (495) 123-45-67</p>
+                                </div>
+                            </div>
+                            
+                            <div class="store-item">
+                                <div class="store-item__icon">📍</div>
+                                <div class="store-item__content">
+                                    <h3>Nike Store Arbat</h3>
+                                    <p>Arbat St, 25, Moscow</p>
+                                    <p>+7 (495) 234-56-78</p>
+                                </div>
+                            </div>
+                            
+                            <div class="store-item">
+                                <div class="store-item__icon">📍</div>
+                                <div class="store-item__content">
+                                    <h3>Nike Store Red Square</h3>
+                                    <p>Red Square, 1, Moscow</p>
+                                    <p>+7 (495) 345-67-89</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stores-map__map">
+                            <div class="map-container">
+                                <div class="map-loading">Loading map...</div>
+                                <div id="stores-map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="join-us reveal">
+            <div class="join-us__container container">
+                <div class="join-us__content">
+                    <div class="join-us__title">
+                        <p>JOIN OUR NIKECLUB & GET 15% OFF</p>
+                    </div>
+
+                    <div class="join-us__text">
+                        <p>Sign up for free. Join the community, Never pay for shipping.</p>
+                    </div>
+
+                    <a href="./account.html" class="join-us__button button">
+                        Join Us
+                        <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy"
+                            class="catalog__button-arrow">
+                    </a>
+                </div>
+
+                <div class="join-us__image">
+                    <img src="./images/Logo.svg" alt="Nike" loading="lazy" width="227" height="90">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div data-include="footer"></div>
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/main.js"></script>
+    
+    <!-- API Integration -->
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/preloader.js"></script>
+    <script src="./scripts/accessibility.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/cart.js"></script>
+    <script src="./scripts/simple-slider.js"></script>
+    <script src="./scripts/modal.js"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU" type="text/javascript"></script>
+    
+    <script>
+        // Инициализация API при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Показываем прелоадер
+            await preloader.start();
+            
+            // Инициализируем API
+            const apiClient = new SneakerStoreAPI.ApiClient();
+            
+                // Обновляем UI аутентификации
+                if (window.SneakerStoreAuth && window.SneakerStoreAuth.authManager) {
+                    updateAuthUI();
+                    updateRoleDashboards();
+                }
+            
+            // Загружаем данные для главной страницы
+            try {
+                console.log('Starting to load main page data...');
+                
+                // Загружаем популярные товары (лучшие продавцы)
+                const bestSellers = await apiClient.get('/products', {
+                    _sort: 'rating',
+                    _order: 'desc',
+                    _limit: 6
+                });
+                
+                console.log('Best sellers response:', bestSellers);
+                
+                if (bestSellers.success) {
+                    console.log('Best sellers data:', bestSellers.data);
+                    updateBestSellers(bestSellers.data);
+                } else {
+                    console.error('Failed to load best sellers:', bestSellers.error);
+                }
+                
+                // Загружаем новые поступления
+                const newArrivals = await apiClient.get('/products', {
+                    _sort: 'createdAt',
+                    _order: 'desc',
+                    _limit: 4
+                });
+                
+                if (newArrivals.success) {
+                    updateNewArrivals(newArrivals.data);
+                }
+                
+                console.log('Данные главной страницы загружены успешно');
+            } catch (error) {
+                console.error('Ошибка загрузки данных:', error);
+            }
+        });
+
+        // Обновление секции "Best Sellers" с слайдером
+        function updateBestSellers(products) {
+            const sliderContainer = document.getElementById('best-sellers-slider');
+            if (!sliderContainer) {
+                console.error('Slider container not found');
+                return;
+            }
+            
+            console.log('Updating Best Sellers with', products.length, 'products');
+            
+            // Берем первые 6 товаров как Best Sellers
+            const bestSellers = products.slice(0, 6);
+            
+            // Создаем слайды
+            sliderContainer.innerHTML = bestSellers.map((product, index) => `
+                <div class="slider-slide">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="./images/catalogItem${(index % 6) + 1}.svg" alt="${product.name}" loading="lazy">
+                            <div class="product-badge">Best Seller</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-brand">${product.brand || 'Nike'}</div>
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-price">
+                                <span class="price-current">$${product.price}</span>
+                                ${product.originalPrice > product.price ? `<span class="price-original">$${product.originalPrice}</span>` : ''}
+                            </div>
+                            <div class="product-rating">
+                                <div class="rating-stars">${'★'.repeat(Math.floor(product.rating || 5))}</div>
+                                <span class="rating-value">(${product.rating || 4.8})</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log('Slider HTML created, initializing slider...');
+            
+            // Инициализируем слайдер с небольшой задержкой
+            setTimeout(() => {
+                if (window.SimpleSlider) {
+                    console.log('SimpleSlider class found, creating instance...');
+                    try {
+                        const slider = new SimpleSlider(sliderContainer, {
+                            autoplay: true,
+                            autoplayDelay: 4000,
+                            showDots: true,
+                            showArrows: true,
+                            infinite: true,
+                            slidesToShow: 4
+                        });
+                        console.log('Slider initialized successfully');
+                    } catch (error) {
+                        console.error('Error initializing slider:', error);
+                    }
+                } else {
+                    console.error('SimpleSlider class not found');
+                }
+            }, 100);
+        }
+
+        // Обновление секции "New Arrivals"
+        function updateNewArrivals(products) {
+            // Здесь можно добавить логику для обновления секции новых поступлений
+            console.log('New arrivals loaded:', products);
+        }
+
+        // Функция для добавления товара в корзину
+        async function addToCart(productId, size, color) {
+            try {
+                await preloader.start();
+                const result = await window.SneakerStoreCart.addItem(productId, size || 'Default', color || 'Default', 1);
+                await preloader.stop();
+                
+                if (result.success) {
+                    preloader.showMessage('Product added to cart!', 2000);
+                    
+                    // Анимация добавления в корзину
+                    const button = event?.target;
+                    if (button) {
+                        window.SneakerStoreCart.cartManager.animateAddToCart(button);
+                    }
+                } else {
+                    preloader.showMessage(result.error, 3000, 'error');
+                }
+            } catch (error) {
+                await preloader.stop();
+                preloader.showMessage('Ошибка добавления в корзину: ' + error.message, 3000, 'error');
+            }
+        }
+
+        // Функция для добавления товара в избранное
+        async function addToWishlist(productId, size, color) {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                
+                // Получаем или создаем избранное для текущего пользователя (ID 1 для демо)
+                let wishlistResponse = await apiClient.get('/wishlists', { userId: 1 });
+                let wishlist;
+                
+                if (wishlistResponse.success && wishlistResponse.data.length > 0) {
+                    wishlist = wishlistResponse.data[0];
+                } else {
+                    // Создаем новое избранное
+                    const newWishlistResponse = await apiClient.post('/wishlists', {
+                        userId: 1,
+                        items: []
+                    });
+                    wishlist = newWishlistResponse.data;
+                }
+                
+                // Проверяем, не добавлен ли уже товар
+                const existingItem = wishlist.items.find(
+                    item => item.productId === productId && item.size === size && item.color === color
+                );
+                
+                if (existingItem) {
+                    preloader.showMessage('Product already in wishlist', 2000);
+                    return;
+                }
+                
+                // Добавляем товар в избранное
+                wishlist.items.push({
+                    productId: productId,
+                    size: size,
+                    color: color,
+                    addedAt: new Date().toISOString()
+                });
+                wishlist.updatedAt = new Date().toISOString();
+                
+                // Обновляем избранное
+                const updateResponse = await apiClient.put(`/wishlists/${wishlist.id}`, wishlist);
+                
+                if (updateResponse.success) {
+                    preloader.showMessage('Product added to wishlist!', 2000);
+                    console.log('Product added to wishlist');
+                } else {
+                    throw new Error('Error updating wishlist');
+                }
+                
+            } catch (error) {
+                console.error('Error adding to wishlist:', error);
+                preloader.showMessage('Error adding to wishlist', 2000);
+            }
+        }
+
+        // Обновление UI аутентификации
+        function updateAuthUI() {
+            const authManager = window.SneakerStoreAuth.authManager;
+            
+            if (authManager.isAuthenticated()) {
+                const user = authManager.getCurrentUser();
+                
+                // Показываем меню пользователя
+                document.getElementById('login-btn').style.display = 'none';
+                document.getElementById('user-menu').style.display = 'block';
+                document.getElementById('user-name').textContent = user.firstName;
+                
+                // Добавляем класс роли к body
+                document.body.classList.add(`user-role-${user.role}`);
+                
+                // Обновляем навигацию
+                updateNavigationForRole(user.role);
+            } else {
+                // Показываем кнопку входа
+                document.getElementById('login-btn').style.display = 'block';
+                document.getElementById('user-menu').style.display = 'none';
+                
+                // Убираем классы ролей
+                document.body.classList.remove('user-role-admin', 'user-role-manager', 'user-role-customer');
+            }
+        }
+        
+        // Обновление навигации в зависимости от роли
+        function updateNavigationForRole(role) {
+            // Добавляем ссылки для разных ролей
+            const nav = document.querySelector('.header__menu-text-list');
+            if (!nav) return;
+            
+            // Удаляем существующие элементы роли
+            const existingRoleItems = nav.querySelectorAll('.nav-role-item');
+            existingRoleItems.forEach(item => item.remove());
+            
+            if (role === 'admin') {
+                addNavItem(nav, 'Admin Panel', '/admin.html', 'nav-role-item admin-item');
+            }
+            
+            if (role === 'manager' || role === 'admin') {
+                addNavItem(nav, 'Manager Panel', '/manager.html', 'nav-role-item manager-item');
+            }
+            
+            // Добавляем профиль для всех авторизованных пользователей
+            addNavItem(nav, 'Profile', '/profile.html', 'nav-role-item customer-item');
+        }
+        
+        // Добавление элемента навигации
+        function addNavItem(nav, text, href, className) {
+            const li = document.createElement('li');
+            li.className = `header__menu-item ${className}`;
+            
+            const a = document.createElement('a');
+            a.href = href;
+            a.textContent = text;
+            a.className = 'header__menu-link';
+            
+            li.appendChild(a);
+            nav.appendChild(li);
+        }
+        
+        // Функция выхода
+        function logout() {
+            if (window.SneakerStoreAuth && window.SneakerStoreAuth.authManager) {
+                window.SneakerStoreAuth.authManager.logout();
+                // Перезагружаем страницу для обновления UI
+                window.location.reload();
+            }
+        }
+
+        // Обновление дашбордов в зависимости от роли
+        async function updateRoleDashboards() {
+            const authManager = window.SneakerStoreAuth.authManager;
+            if (!authManager.isAuthenticated()) return;
+            
+            const user = authManager.getCurrentUser();
+            const adminDashboard = document.querySelector('.admin-only');
+            const managerDashboard = document.querySelector('.manager-only');
+            
+            // Скрываем все дашборды
+            if (adminDashboard) adminDashboard.style.display = 'none';
+            if (managerDashboard) managerDashboard.style.display = 'none';
+            
+            // Показываем соответствующий дашборд
+            if (user.role === 'admin') {
+                if (adminDashboard) {
+                    adminDashboard.style.display = 'block';
+                    await loadAdminStats();
+                }
+            } else if (user.role === 'manager') {
+                if (managerDashboard) {
+                    managerDashboard.style.display = 'block';
+                    await loadManagerStats();
+                }
+            }
+        }
+        
+        // Загрузка статистики для администратора
+        async function loadAdminStats() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                
+                // Загружаем статистику пользователей
+                const usersResponse = await apiClient.get('/users');
+                const usersCount = usersResponse.success ? usersResponse.data.length : 0;
+                
+                // Загружаем статистику товаров
+                const productsResponse = await apiClient.get('/products');
+                const productsCount = productsResponse.success ? productsResponse.data.length : 0;
+                
+                // Загружаем статистику корзин (как заказы)
+                const cartsResponse = await apiClient.get('/carts');
+                const ordersCount = cartsResponse.success ? cartsResponse.data.length : 0;
+                
+                // Рассчитываем доход (сумма всех товаров в корзинах)
+                let totalRevenue = 0;
+                if (cartsResponse.success && productsResponse.success) {
+                    cartsResponse.data.forEach(cart => {
+                        cart.items.forEach(item => {
+                            const product = productsResponse.data.find(p => p.id === item.productId);
+                            if (product) {
+                                totalRevenue += product.price * item.quantity;
+                            }
+                        });
+                    });
+                }
+                
+                // Обновляем UI
+                document.getElementById('admin-total-users').textContent = usersCount;
+                document.getElementById('admin-total-products').textContent = productsCount;
+                document.getElementById('admin-total-orders').textContent = ordersCount;
+                document.getElementById('admin-revenue').textContent = `$${totalRevenue.toFixed(2)}`;
+                
+            } catch (error) {
+                console.error('Ошибка загрузки статистики администратора:', error);
+            }
+        }
+        
+        // Загрузка статистики для менеджера
+        async function loadManagerStats() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                
+                // Загружаем товары
+                const productsResponse = await apiClient.get('/products');
+                if (!productsResponse.success) return;
+                
+                const products = productsResponse.data;
+                
+                // Товары с низким остатком (меньше 10)
+                const lowStockCount = products.filter(p => p.stockQuantity < 10).length;
+                
+                // Загружаем корзины (как заказы)
+                const cartsResponse = await apiClient.get('/carts');
+                const pendingOrders = cartsResponse.success ? cartsResponse.data.length : 0;
+                
+                // Продажи сегодня (моковые данные)
+                const todaySales = Math.floor(Math.random() * 50) + 20;
+                
+                // Общий доход
+                let totalRevenue = 0;
+                if (cartsResponse.success) {
+                    cartsResponse.data.forEach(cart => {
+                        cart.items.forEach(item => {
+                            const product = products.find(p => p.id === item.productId);
+                            if (product) {
+                                totalRevenue += product.price * item.quantity;
+                            }
+                        });
+                    });
+                }
+                
+                // Обновляем UI
+                document.getElementById('manager-low-stock').textContent = lowStockCount;
+                document.getElementById('manager-pending-orders').textContent = pendingOrders;
+                document.getElementById('manager-today-sales').textContent = todaySales;
+                document.getElementById('manager-total-revenue').textContent = `$${totalRevenue.toFixed(2)}`;
+                
+            } catch (error) {
+                console.error('Ошибка загрузки статистики менеджера:', error);
+            }
+        }
+
+        // Обработчики для кнопок Quick View в каталоге
+        document.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('catalog__quick-view-btn')) {
+                const productId = e.target.getAttribute('data-product-id');
+                if (productId && window.ModalManager) {
+                    try {
+                        // Загружаем данные товара
+                        const apiClient = new SneakerStoreAPI.ApiClient();
+                        const response = await apiClient.get(`/products?id=${productId}`);
+                        
+                        if (response.success && response.data.length > 0) {
+                            window.ModalManager.showProductQuickView(response.data[0]);
+                        } else {
+                            window.ModalManager.showNotification('Product not found', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error loading product:', error);
+                        window.ModalManager.showNotification('Error loading product', 'error');
+                    }
+                }
+            }
+        });
+
+        // Инициализация карты магазинов
+        let storesMap;
+        let currentMapTheme = 'dark';
+
+        function initStoresMap() {
+            if (typeof ymaps === 'undefined') {
+                console.error('Yandex Maps API not loaded');
+                return;
+            }
+
+            ymaps.ready(function () {
+                // Get current theme
+                const body = document.body;
+                currentMapTheme = body.classList.contains('theme-light') ? 'light' : 'dark';
+
+                // Create map
+                storesMap = new ymaps.Map('stores-map', {
+                    center: [55.7558, 37.6176], // Moscow coordinates
+                    zoom: 12,
+                    controls: ['zoomControl', 'fullscreenControl', 'typeSelector']
+                }, {
+                    searchControlProvider: 'yandex#search'
+                });
+
+                            // Add markers for stores
+                            const currentLang = getCurrentLanguage();
+                            const storeTranslations = {
+                                ru: {
+                                    'store1.name': 'Nike Store Тверская',
+                                    'store1.address': 'ул. Тверская, 12, Москва',
+                                    'store2.name': 'Nike Store Арбат',
+                                    'store2.address': 'ул. Арбат, 25, Москва',
+                                    'store3.name': 'Nike Store Красная площадь',
+                                    'store3.address': 'Красная площадь, 1, Москва'
+                                },
+                                en: {
+                                    'store1.name': 'Nike Store Tverskaya',
+                                    'store1.address': 'Tverskaya St, 12, Moscow',
+                                    'store2.name': 'Nike Store Arbat',
+                                    'store2.address': 'Arbat St, 25, Moscow',
+                                    'store3.name': 'Nike Store Red Square',
+                                    'store3.address': 'Red Square, 1, Moscow'
+                                }
+                            };
+                            
+                            const stores = [
+                                {
+                                    coords: [55.7558, 37.6176],
+                                    title: storeTranslations[currentLang]['store1.name'],
+                                    description: storeTranslations[currentLang]['store1.address']
+                                },
+                                {
+                                    coords: [55.7522, 37.5914],
+                                    title: storeTranslations[currentLang]['store2.name'],
+                                    description: storeTranslations[currentLang]['store2.address']
+                                },
+                                {
+                                    coords: [55.7539, 37.6208],
+                                    title: storeTranslations[currentLang]['store3.name'],
+                                    description: storeTranslations[currentLang]['store3.address']
+                                }
+                            ];
+
+                stores.forEach(store => {
+                    const marker = new ymaps.Placemark(store.coords, {
+                        balloonContentHeader: store.title,
+                        balloonContentBody: store.description,
+                        hintContent: store.title
+                    }, {
+                        preset: 'islands#redIcon'
+                    });
+
+                    storesMap.geoObjects.add(marker);
+                });
+
+                // Hide loading message
+                const loadingElement = document.querySelector('.map-loading');
+                if (loadingElement) {
+                    loadingElement.style.display = 'none';
+                }
+            });
+        }
+
+                    function getCurrentLanguage() {
+                        return localStorage.getItem('language') || 'ru';
+                    }
+
+        function updateStoresMapTheme() {
+            if (storesMap) {
+                const body = document.body;
+                const newTheme = body.classList.contains('theme-light') ? 'light' : 'dark';
+                
+                if (newTheme !== currentMapTheme) {
+                    currentMapTheme = newTheme;
+                    // Reinitialize map with new theme
+                    initStoresMap();
+                }
+            }
+        }
+
+        // Listen for theme changes
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    updateStoresMapTheme();
+                }
+            });
+        });
+
+        observer.observe(document.body, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        // Listen for language changes
+        document.addEventListener('languageChanged', function() {
+            if (storesMap) {
+                initStoresMap(); // Reinitialize map with new language
+            }
+        });
+
+        // Initialize map when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Small delay to ensure other scripts are loaded
+            setTimeout(() => {
+                initStoresMap();
+            }, 1000);
+        });
+
+        // Экспортируем функции для использования в других скриптах
+        window.SneakerStoreApp = {
+            addToCart,
+            addToWishlist,
+            updateAuthUI,
+            updateRoleDashboards,
+            logout
+        };
+    </script>
+</body>
+
+</html>
+
+

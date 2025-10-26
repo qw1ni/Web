@@ -1,0 +1,466 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Nike Website - Create Account</title>
+    <style>
+        /* Дополнительные стили для формы регистрации */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .auth__label.required::after {
+            content: " *";
+            color: #ff6b6b;
+        }
+
+        .auth__input.error {
+            border-color: #ff6b6b;
+        }
+
+        .auth__input.valid {
+            border-color: #51cf66;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .nickname-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nickname-container .auth__input {
+            flex: 1;
+        }
+
+        .generate-nickname-btn {
+            background: var(--color-accent);
+            color: var(--color-light);
+            border: 1px solid var(--color-accent);
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .generate-nickname-btn:hover {
+            background: transparent;
+            color: var(--color-accent);
+        }
+
+        .generate-nickname-btn:disabled {
+            background: #666;
+            border-color: #666;
+            cursor: not-allowed;
+        }
+
+        .nickname-info {
+            font-size: 12px;
+            color: var(--color-light);
+            margin-top: 4px;
+            opacity: 0.7;
+        }
+
+        .password-method {
+            display: flex;
+            gap: 24px;
+            margin-top: 12px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--color-light);
+        }
+
+        .radio-label input[type="radio"] {
+            margin: 0;
+            accent-color: var(--color-accent);
+        }
+
+        .password-requirements {
+            margin-top: 12px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--color-accent);
+        }
+
+        .requirement {
+            font-size: 12px;
+            margin-bottom: 6px;
+            color: var(--color-light);
+            transition: color 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .requirement.valid {
+            color: #51cf66;
+            opacity: 1;
+        }
+
+        .requirement.invalid {
+            color: #ff6b6b;
+            opacity: 1;
+        }
+
+        .generated-password-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .generated-password-container .auth__input {
+            flex: 1;
+        }
+
+        .copy-password-btn {
+            background: #51cf66;
+            color: var(--color-light);
+            border: 1px solid #51cf66;
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .copy-password-btn:hover {
+            background: transparent;
+            color: #51cf66;
+        }
+
+        .auth__button:disabled {
+            background: #666;
+            border-color: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth__message {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .auth__message.success {
+            background-color: rgba(81, 207, 102, 0.1);
+            color: #51cf66;
+            border: 1px solid rgba(81, 207, 102, 0.3);
+        }
+
+        .auth__message.error {
+            background-color: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .auth__message.info {
+            background-color: rgba(102, 192, 255, 0.1);
+            color: #66c0ff;
+            border: 1px solid rgba(102, 192, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .password-method {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .nickname-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .generated-password-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <section class="auth reveal">
+            <div class="auth__container container">
+                <div class="auth__card">
+                    <h1 class="auth__title">Create Account</h1>
+                    <p class="auth__subtitle">Join the Nike community to unlock exclusive drops, event invites, and
+                        personalised product picks.</p>
+                    <form class="auth__form" id="register-form">
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label class="auth__label required" for="register-lastname">Last Name *</label>
+                            <input class="auth__input" type="text" id="register-lastname" name="lastname" autocomplete="family-name"
+                                required placeholder="Smith">
+                            <div class="error-message" id="lastname-error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="auth__label required" for="register-firstname">First Name *</label>
+                            <input class="auth__input" type="text" id="register-firstname" name="firstname" autocomplete="given-name"
+                                required placeholder="John">
+                            <div class="error-message" id="firstname-error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="auth__label" for="register-middlename">Middle Name</label>
+                            <input class="auth__input" type="text" id="register-middlename" name="middlename" autocomplete="additional-name"
+                                placeholder="Michael">
+                            <div class="error-message" id="middlename-error"></div>
+                        </div>
+
+                        <!-- Username -->
+                        <div class="form-group">
+                            <label class="auth__label required" for="register-nickname">Username *</label>
+                            <div class="nickname-container">
+                                <input class="auth__input" type="text" id="register-nickname" name="nickname" autocomplete="username"
+                                    required placeholder="Auto-generated username">
+                                <button type="button" class="generate-nickname-btn" id="generate-nickname">Generate</button>
+                            </div>
+                            <div class="error-message" id="nickname-error"></div>
+                            <div class="nickname-info" id="nickname-info">Generation attempts: <span id="generation-attempts">0</span>/5</div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label class="auth__label required" for="register-phone">Phone Number (Belarus) *</label>
+                            <input class="auth__input" type="tel" id="register-phone" name="phone" autocomplete="tel"
+                                required placeholder="+375 (29) 123-45-67">
+                            <div class="error-message" id="phone-error"></div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label class="auth__label required" for="register-email">Email *</label>
+                            <input class="auth__input" type="email" id="register-email" name="email" autocomplete="email"
+                                required placeholder="you@example.com">
+                            <div class="error-message" id="email-error"></div>
+                        </div>
+
+                        <!-- Birth Date -->
+                        <div class="form-group">
+                            <label class="auth__label required" for="register-birthdate">Birth Date *</label>
+                            <input class="auth__input" type="date" id="register-birthdate" name="birthdate" autocomplete="bday"
+                                required>
+                            <div class="error-message" id="birthdate-error"></div>
+                        </div>
+
+                        <!-- Password Method -->
+                        <div class="form-group">
+                            <label class="auth__label">Password Method *</label>
+                            <div class="password-method">
+                                <label class="radio-label">
+                                    <input type="radio" name="password-method" value="manual" checked>
+                                    <span>Enter manually</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="password-method" value="auto">
+                                    <span>Generate automatically</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group" id="manual-password-group">
+                            <label class="auth__label required" for="register-password">Password *</label>
+                            <input class="auth__input" type="password" id="register-password" name="password"
+                                autocomplete="new-password" placeholder="Enter password">
+                            <div class="password-requirements" id="password-requirements">
+                                <div class="requirement" id="req-length">Minimum 8 characters, maximum 20</div>
+                                <div class="requirement" id="req-uppercase">One uppercase letter</div>
+                                <div class="requirement" id="req-lowercase">One lowercase letter</div>
+                                <div class="requirement" id="req-number">One number</div>
+                                <div class="requirement" id="req-special">One special character</div>
+                                <div class="requirement" id="req-common">Not in TOP-100 common passwords</div>
+                            </div>
+                            <div class="error-message" id="password-error"></div>
+                        </div>
+
+                        <div class="form-group" id="manual-password-confirm-group">
+                            <label class="auth__label required" for="register-confirm-password">Confirm Password *</label>
+                            <input class="auth__input" type="password" id="register-confirm-password"
+                                name="confirm-password" autocomplete="new-password" placeholder="Repeat password">
+                            <div class="error-message" id="confirm-password-error"></div>
+                        </div>
+
+                        <!-- Auto-generated Password -->
+                        <div class="form-group" id="auto-password-group" style="display: none;">
+                            <label class="auth__label">Generated Password</label>
+                            <div class="generated-password-container">
+                                <input class="auth__input" type="text" id="generated-password" readonly>
+                                <button type="button" class="copy-password-btn" id="copy-password">Copy</button>
+                            </div>
+                        </div>
+
+                        <!-- User Agreement -->
+                        <div class="form-group">
+                            <label class="auth__checkbox required">
+                                <input type="checkbox" id="register-terms" required>
+                                <span class="auth__checkbox-text">I have read and agree to the <a href="#" class="auth__link">User Agreement</a> *</span>
+                            </label>
+                            <div class="error-message" id="terms-error"></div>
+                        </div>
+
+                        <button class="auth__button" type="submit" id="register-submit" disabled>Create Account</button>
+                    </form>
+                    <p class="auth__extra">Already have an account? <a class="auth__link"
+                            href="./login.html">Sign in</a></p>
+                    
+                    <div id="message" class="auth__message" style="display: none;"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <p>&copy; 2024 Sneaker Store. All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        console.log('Страница регистрации загружена!');
+        
+        // Константы
+        const API_URL = 'http://localhost:3000';
+
+        // Обработка формы регистрации
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm').value;
+            const termsAccepted = document.getElementById('register-terms').checked;
+            
+            // Валидация
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (!termsAccepted) {
+                showMessage('Please accept Terms & Conditions', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            // Показываем загрузку
+            showMessage('Creating account...', 'info');
+            
+            try {
+                // Проверяем, существует ли пользователь
+                const checkResponse = await fetch(`${API_URL}/users?email=${email}`);
+                const existingUsers = await checkResponse.json();
+                
+                if (existingUsers.length > 0) {
+                    showMessage('User with this email already exists', 'error');
+                    return;
+                }
+                
+                // Создаем нового пользователя
+                const nameParts = name.split(' ');
+                const newUser = {
+                    firstName: nameParts[0] || '',
+                    lastName: nameParts.slice(1).join(' ') || '',
+                    email: email,
+                    password: password,
+                    role: 'customer',
+                    isAdmin: false,
+                    phone: '',
+                    address: {
+                        street: '',
+                        city: '',
+                        state: '',
+                        zipCode: '',
+                        country: ''
+                    },
+                    createdAt: new Date().toISOString(),
+                    lastLogin: null
+                };
+                
+                const response = await fetch(`${API_URL}/users`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newUser)
+                });
+                
+                if (response.ok) {
+                    showMessage('Account created successfully! Redirecting to login...', 'success');
+                    setTimeout(() => {
+                        window.location.href = './login.html';
+                    }, 2000);
+                } else {
+                    showMessage('Error creating account. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showMessage('Connection error. Please try again.', 'error');
+            }
+        });
+        
+        // Функция показа сообщений
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.style.display = 'block';
+            messageDiv.style.padding = '12px';
+            messageDiv.style.borderRadius = '8px';
+            messageDiv.style.marginTop = '15px';
+            messageDiv.style.textAlign = 'center';
+            
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.border = '1px solid #c3e6cb';
+            } else if (type === 'error') {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+            } else {
+                messageDiv.style.background = '#d1ecf1';
+                messageDiv.style.color = '#0c5460';
+                messageDiv.style.border = '1px solid #bee5eb';
+            }
+        }
+    </script>
+    
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/accessibility.js"></script>
+    <script src="./scripts/register-validation.js"></script>
+</body>
+
+</html>

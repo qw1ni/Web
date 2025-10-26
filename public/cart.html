@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Sneaker Store - Корзина</title>
+    <style>
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--color-dark);
+        }
+        
+        .cart-header {
+            background: transparent;
+            color: var(--color-light);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            border: var(--border);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .cart-header h1 {
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+        }
+        
+        .cart-header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+        
+        .cart-main {
+            background: transparent;
+            border-radius: var(--border-radius);
+            border: var(--border);
+            overflow: hidden;
+        }
+        
+        .cart-items {
+            padding: 0;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            border-bottom: var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .item-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .item-details {
+            flex: 1;
+            margin-right: 20px;
+        }
+        
+        .item-brand {
+            color: var(--color-light);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            opacity: 0.7;
+        }
+        
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-light);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .item-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .item-option {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: var(--color-light);
+            opacity: 0.8;
+        }
+        
+        .item-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-light);
+        }
+        
+        .item-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border: var(--border);
+            background: transparent;
+            color: var(--color-light);
+            cursor: pointer;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .quantity-btn:hover:not(:disabled) {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+        
+        .quantity-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            height: 35px;
+            border: var(--border);
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            background: transparent;
+            color: var(--color-light);
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 12px;
+            border: var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: var(--color-light);
+        }
+        
+        .btn-remove {
+            background: var(--color-accent);
+            color: var(--color-light);
+            border-color: var(--color-accent);
+        }
+        
+        .btn-remove:hover {
+            opacity: 0.9;
+        }
+        
+        .cart-sidebar {
+            background: transparent;
+            border-radius: var(--border-radius);
+            border: var(--border);
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--color-light);
+            border-bottom: var(--border);
+            padding-bottom: 10px;
+        }
+        
+        .order-summary {
+            margin-bottom: 25px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+        
+        .summary-row.total {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--color-light);
+            border-top: var(--border);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .summary-label {
+            color: var(--color-light);
+            opacity: 0.8;
+        }
+        
+        .summary-value {
+            color: var(--color-light);
+            font-weight: 500;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--color-accent);
+            color: var(--color-light);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .checkout-btn:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .checkout-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .secondary-btn {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--color-light);
+            border: var(--border);
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+        
+        .secondary-btn:hover {
+            border-color: var(--color-accent);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--color-light);
+        }
+        
+        .empty-cart h3 {
+            margin-bottom: 15px;
+            color: var(--color-light);
+            font-size: 1.5em;
+        }
+        
+        .empty-cart p {
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+        
+        .empty-cart-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--color-accent);
+            color: var(--color-light);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .empty-cart-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: var(--color-light);
+            font-size: 18px;
+            opacity: 0.7;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: var(--color-accent);
+        }
+        
+        .error h3 {
+            margin-bottom: 10px;
+            color: var(--color-light);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-sidebar {
+                position: static;
+                margin-top: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .cart-container {
+                padding: 10px;
+            }
+            
+            .cart-header {
+                padding: 30px 20px;
+            }
+            
+            .cart-header h1 {
+                font-size: 2em;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .item-image {
+                width: 100%;
+                height: 200px;
+                margin-right: 0;
+            }
+            
+            .item-details {
+                margin-right: 0;
+            }
+            
+            .item-controls {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h1>🛒 Корзина покупок</h1>
+                <p>Проверьте товары перед оформлением заказа</p>
+            </div>
+
+            <div class="cart-layout">
+                <!-- Основной контент корзины -->
+                <main class="cart-main">
+                    <div id="cart-content">
+                        <div class="loading">Загрузка корзины...</div>
+                    </div>
+                </main>
+
+                <!-- Боковая панель с итогами -->
+                <aside class="cart-sidebar">
+                    <h2 class="sidebar-title">Итого заказа</h2>
+                    
+                    <div class="order-summary" id="order-summary">
+                        <div class="summary-row">
+                            <span class="summary-label">Товары:</span>
+                            <span class="summary-value" id="items-count">0 шт.</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Сумма товаров:</span>
+                            <span class="summary-value" id="subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Доставка:</span>
+                            <span class="summary-value" id="shipping">Бесплатно</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span class="summary-label">Итого:</span>
+                            <span class="summary-value" id="total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button class="checkout-btn" id="checkout-btn" disabled>
+                        Оформить заказ
+                    </button>
+                    
+                    <button class="secondary-btn" onclick="continueShopping()">
+                        Продолжить покупки
+                    </button>
+                    
+                    <button class="secondary-btn" onclick="clearCart()" id="clear-cart-btn" style="display: none;">
+                        Очистить корзину
+                    </button>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <p>&copy; 2024 Sneaker Store. All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/cart.js"></script>
+    <script src="./scripts/accessibility.js"></script>
+    <script src="./scripts/modal.js"></script>
+    
+    <script>
+        console.log('Корзина загружается...');
+        
+        // Простой preloader
+        const preloader = {
+            start: async () => { console.log('Загрузка...'); },
+            stop: async () => { console.log('Загрузка завершена'); },
+            showMessage: (msg, duration, type) => {
+                console.log(`${type || 'info'}: ${msg}`);
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = msg;
+                messageDiv.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 25px;
+                    background: ${type === 'error' ? '#f8d7da' : '#d4edda'};
+                    color: ${type === 'error' ? '#721c24' : '#155724'};
+                    border: 1px solid ${type === 'error' ? '#f5c6cb' : '#c3e6cb'};
+                    border-radius: 8px;
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease-out;
+                `;
+                document.body.appendChild(messageDiv);
+                setTimeout(() => {
+                    messageDiv.remove();
+                }, duration || 3000);
+            }
+        };
+        
+        // Используем корзину из cart.js
+        if (!window.SneakerStoreCart) {
+            console.error('SneakerStoreCart not initialized. Make sure cart.js is loaded.');
+        }
+        
+        window.SneakerStoreApp = {
+            addToWishlist: async (productId, size, color) => {
+                alert('Товар добавлен в избранное!');
+            }
+        };
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadCart();
+            setupEventListeners();
+        });
+
+        // Загрузка корзины
+        async function loadCart() {
+            try {
+                console.log('Loading cart...');
+                const cart = window.SneakerStoreCart.getCart();
+                console.log('Cart loaded:', cart);
+                displayCart(cart);
+                updateOrderSummary(cart);
+            } catch (error) {
+                console.error('Ошибка загрузки корзины:', error);
+                showError('Ошибка загрузки корзины: ' + error.message);
+            }
+        }
+
+        // Отображение корзины
+        function displayCart(cart) {
+            console.log('displayCart called with cart:', cart);
+            console.log('Cart items with IDs:', cart.items.map(item => ({ id: item.id, type: typeof item.id })));
+            
+            const container = document.getElementById('cart-content');
+            
+            if (cart.items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>Корзина пуста</h3>
+                        <p>Добавьте товары из каталога, чтобы оформить заказ</p>
+                        <a href="catalog.html" class="empty-cart-btn">Перейти в каталог</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="cart-items">
+                    ${cart.items.map(item => createCartItemHTML(item)).join('')}
+                </div>
+            `;
+        }
+
+        // Создание HTML для товара в корзине
+        function createCartItemHTML(item) {
+            // Обрабатываем разные структуры данных товаров
+            const product = item.product || {
+                id: item.productId,
+                name: `Product ${item.productId}`,
+                brand: 'Unknown',
+                image: './images/catalogItem1.svg'
+            };
+            
+            return `
+                <div class="cart-item" data-item-id="${item.id || item.productId}">
+                    <div class="item-image">
+                        <img src="${product.image}" alt="${product.name}" loading="lazy">
+                    </div>
+                    
+                    <div class="item-details">
+                        <div class="item-brand">${product.brand}</div>
+                        <h3 class="item-name">${product.name}</h3>
+                        <div class="item-options">
+                            <span class="item-option">Размер: ${item.size}</span>
+                            <span class="item-option">Цвет: ${item.color}</span>
+                        </div>
+                        <div class="item-price">$${item.price.toFixed(2)}</div>
+                    </div>
+                    
+                    <div class="item-controls">
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="updateQuantity('${item.id || item.productId}', ${item.quantity - 1})" 
+                                    ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                            <input type="number" class="quantity-input" value="${item.quantity}" 
+                                   min="1" max="${product.stockQuantity || 999}" 
+                                   onchange="updateQuantity('${item.id || item.productId}', parseInt(this.value))">
+                            <button class="quantity-btn" onclick="updateQuantity('${item.id || item.productId}', ${item.quantity + 1})"
+                                    ${item.quantity >= (product.stockQuantity || 999) ? 'disabled' : ''}>+</button>
+                        </div>
+                        
+                        <div class="item-actions">
+                            <button class="action-btn btn-remove" onclick="removeItem('${item.id || item.productId}')">
+                                🗑️ Удалить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Обновление итогов заказа
+        function updateOrderSummary(cart) {
+            document.getElementById('items-count').textContent = `${cart.itemCount} шт.`;
+            document.getElementById('subtotal').textContent = `$${cart.total.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${cart.total.toFixed(2)}`;
+            
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const clearBtn = document.getElementById('clear-cart-btn');
+            
+            if (cart.items.length > 0) {
+                checkoutBtn.disabled = false;
+                clearBtn.style.display = 'block';
+            } else {
+                checkoutBtn.disabled = true;
+                clearBtn.style.display = 'none';
+            }
+            
+            // Обновляем счетчик в хедере
+            const counter = document.getElementById('cart-count');
+            if (counter) {
+                counter.textContent = cart.itemCount;
+                counter.style.display = cart.itemCount > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Обновление количества товара
+        async function updateQuantity(itemId, newQuantity) {
+            try {
+                console.log('updateQuantity called from HTML with:', { itemId, newQuantity, type: typeof itemId });
+                await preloader.start();
+                const result = await window.SneakerStoreCart.updateQuantity(itemId, newQuantity);
+                await preloader.stop();
+                
+                if (result.success) {
+                    const cart = window.SneakerStoreCart.getCart();
+                    displayCart(cart);
+                    updateOrderSummary(cart);
+                    preloader.showMessage('Количество обновлено', 2000);
+                } else {
+                    preloader.showMessage(result.error, 3000, 'error');
+                }
+            } catch (error) {
+                await preloader.stop();
+                preloader.showMessage('Ошибка обновления количества', 3000, 'error');
+            }
+        }
+
+        // Удаление товара из корзины
+        async function removeItem(itemId) {
+            if (window.ModalManager) {
+                window.ModalManager.showConfirmation(
+                    'Удалить товар из корзины?',
+                    {
+                        title: 'Подтверждение удаления',
+                        confirmText: 'Удалить',
+                        cancelText: 'Отмена',
+                        onConfirm: async () => {
+                            try {
+                                await preloader.start();
+                                const result = await window.SneakerStoreCart.removeItem(itemId);
+                                await preloader.stop();
+                                
+                                if (result.success) {
+                                    const cart = window.SneakerStoreCart.getCart();
+                                    displayCart(cart);
+                                    updateOrderSummary(cart);
+                                    window.ModalManager.showNotification('Товар удален из корзины', 'success');
+                                } else {
+                                    window.ModalManager.showNotification(result.error, 'error');
+                                }
+                            } catch (error) {
+                                console.error('Ошибка удаления товара:', error);
+                                window.ModalManager.showNotification('Ошибка удаления товара', 'error');
+                            }
+                        }
+                    }
+                );
+            } else {
+                // Fallback к обычному confirm
+                if (!confirm('Удалить товар из корзины?')) return;
+                
+                try {
+                    await preloader.start();
+                    const result = await window.SneakerStoreCart.removeItem(itemId);
+                    await preloader.stop();
+                    
+                    if (result.success) {
+                        const cart = window.SneakerStoreCart.getCart();
+                        displayCart(cart);
+                        updateOrderSummary(cart);
+                        preloader.showMessage('Товар удален из корзины', 2000);
+                    } else {
+                        preloader.showMessage(result.error, 3000, 'error');
+                    }
+                } catch (error) {
+                    await preloader.stop();
+                    preloader.showMessage('Ошибка удаления товара', 3000, 'error');
+                }
+            }
+        }
+
+        // Функция moveToWishlist удалена - кнопка "В избранное" убрана из интерфейса
+
+        // Очистка корзины
+        async function clearCart() {
+            if (window.ModalManager) {
+                window.ModalManager.showConfirmation(
+                    'Очистить всю корзину? Это действие нельзя отменить.',
+                    {
+                        title: 'Подтверждение очистки',
+                        confirmText: 'Очистить',
+                        cancelText: 'Отмена',
+                        onConfirm: async () => {
+                            try {
+                                await preloader.start();
+                                const result = await window.SneakerStoreCart.clearCart();
+                                await preloader.stop();
+                                
+                                if (result.success) {
+                                    displayCart({ items: [], total: 0, itemCount: 0 });
+                                    updateOrderSummary({ items: [], total: 0, itemCount: 0 });
+                                    window.ModalManager.showNotification('Корзина очищена', 'success');
+                                } else {
+                                    window.ModalManager.showNotification(result.error, 'error');
+                                }
+                            } catch (error) {
+                                console.error('Ошибка очистки корзины:', error);
+                                window.ModalManager.showNotification('Ошибка очистки корзины', 'error');
+                            }
+                        }
+                    }
+                );
+            } else {
+                // Fallback к обычному confirm
+                if (!confirm('Очистить всю корзину?')) return;
+                
+                try {
+                    await preloader.start();
+                    const result = await window.SneakerStoreCart.clearCart();
+                    await preloader.stop();
+                    
+                    if (result.success) {
+                        displayCart({ items: [], total: 0, itemCount: 0 });
+                        updateOrderSummary({ items: [], total: 0, itemCount: 0 });
+                        preloader.showMessage('Корзина очищена', 2000);
+                    } else {
+                        preloader.showMessage(result.error, 3000, 'error');
+                    }
+                } catch (error) {
+                    await preloader.stop();
+                    preloader.showMessage('Ошибка очистки корзины', 3000, 'error');
+                }
+            }
+        }
+
+        // Продолжить покупки
+        function continueShopping() {
+            window.location.href = 'catalog.html';
+        }
+
+        // Оформление заказа
+        function checkout() {
+            // Здесь будет логика оформления заказа
+            alert('Функция оформления заказа будет реализована в следующем этапе');
+        }
+
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Подписка на изменения корзины
+            window.SneakerStoreCart.subscribe((cart) => {
+                displayCart(cart);
+                updateOrderSummary(cart);
+            });
+
+            // Обработчик кнопки оформления заказа
+            document.getElementById('checkout-btn').addEventListener('click', checkout);
+        }
+
+        // Показ ошибок
+        function showError(message) {
+            const container = document.getElementById('cart-content');
+            container.innerHTML = `
+                <div class="error">
+                    <h3>Ошибка</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

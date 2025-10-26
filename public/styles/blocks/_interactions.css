@@ -1,0 +1,134 @@
+﻿.button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+.button .catalog__button-arrow,
+.button .hero__button-arrow {
+    transition: transform .2s ease;
+}
+
+.button:hover .catalog__button-arrow,
+.button:hover .hero__button-arrow {
+    transform: translateX(4px);
+}
+
+.header__menu-link,
+.main__list-item {
+    position: relative;
+    transition: color .2s ease;
+}
+
+.header__menu-link::after,
+.main__list-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width .25s ease;
+}
+
+.header__menu-link:hover::after,
+.main__list-item:hover::after {
+    width: 100%;
+}
+
+.header__burger-button {
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+
+.header__burger-button:active {
+    transform: scale(.95);
+}
+
+.burger-button-line {
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+.header__burger-button.is-open .burger-button-line:nth-child(2) {
+    transform: translateY(4px) rotate(45deg);
+}
+
+.header__burger-button.is-open .burger-button-line:nth-child(3) {
+    opacity: 0;
+}
+
+.header__burger-button.is-open .burger-button-line:nth-child(4) {
+    transform: translateY(-4px) rotate(-45deg);
+}
+
+.sellers__slider-item,
+.catalog__item,
+.gallery__main-item,
+.sponsors__item {
+    transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+    cursor: pointer;
+}
+
+.sellers__slider-item:hover,
+.catalog__item:hover,
+.gallery__main-item:hover,
+.sponsors__item:hover {
+    transform: translateY(-6px);
+}
+
+.catalog__item img,
+.gallery__main-item img,
+.sellers__slider-item img,
+.sponsors__item img {
+    transition: transform .3s ease, filter .3s ease;
+}
+
+.catalog__item:hover img,
+.gallery__main-item:hover img,
+.sellers__slider-item:hover img {
+    transform: scale(1.03);
+}
+
+.sponsors__item:hover img {
+    filter: brightness(1.2);
+}
+
+.form__input {
+    transition: box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
+}
+
+.form__input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255,255,255, .15);
+}
+
+.form__button {
+    transition: transform .2s ease, background-color .2s ease, color .2s ease;
+}
+
+.form__button:hover { transform: translateY(-2px); }
+.form__button:active { transform: translateY(0); }
+
+/* Scroll reveal */
+/* Default: visible when JS is not active */
+.reveal {
+    opacity: 1;
+    transform: none;
+    transition: opacity .6s ease, transform .6s ease;
+}
+
+/* When JS is active, use animated reveal */
+
+
+

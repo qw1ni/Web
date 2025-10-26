@@ -1,0 +1,99 @@
+.gallery {
+    padding-top: var(--section-padding-y);
+}
+
+.gallery__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gallery__content {
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 36px;
+}
+
+.gallery__button {
+    padding: 12px 24px 12px 24px;
+}
+
+.gallery__title {
+    font-family: 'FuturaBT-Medium';
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 70px;
+    color: var(--color-light);
+    text-transform: uppercase;
+}
+
+.gallery__text {
+    font-family: 'FuturaBT-Book';
+    font-weight: 350;
+    font-size: 24x;
+    color: var(--color-light);
+    text-align: start;
+    width: 676px;
+}
+
+.gallery__main-container {
+    background: radial-gradient(circle at center, #400000 0%, #000 100%);
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    border-radius: var(--border-radius);
+}
+
+.gallery__main-container--inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 900px;
+}
+
+.large__item {
+    height: 100%;
+    align-self: stretch;
+}
+
+.gallery__main--twice {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (max-width: 1280px) {
+    .gallery__container {
+        flex-direction: column-reverse;
+    }
+    
+    .gallery__content {
+        align-items: center;
+        width: auto;
+    }
+
+    .gallery__text {
+        text-align: center;
+    }
+}
+
+@media (max-width: 765px) {
+    .gallery__container {
+        width: auto;
+        padding-inline: 0px;
+    }
+
+    .gallery__text {
+        font-size: 16px;
+        width: 200px;
+    }
+
+    .gallery__title {
+        font-size: 41px;
+        width: 200px;
+        text-align: center;
+    }
+}

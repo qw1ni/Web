@@ -1,0 +1,26 @@
+:root {
+    --color-dark: #000000;
+    --color-light: #FFFFFF;
+    --color-accent: #BA0000;
+    
+    --container-padding-x: 50px;
+    --container-width: 1440px;
+
+    --section-padding-y: 245px;
+
+    --transition-duration: 0.2s;
+
+    --border: 1px solid var(--color-light);
+    --border-radius: 36px;
+
+    --font-family-base: 'FuturaBT', sans-serif;
+
+    --button-height: 48px;
+    --input-height: 56px;
+}
+
+:root[data-theme="light"] {
+    --color-dark: #FFFFFF;
+    --color-light: #000000;
+    --border: 1px solid var(--color-light);
+}

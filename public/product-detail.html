@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Sneaker Store - Детали товара</title>
+    <style>
+        .product-detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            min-height: 100vh;
+        }
+        
+        .breadcrumbs {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--color-light);
+            opacity: 0.7;
+        }
+        
+        .breadcrumbs a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+        
+        .product-detail {
+            background: transparent;
+            border: var(--border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .product-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+        
+        .product-gallery {
+            position: relative;
+        }
+        
+        .product-image-main {
+            width: 100%;
+            height: 400px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .product-image-main img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-thumbnails {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+        
+        .product-thumbnail {
+            width: 80px;
+            height: 80px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .product-thumbnail:hover,
+        .product-thumbnail.active {
+            border-color: #667eea;
+        }
+        
+        .product-thumbnail img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 20px 0;
+        }
+        
+        .product-brand {
+            color: var(--color-accent);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .product-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: var(--color-light);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .rating-stars {
+            color: #ffc107;
+            font-size: 18px;
+        }
+        
+        .rating-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .rating-count {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .product-price {
+            margin-bottom: 30px;
+        }
+        
+        .price-current {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--color-light);
+            margin-right: 15px;
+        }
+        
+        .price-original {
+            font-size: 1.5em;
+            color: var(--color-light);
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+        
+        .price-discount {
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        
+        .product-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .product-options {
+            margin-bottom: 30px;
+        }
+        
+        .option-group {
+            margin-bottom: 25px;
+        }
+        
+        .option-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .option-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .option-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .option-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .option-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .option-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            color: #667eea;
+        }
+        
+        .feature-text {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .product-specs {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .specs-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .spec-label {
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .spec-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .related-products {
+            margin-top: 40px;
+        }
+        
+        .related-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .related-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .related-image {
+            width: 100%;
+            height: 200px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .related-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .related-info {
+            padding: 20px;
+        }
+        
+        .related-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .related-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #dc3545;
+        }
+        
+        .error h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .product-main {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .product-image-main {
+                height: 300px;
+            }
+            
+            .product-title {
+                font-size: 1.8em;
+            }
+            
+            .price-current {
+                font-size: 2em;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .product-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Dark theme overrides */
+        .product-image-main,
+        .product-thumbnail,
+        .product-features,
+        .product-specs,
+        .related-products {
+            background: rgba(255, 255, 255, 0.05) !important;
+        }
+        
+        .product-description,
+        .rating-count,
+        .feature-text,
+        .spec-label,
+        .related-product-name,
+        .related-product-price {
+            color: var(--color-light) !important;
+            opacity: 0.8;
+        }
+        
+        .rating-stars {
+            color: #ffc107 !important;
+        }
+        
+        .option-btn {
+            background: transparent !important;
+            color: var(--color-light) !important;
+            border: var(--border) !important;
+        }
+        
+        .option-btn:hover,
+        .option-btn.selected {
+            background: var(--color-accent) !important;
+            color: var(--color-light) !important;
+            border-color: var(--color-accent) !important;
+        }
+        
+        .btn-primary {
+            background: var(--color-accent) !important;
+            color: var(--color-light) !important;
+        }
+        
+        .btn-secondary {
+            background: transparent !important;
+            color: var(--color-light) !important;
+            border: var(--border) !important;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-accent) !important;
+            border-color: var(--color-accent) !important;
+            color: var(--color-light) !important;
+        }
+        
+        .feature-icon {
+            color: var(--color-accent) !important;
+        }
+        
+        .spec-value {
+            color: var(--color-light) !important;
+        }
+        
+        .related-product-card {
+            background: transparent !important;
+            border: var(--border) !important;
+        }
+        
+        .related-product-card:hover {
+            border-color: var(--color-accent) !important;
+        }
+    </style>
+</head>
+<body>
+    <div data-include="header"></div>
+
+    <main class="content" id="main-content" role="main">
+        <div class="product-detail-container">
+            <!-- Хлебные крошки -->
+            <nav class="breadcrumbs" aria-label="Навигационные хлебные крошки">
+                <a href="index.html">Главная</a> / 
+                <a href="catalog.html">Каталог</a> / 
+                <span id="breadcrumb-product">Товар</span>
+            </nav>
+
+            <!-- Основная информация о товаре -->
+            <div class="product-detail" id="product-detail">
+                <div class="loading">Загрузка товара...</div>
+            </div>
+
+            <!-- Похожие товары -->
+            <div class="related-products" id="related-products" style="display: none;">
+                <h2 class="related-title">Похожие товары</h2>
+                <div class="related-grid" id="related-grid">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/preloader.js"></script>
+    <script src="./scripts/accessibility.js"></script>
+    <script src="./scripts/cart.js"></script>
+    
+    <script>
+        // Глобальный обработчик ошибок
+        window.addEventListener('error', function(event) {
+            console.error('Global error:', event.error);
+            console.error('Error details:', event.filename, event.lineno, event.colno);
+        });
+        
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('Unhandled promise rejection:', event.reason);
+        });
+        
+        // Проверяем загрузку скриптов
+        console.log('Scripts loaded:');
+        console.log('- SneakerStoreAPI:', !!window.SneakerStoreAPI);
+        console.log('- Preloader:', !!window.Preloader);
+        console.log('- SneakerStoreCart:', !!window.SneakerStoreCart);
+        
+        let currentProduct = null;
+        let selectedSize = '';
+        let selectedColor = '';
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async function() {
+            let preloader = null;
+            
+            try {
+                console.log('Page loading started');
+                
+                // Инициализируем корзину
+                if (window.SneakerStoreCart) {
+                    console.log('Cart already initialized');
+                } else {
+                    console.log('Initializing cart...');
+                    // Инициализируем корзину через API клиент
+                    if (window.SneakerStoreAPI && window.SneakerStoreAPI.cartManager) {
+                        window.SneakerStoreCart = window.SneakerStoreAPI.cartManager;
+                        console.log('Cart initialized from API');
+                    } else if (window.SneakerStoreCart && window.SneakerStoreCart.cartManager) {
+                        console.log('Cart already available');
+                    } else {
+                        console.error('Cart API not available');
+                    }
+                }
+                
+                // Инициализируем прелоадер
+                if (window.Preloader) {
+                    console.log('Preloader class found, initializing...');
+                    preloader = new Preloader();
+                    await preloader.start();
+                    console.log('Preloader started');
+                } else {
+                    console.log('Preloader class not found, hiding loading element manually');
+                    // Скрываем элемент загрузки вручную
+                    const loadingElement = document.querySelector('.loading');
+                    console.log('Loading element found:', loadingElement);
+                    if (loadingElement) {
+                        console.log('Hiding loading element');
+                        loadingElement.style.display = 'none';
+                        console.log('Loading element display style:', loadingElement.style.display);
+                    } else {
+                        console.log('Loading element not found');
+                    }
+                    
+                    // Принудительно скрываем все возможные элементы загрузки
+                    const allPreloaders = document.querySelectorAll('#preloader, [class*="preloader"], [id*="preloader"]');
+                    console.log('All preloader elements found:', allPreloaders);
+                    allPreloaders.forEach(el => {
+                        console.log('Hiding preloader element:', el);
+                        el.style.display = 'none';
+                        el.classList.add('fade-out');
+                    });
+                }
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const productId = urlParams.get('id');
+                console.log('Product ID:', productId);
+                
+                if (productId) {
+                    await loadProduct(productId);
+                } else {
+                    showError('Товар не найден');
+                }
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                showError('Ошибка загрузки страницы');
+            } finally {
+                // Скрываем прелоадер после загрузки
+                if (preloader) {
+                    console.log('Stopping preloader...');
+                    await preloader.stop();
+                    console.log('Preloader stopped');
+                } else {
+                    console.log('No preloader to stop, ensuring loading element is hidden');
+                    // Убеждаемся, что элемент загрузки скрыт
+                    const loadingElement = document.querySelector('.loading');
+                    console.log('Finally - Loading element found:', loadingElement);
+                    if (loadingElement) {
+                        console.log('Finally - Hiding loading element');
+                        loadingElement.style.display = 'none';
+                        console.log('Finally - Loading element display style:', loadingElement.style.display);
+                    } else {
+                        console.log('Finally - Loading element not found');
+                    }
+                }
+            }
+        });
+
+        // Загрузка товара
+        async function loadProduct(productId) {
+            try {
+                console.log('Loading product with ID:', productId);
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get(`/products?id=${productId}`);
+                console.log('Product response:', response);
+                
+                if (response.success && response.data.length > 0) {
+                    currentProduct = response.data[0]; // Берем первый (и единственный) товар
+                    console.log('Product loaded:', currentProduct);
+                    
+                    try {
+                        displayProduct();
+                        console.log('Product displayed successfully');
+                    } catch (displayError) {
+                        console.error('Error displaying product:', displayError);
+                        showError('Ошибка отображения товара: ' + displayError.message);
+                    }
+                    
+                    try {
+                        loadRelatedProducts();
+                        console.log('Related products loaded successfully');
+                    } catch (relatedError) {
+                        console.error('Error loading related products:', relatedError);
+                        // Не критично, продолжаем
+                    }
+                } else {
+                    console.log('Product not found');
+                    showError('Товар не найден');
+                }
+            } catch (error) {
+                console.error('Error loading product:', error);
+                showError('Ошибка загрузки товара: ' + error.message);
+            }
+        }
+
+        // Отображение товара
+        function displayProduct() {
+            console.log('Displaying product:', currentProduct);
+            
+            // Принудительно скрываем все элементы прелоадера
+            const allPreloaders = document.querySelectorAll('#preloader, [class*="preloader"], [id*="preloader"]');
+            console.log('Force hiding all preloader elements:', allPreloaders.length);
+            allPreloaders.forEach(el => {
+                el.style.display = 'none';
+                el.classList.add('fade-out');
+            });
+            
+            const container = document.getElementById('product-detail');
+            console.log('Container found:', container);
+            
+            // Убеждаемся, что элемент загрузки скрыт
+            const loadingElement = container.querySelector('.loading');
+            console.log('Loading element in container:', loadingElement);
+            if (loadingElement) {
+                console.log('Hiding loading element in displayProduct');
+                loadingElement.style.display = 'none';
+            }
+            
+            const discount = currentProduct.originalPrice > currentProduct.price ? 
+                Math.round((1 - currentProduct.price / currentProduct.originalPrice) * 100) : 0;
+            
+            // Обновляем хлебные крошки
+            document.getElementById('breadcrumb-product').textContent = currentProduct.name;
+            
+            container.innerHTML = `
+                <div class="product-main">
+                    <div class="product-gallery">
+                        <div class="product-image-main">
+                            <img src="./images/catalogItem${(currentProduct.id % 6) + 1}.svg" alt="${currentProduct.name}" id="main-image">
+                        </div>
+                        <div class="product-thumbnails">
+                            ${currentProduct.images ? currentProduct.images.map((img, index) => `
+                                <div class="product-thumbnail ${index === 0 ? 'active' : ''}" onclick="changeMainImage('${img}')">
+                                    <img src="./images/catalogItem${(currentProduct.id % 6) + 1}.svg" alt="${currentProduct.name}">
+                                </div>
+                            `).join('') : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="product-info">
+                        <div class="product-brand">${currentProduct.brand}</div>
+                        <h1 class="product-title">${currentProduct.name}</h1>
+                        
+                        <div class="product-rating">
+                            <span class="rating-stars">${'★'.repeat(Math.floor(currentProduct.rating))}</span>
+                            <span class="rating-value">${currentProduct.rating}</span>
+                            <span class="rating-count">(${currentProduct.reviewsCount} отзывов)</span>
+                        </div>
+                        
+                        <div class="product-price">
+                            <span class="price-current">$${currentProduct.price}</span>
+                            ${currentProduct.originalPrice > currentProduct.price ? 
+                                `<span class="price-original">$${currentProduct.originalPrice}</span>` : ''
+                            }
+                            ${discount > 0 ? `<span class="price-discount">-${discount}%</span>` : ''}
+                        </div>
+                        
+                        <div class="product-description">
+                            ${currentProduct.description}
+                        </div>
+                        
+                        <div class="product-options">
+                            <div class="option-group">
+                                <div class="option-label">Размер:</div>
+                                <div class="option-buttons">
+                                    ${currentProduct.sizes.map(size => `
+                                        <button class="option-btn" onclick="selectSize('${size}')">${size}</button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <div class="option-group">
+                                <div class="option-label">Цвет:</div>
+                                <div class="option-buttons">
+                                    ${currentProduct.colors.map(color => `
+                                        <button class="option-btn" onclick="selectColor('${color}')">${color}</button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="addToCart()">
+                                ${currentProduct.inStock ? 'Добавить в корзину' : 'Нет в наличии'}
+                            </button>
+                        </div>
+                        
+                        <div class="product-features">
+                            <div class="feature-item">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <span class="feature-text">Высокое качество</span>
+                            </div>
+                            <div class="feature-item">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                <span class="feature-text">Оригинальная продукция</span>
+                            </div>
+                            <div class="feature-item">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 7h-8v6h8V7zm-2 4h-4V9h4v2zm4.5-9H15v2h6.5c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-13c-.83 0-1.5-.67-1.5-1.5v-11C2 2.67 2.67 2 3.5 2H10V0H3.5C1.57 0 0 1.57 0 3.5v11C0 16.43 1.57 18 3.5 18h13c1.93 0 3.5-1.57 3.5-3.5v-11C20 1.57 18.43 0 16.5 0z"/>
+                                </svg>
+                                <span class="feature-text">Быстрая доставка</span>
+                            </div>
+                            <div class="feature-item">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                <span class="feature-text">Гарантия качества</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-specs">
+                    <h3 class="specs-title">Характеристики</h3>
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <span class="spec-label">Бренд:</span>
+                            <span class="spec-value">${currentProduct.brand}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Модель:</span>
+                            <span class="spec-value">${currentProduct.model}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Категория:</span>
+                            <span class="spec-value">${currentProduct.category}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Пол:</span>
+                            <span class="spec-value">${currentProduct.gender}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Рейтинг:</span>
+                            <span class="spec-value">${currentProduct.rating} из 5</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Отзывы:</span>
+                            <span class="spec-value">${currentProduct.reviewsCount}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Наличие:</span>
+                            <span class="spec-value">${currentProduct.inStock ? 'В наличии' : 'Нет в наличии'}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Остаток:</span>
+                            <span class="spec-value">${currentProduct.stockQuantity} шт.</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Дата релиза:</span>
+                            <span class="spec-value">${new Date(currentProduct.releaseDate).toLocaleDateString()}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Теги:</span>
+                            <span class="spec-value">${currentProduct.tags.join(', ')}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Загрузка похожих товаров
+        async function loadRelatedProducts() {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get('/products', {
+                    brand: currentProduct.brand,
+                    _limit: 4
+                });
+                
+                if (response.success && response.data.length > 1) {
+                    const relatedProducts = response.data.filter(p => p.id !== currentProduct.id).slice(0, 3);
+                    displayRelatedProducts(relatedProducts);
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки похожих товаров:', error);
+            }
+        }
+
+        // Отображение похожих товаров
+        function displayRelatedProducts(products) {
+            const container = document.getElementById('related-grid');
+            container.innerHTML = products.map(product => `
+                <div class="related-card" onclick="openProduct(${product.id})">
+                    <div class="related-image">
+                        <img src="./images/catalogItem${(product.id % 6) + 1}.svg" alt="${product.name}">
+                    </div>
+                    <div class="related-info">
+                        <div class="related-name">${product.name}</div>
+                        <div class="related-price">$${product.price}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('related-products').style.display = 'block';
+        }
+
+        // Смена главного изображения
+        function changeMainImage(imageSrc) {
+            document.getElementById('main-image').src = imageSrc;
+            
+            // Обновляем активную миниатюру
+            document.querySelectorAll('.product-thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            event.target.closest('.product-thumbnail').classList.add('active');
+        }
+
+        // Выбор размера
+        function selectSize(size) {
+            selectedSize = size;
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                if (btn.textContent === size) {
+                    btn.classList.add('selected');
+                } else if (btn.textContent.match(/^\d+$/)) {
+                    btn.classList.remove('selected');
+                }
+            });
+        }
+
+        // Выбор цвета
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                if (btn.textContent === color) {
+                    btn.classList.add('selected');
+                } else if (!btn.textContent.match(/^\d+$/)) {
+                    btn.classList.remove('selected');
+                }
+            });
+        }
+
+        // Добавление в корзину
+        async function addToCart() {
+            const preloader = window.Preloader ? new Preloader() : null;
+            
+            if (!currentProduct.inStock) {
+                if (preloader) {
+                    preloader.showMessage('Товар временно недоступен', 3000, 'error');
+                } else {
+                    alert('Товар временно недоступен');
+                }
+                return;
+            }
+            
+            if (!selectedSize) {
+                if (preloader) {
+                    preloader.showMessage('Пожалуйста, выберите размер', 3000, 'error');
+                } else {
+                    alert('Пожалуйста, выберите размер');
+                }
+                return;
+            }
+            
+            try {
+                if (preloader) await preloader.start();
+                
+                // Проверяем наличие корзины
+                if (!window.SneakerStoreCart) {
+                    throw new Error('Корзина не инициализирована');
+                }
+                
+                const result = await window.SneakerStoreCart.addItem(
+                    currentProduct.id, 
+                    selectedSize, 
+                    selectedColor || 'Default', 
+                    1
+                );
+                
+                if (preloader) await preloader.stop();
+                
+                if (result.success) {
+                    if (preloader) {
+                        preloader.showMessage('Товар добавлен в корзину!', 2000);
+                    } else {
+                        alert('Товар добавлен в корзину!');
+                    }
+                    
+                    // Анимация добавления в корзину
+                    const button = event?.target;
+                    if (button && window.SneakerStoreCart.cartManager) {
+                        window.SneakerStoreCart.cartManager.animateAddToCart(button);
+                    }
+                } else {
+                    if (preloader) {
+                        preloader.showMessage(result.error, 3000, 'error');
+                    } else {
+                        alert(result.error);
+                    }
+                }
+            } catch (error) {
+                if (preloader) await preloader.stop();
+                console.error('Error adding to cart:', error);
+                if (preloader) {
+                    preloader.showMessage('Ошибка добавления в корзину: ' + error.message, 3000, 'error');
+                } else {
+                    alert('Ошибка добавления в корзину: ' + error.message);
+                }
+            }
+        }
+
+
+        // Открытие товара
+        function openProduct(productId) {
+            window.location.href = `product-detail.html?id=${productId}`;
+        }
+
+        // Показ ошибок
+        function showError(message) {
+            const container = document.getElementById('product-detail');
+            container.innerHTML = `
+                <div class="error">
+                    <h3>Ошибка</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

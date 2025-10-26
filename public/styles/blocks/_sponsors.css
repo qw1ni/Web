@@ -1,0 +1,18 @@
+.sponsors {
+    padding-top: var(--section-padding-y);
+}
+
+.sponsors__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sponsors__list {
+    display: flex;
+    align-items: center;
+    column-gap: 80px;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 40px;
+}

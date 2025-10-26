@@ -1,0 +1,226 @@
+/**
+ * Accessibility Styles
+ * Clean implementation for accessibility features
+ */
+
+/* Font Size Classes */
+.font-size-small {
+    font-size: 12px !important;
+}
+
+.font-size-small * {
+    font-size: inherit !important;
+}
+
+.font-size-medium {
+    font-size: 14px !important;
+}
+
+.font-size-medium * {
+    font-size: inherit !important;
+}
+
+.font-size-large {
+    font-size: 16px !important;
+}
+
+.font-size-large * {
+    font-size: inherit !important;
+}
+
+.font-size-extra-large {
+    font-size: 18px !important;
+}
+
+.font-size-extra-large * {
+    font-size: inherit !important;
+}
+
+/* Color Scheme Classes */
+.color-scheme-black-white {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.color-scheme-black-white * {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+.color-scheme-black-green {
+    background-color: #000000 !important;
+    color: #00ff00 !important;
+}
+
+.color-scheme-black-green * {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+.color-scheme-white-black {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.color-scheme-white-black * {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+.color-scheme-beige-brown {
+    background-color: #f5f5dc !important;
+    color: #8b4513 !important;
+}
+
+.color-scheme-beige-brown * {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+.color-scheme-blue-darkblue {
+    background-color: #add8e6 !important;
+    color: #000080 !important;
+}
+
+.color-scheme-blue-darkblue * {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+/* High Contrast */
+.high-contrast {
+    filter: contrast(150%) brightness(120%) !important;
+}
+
+.high-contrast * {
+    filter: inherit !important;
+}
+
+/* Hide Images */
+.hide-images img {
+    display: none !important;
+}
+
+.hide-images::before {
+    content: "Изображение скрыто для доступности";
+    display: block;
+    padding: 10px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+    font-style: italic;
+    color: #666;
+}
+
+/* Disable Animations */
+.disable-animations *,
+.disable-animations *::before,
+.disable-animations *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+}
+
+/* Accessibility Panel */
+.accessibility-panel {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.accessibility-panel h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.accessibility-panel label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.accessibility-panel select,
+.accessibility-panel input[type="checkbox"] {
+    margin-bottom: 10px;
+}
+
+.accessibility-panel button {
+    margin-top: 10px;
+}
+
+/* Focus Styles for Accessibility */
+.theme-toggle:focus,
+.lang-toggle:focus,
+.reset-preferences:focus,
+.accessibility-toggle:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Screen Reader Only Text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Skip Links */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 10000;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* High Contrast Focus */
+.high-contrast .theme-toggle:focus,
+.high-contrast .lang-toggle:focus,
+.high-contrast .reset-preferences:focus,
+.high-contrast .accessibility-toggle:focus {
+    outline: 3px solid #ffff00;
+    outline-offset: 3px;
+}
+
+/* Responsive Accessibility */
+@media (max-width: 768px) {
+    .accessibility-panel {
+        width: 280px;
+        right: 10px;
+    }
+    
+    .accessibility-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        top: 15px;
+        right: 15px;
+    }
+}
+
+/* Print Styles for Accessibility */
+@media print {
+    .accessibility-toggle,
+    .accessibility-panel {
+        display: none !important;
+    }
+    
+    .theme-toggle,
+    .lang-toggle,
+    .reset-preferences {
+        display: none !important;
+    }
+}
