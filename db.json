@@ -1,0 +1,2018 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "john.doe@example.com",
+      "password": "password123",
+      "firstName": "John",
+      "lastName": "Doe",
+      "phone": "+1-555-0123",
+      "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zipCode": "10001",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "customer",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "lastLogin": "2025-10-18T10:35:23.672Z"
+    },
+    {
+      "id": "2",
+      "email": "jane.smith@example.com",
+      "password": "password123",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "phone": "+1-555-0124",
+      "address": {
+        "street": "456 Oak Ave",
+        "city": "Los Angeles",
+        "state": "CA",
+        "zipCode": "90210",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "customer",
+      "createdAt": "2024-01-10T08:15:00Z",
+      "lastLogin": "2024-01-19T16:45:00Z"
+    },
+    {
+      "id": "3",
+      "email": "mike.johnson@example.com",
+      "password": "password123",
+      "firstName": "Mike",
+      "lastName": "Johnson",
+      "phone": "+1-555-0125",
+      "address": {
+        "street": "789 Pine St",
+        "city": "Chicago",
+        "state": "IL",
+        "zipCode": "60601",
+        "country": "USA"
+      },
+      "isAdmin": true,
+      "role": "admin",
+      "createdAt": "2024-01-05T12:00:00Z",
+      "lastLogin": "2025-10-18T10:38:37.252Z"
+    },
+    {
+      "id": "4",
+      "email": "sarah.wilson@example.com",
+      "password": "password123",
+      "firstName": "Sarah",
+      "lastName": "Wilson",
+      "phone": "+1-555-0126",
+      "address": {
+        "street": "321 Elm St",
+        "city": "Miami",
+        "state": "FL",
+        "zipCode": "33101",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "manager",
+      "createdAt": "2024-01-12T15:20:00Z",
+      "lastLogin": "2024-01-18T11:15:00Z"
+    },
+    {
+      "id": "5",
+      "email": "david.brown@example.com",
+      "password": "password123",
+      "firstName": "David",
+      "lastName": "Brown",
+      "phone": "+1-555-0127",
+      "address": {
+        "street": "654 Maple Dr",
+        "city": "Seattle",
+        "state": "WA",
+        "zipCode": "98101",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "customer",
+      "createdAt": "2024-01-08T14:45:00Z",
+      "lastLogin": "2024-01-17T13:20:00Z"
+    },
+    {
+      "id": "6",
+      "email": "lisa.garcia@example.com",
+      "password": "password123",
+      "firstName": "Lisa",
+      "lastName": "Garcia",
+      "phone": "+1-555-0128",
+      "address": {
+        "street": "987 Cedar Ln",
+        "city": "Austin",
+        "state": "TX",
+        "zipCode": "73301",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "customer",
+      "createdAt": "2024-01-14T11:30:00Z",
+      "lastLogin": "2024-01-20T10:45:00Z"
+    },
+    {
+      "id": "7",
+      "email": "alex.martinez@example.com",
+      "password": "password123",
+      "firstName": "Alex",
+      "lastName": "Martinez",
+      "phone": "+1-555-0129",
+      "address": {
+        "street": "147 Birch St",
+        "city": "Denver",
+        "state": "CO",
+        "zipCode": "80201",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "customer",
+      "createdAt": "2024-01-11T16:10:00Z",
+      "lastLogin": "2025-10-18T09:47:00.465Z"
+    },
+    {
+      "id": "8",
+      "email": "emma.davis@example.com",
+      "password": "password123",
+      "firstName": "Emma",
+      "lastName": "Davis",
+      "phone": "+1-555-0130",
+      "address": {
+        "street": "258 Spruce Ave",
+        "city": "Portland",
+        "state": "OR",
+        "zipCode": "97201",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "customer",
+      "createdAt": "2024-01-13T09:25:00Z",
+      "lastLogin": "2024-01-21T15:10:00Z"
+    },
+    {
+      "id": "9",
+      "email": "chris.anderson@example.com",
+      "password": "password123",
+      "firstName": "Chris",
+      "lastName": "Anderson",
+      "phone": "+1-555-0131",
+      "address": {
+        "street": "369 Willow Way",
+        "city": "Boston",
+        "state": "MA",
+        "zipCode": "02101",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "customer",
+      "createdAt": "2024-01-09T13:40:00Z",
+      "lastLogin": "2024-01-16T12:55:00Z"
+    },
+    {
+      "id": "10",
+      "email": "olivia.taylor@example.com",
+      "password": "password123",
+      "firstName": "Olivia",
+      "lastName": "Taylor",
+      "phone": "+1-555-0132",
+      "address": {
+        "street": "741 Poplar Blvd",
+        "city": "Phoenix",
+        "state": "AZ",
+        "zipCode": "85001",
+        "country": "USA"
+      },
+      "isAdmin": false,
+      "role": "customer",
+      "createdAt": "2024-01-07T10:15:00Z",
+      "lastLogin": "2024-01-18T17:25:00Z"
+    },
+    {
+      "id": "7e12",
+      "firstName": "Adam",
+      "lastName": "Smith",
+      "middleName": "",
+      "nickname": "strongadamsmith674",
+      "phone": "+375 33 614 62 23",
+      "email": "morganizwd@gmail.com",
+      "birthdate": "2004-10-30",
+      "password": "cR*5gRluAkhQ",
+      "terms": null,
+      "role": "customer",
+      "isAdmin": false,
+      "address": {
+        "street": "",
+        "city": "",
+        "state": "",
+        "zipCode": "",
+        "country": "Belarus"
+      },
+      "createdAt": "2025-10-18T09:39:11.756Z",
+      "lastLogin": "2025-10-18T09:39:24.038Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Air Jordan 1 Retro High OG",
+      "brand": "Jordan",
+      "model": "Air Jordan 1",
+      "price": 170,
+      "originalPrice": 200,
+      "discount": 15,
+      "category": "Basketball",
+      "gender": "Unisex",
+      "sizes": [
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black/White",
+        "Red/White",
+        "Blue/White"
+      ],
+      "description": "The Air Jordan 1 Retro High OG brings back the classic silhouette with premium materials and original colorways.",
+      "images": [
+        "jordan1-black.jpg",
+        "jordan1-red.jpg",
+        "jordan1-blue.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 25,
+      "rating": 4.8,
+      "reviewsCount": 1247,
+      "tags": [
+        "basketball",
+        "retro",
+        "classic",
+        "high-top"
+      ],
+      "releaseDate": "2024-01-15",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "name": "Nike Air Max 270",
+      "brand": "Nike",
+      "model": "Air Max 270",
+      "price": 150,
+      "originalPrice": 150,
+      "discount": 0,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White/Black",
+        "Black/White",
+        "Blue/White"
+      ],
+      "description": "The Nike Air Max 270 delivers visible cushioning under every step with the brand's largest heel Air unit.",
+      "images": [
+        "airmax270-white.jpg",
+        "airmax270-black.jpg",
+        "airmax270-blue.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 40,
+      "rating": 4.6,
+      "reviewsCount": 892,
+      "tags": [
+        "lifestyle",
+        "comfort",
+        "air-max",
+        "casual"
+      ],
+      "releaseDate": "2024-01-10",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "3",
+      "name": "Adidas Ultraboost 22",
+      "brand": "Adidas",
+      "model": "Ultraboost 22",
+      "price": 180,
+      "originalPrice": 200,
+      "discount": 10,
+      "category": "Running",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Blue",
+        "Red"
+      ],
+      "description": "The Adidas Ultraboost 22 features responsive Boost midsole and Primeknit+ upper for ultimate comfort.",
+      "images": [
+        "ultraboost22-white.jpg",
+        "ultraboost22-black.jpg",
+        "ultraboost22-blue.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 35,
+      "rating": 4.7,
+      "reviewsCount": 1156,
+      "tags": [
+        "running",
+        "boost",
+        "comfort",
+        "performance"
+      ],
+      "releaseDate": "2024-01-05",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "4",
+      "name": "Converse Chuck Taylor All Star",
+      "brand": "Converse",
+      "model": "Chuck Taylor All Star",
+      "price": 65,
+      "originalPrice": 70,
+      "discount": 7,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black",
+        "White",
+        "Red",
+        "Blue",
+        "Green"
+      ],
+      "description": "The classic Converse Chuck Taylor All Star high-top sneaker that never goes out of style.",
+      "images": [
+        "chucktaylor-black.jpg",
+        "chucktaylor-white.jpg",
+        "chucktaylor-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 60,
+      "rating": 4.5,
+      "reviewsCount": 2341,
+      "tags": [
+        "classic",
+        "canvas",
+        "high-top",
+        "timeless"
+      ],
+      "releaseDate": "2024-01-01",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "5",
+      "name": "Puma RS-X Reinvention",
+      "brand": "Puma",
+      "model": "RS-X Reinvention",
+      "price": 120,
+      "originalPrice": 140,
+      "discount": 14,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black/White",
+        "White/Black",
+        "Blue/White"
+      ],
+      "description": "The Puma RS-X Reinvention combines retro styling with modern comfort and bold design elements.",
+      "images": [
+        "rsx-black.jpg",
+        "rsx-white.jpg",
+        "rsx-blue.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 30,
+      "rating": 4.4,
+      "reviewsCount": 567,
+      "tags": [
+        "retro",
+        "lifestyle",
+        "bold",
+        "comfortable"
+      ],
+      "releaseDate": "2024-01-12",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "6",
+      "name": "New Balance 990v5",
+      "brand": "New Balance",
+      "model": "990v5",
+      "price": 185,
+      "originalPrice": 185,
+      "discount": 0,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Grey",
+        "Black",
+        "Navy",
+        "White"
+      ],
+      "description": "The New Balance 990v5 offers premium materials and superior comfort with a classic silhouette.",
+      "images": [
+        "990v5-grey.jpg",
+        "990v5-black.jpg",
+        "990v5-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 20,
+      "rating": 4.9,
+      "reviewsCount": 743,
+      "tags": [
+        "premium",
+        "comfort",
+        "classic",
+        "made-in-usa"
+      ],
+      "releaseDate": "2024-01-08",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "7",
+      "name": "Vans Old Skool",
+      "brand": "Vans",
+      "model": "Old Skool",
+      "price": 70,
+      "originalPrice": 75,
+      "discount": 7,
+      "category": "Skateboarding",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black/White",
+        "White/Black",
+        "Red/White",
+        "Blue/White"
+      ],
+      "description": "The iconic Vans Old Skool features the signature side stripe and durable construction for skateboarding.",
+      "images": [
+        "oldskool-black.jpg",
+        "oldskool-white.jpg",
+        "oldskool-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 45,
+      "rating": 4.6,
+      "reviewsCount": 1892,
+      "tags": [
+        "skateboarding",
+        "classic",
+        "durable",
+        "iconic"
+      ],
+      "releaseDate": "2024-01-03",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "8",
+      "name": "Reebok Classic Leather",
+      "brand": "Reebok",
+      "model": "Classic Leather",
+      "price": 80,
+      "originalPrice": 90,
+      "discount": 11,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The Reebok Classic Leather delivers timeless style with premium leather construction and comfort.",
+      "images": [
+        "classicleather-white.jpg",
+        "classicleather-black.jpg",
+        "classicleather-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 35,
+      "rating": 4.3,
+      "reviewsCount": 678,
+      "tags": [
+        "leather",
+        "classic",
+        "comfortable",
+        "timeless"
+      ],
+      "releaseDate": "2024-01-06",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "9",
+      "name": "Nike Dunk Low",
+      "brand": "Nike",
+      "model": "Dunk Low",
+      "price": 110,
+      "originalPrice": 120,
+      "discount": 8,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White/Black",
+        "Black/White",
+        "Red/White",
+        "Blue/White"
+      ],
+      "description": "The Nike Dunk Low brings back the classic basketball silhouette with modern materials and colorways.",
+      "images": [
+        "dunklow-white.jpg",
+        "dunklow-black.jpg",
+        "dunklow-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 28,
+      "rating": 4.7,
+      "reviewsCount": 1456,
+      "tags": [
+        "basketball",
+        "retro",
+        "low-top",
+        "classic"
+      ],
+      "releaseDate": "2024-01-11",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "10",
+      "name": "Adidas Stan Smith",
+      "brand": "Adidas",
+      "model": "Stan Smith",
+      "price": 85,
+      "originalPrice": 95,
+      "discount": 11,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White/Green",
+        "White/Black",
+        "White/Red",
+        "White/Blue"
+      ],
+      "description": "The iconic Adidas Stan Smith tennis shoe features clean design and premium leather construction.",
+      "images": [
+        "stansmith-green.jpg",
+        "stansmith-black.jpg",
+        "stansmith-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 50,
+      "rating": 4.5,
+      "reviewsCount": 2134,
+      "tags": [
+        "tennis",
+        "classic",
+        "leather",
+        "clean"
+      ],
+      "releaseDate": "2024-01-04",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "11",
+      "name": "Air Jordan 4 Retro",
+      "brand": "Jordan",
+      "model": "Air Jordan 4",
+      "price": 200,
+      "originalPrice": 220,
+      "discount": 9,
+      "category": "Basketball",
+      "gender": "Unisex",
+      "sizes": [
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black/Cement",
+        "White/Cement",
+        "Red/Cement"
+      ],
+      "description": "The Air Jordan 4 Retro features the iconic design with visible Air-Sole unit and premium materials.",
+      "images": [
+        "jordan4-black.jpg",
+        "jordan4-white.jpg",
+        "jordan4-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 15,
+      "rating": 4.8,
+      "reviewsCount": 987,
+      "tags": [
+        "basketball",
+        "retro",
+        "jordan",
+        "premium"
+      ],
+      "releaseDate": "2024-01-14",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "12",
+      "name": "Nike Air Force 1 '07",
+      "brand": "Nike",
+      "model": "Air Force 1 '07",
+      "price": 90,
+      "originalPrice": 100,
+      "discount": 10,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The Nike Air Force 1 '07 delivers the classic basketball silhouette with modern comfort and style.",
+      "images": [
+        "af1-white.jpg",
+        "af1-black.jpg",
+        "af1-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 55,
+      "rating": 4.6,
+      "reviewsCount": 1876,
+      "tags": [
+        "basketball",
+        "classic",
+        "white",
+        "versatile"
+      ],
+      "releaseDate": "2024-01-02",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "13",
+      "name": "Puma Suede Classic",
+      "brand": "Puma",
+      "model": "Suede Classic",
+      "price": 75,
+      "originalPrice": 85,
+      "discount": 12,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black",
+        "White",
+        "Red",
+        "Blue",
+        "Green"
+      ],
+      "description": "The Puma Suede Classic features premium suede construction and timeless design for everyday wear.",
+      "images": [
+        "suede-black.jpg",
+        "suede-white.jpg",
+        "suede-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 40,
+      "rating": 4.4,
+      "reviewsCount": 1234,
+      "tags": [
+        "suede",
+        "classic",
+        "comfortable",
+        "versatile"
+      ],
+      "releaseDate": "2024-01-09",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "14",
+      "name": "Converse One Star",
+      "brand": "Converse",
+      "model": "One Star",
+      "price": 70,
+      "originalPrice": 80,
+      "discount": 13,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black",
+        "White",
+        "Red",
+        "Blue"
+      ],
+      "description": "The Converse One Star features the iconic star logo and premium suede construction for a classic look.",
+      "images": [
+        "onestar-black.jpg",
+        "onestar-white.jpg",
+        "onestar-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 32,
+      "rating": 4.3,
+      "reviewsCount": 756,
+      "tags": [
+        "suede",
+        "star",
+        "classic",
+        "retro"
+      ],
+      "releaseDate": "2024-01-07",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "15",
+      "name": "New Balance 574",
+      "brand": "New Balance",
+      "model": "574",
+      "price": 80,
+      "originalPrice": 90,
+      "discount": 11,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Grey",
+        "Black",
+        "Navy",
+        "White"
+      ],
+      "description": "The New Balance 574 offers classic style with modern comfort and versatile design for everyday wear.",
+      "images": [
+        "574-grey.jpg",
+        "574-black.jpg",
+        "574-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 38,
+      "rating": 4.5,
+      "reviewsCount": 1456,
+      "tags": [
+        "classic",
+        "comfortable",
+        "versatile",
+        "retro"
+      ],
+      "releaseDate": "2024-01-13",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "16",
+      "name": "Vans Authentic",
+      "brand": "Vans",
+      "model": "Authentic",
+      "price": 60,
+      "originalPrice": 65,
+      "discount": 8,
+      "category": "Skateboarding",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black",
+        "White",
+        "Red",
+        "Blue",
+        "Green"
+      ],
+      "description": "The Vans Authentic is the original skate shoe with canvas upper and vulcanized sole for board feel.",
+      "images": [
+        "authentic-black.jpg",
+        "authentic-white.jpg",
+        "authentic-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 48,
+      "rating": 4.4,
+      "reviewsCount": 1678,
+      "tags": [
+        "skateboarding",
+        "canvas",
+        "classic",
+        "durable"
+      ],
+      "releaseDate": "2024-01-01",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "17",
+      "name": "Reebok Club C 85",
+      "brand": "Reebok",
+      "model": "Club C 85",
+      "price": 70,
+      "originalPrice": 80,
+      "discount": 13,
+      "category": "Tennis",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The Reebok Club C 85 delivers classic tennis court style with premium leather and comfort.",
+      "images": [
+        "clubc85-white.jpg",
+        "clubc85-black.jpg",
+        "clubc85-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 25,
+      "rating": 4.2,
+      "reviewsCount": 634,
+      "tags": [
+        "tennis",
+        "leather",
+        "classic",
+        "comfortable"
+      ],
+      "releaseDate": "2024-01-16",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "18",
+      "name": "Nike Blazer Mid '77",
+      "brand": "Nike",
+      "model": "Blazer Mid '77",
+      "price": 85,
+      "originalPrice": 95,
+      "discount": 11,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White/Black",
+        "Black/White",
+        "Red/White"
+      ],
+      "description": "The Nike Blazer Mid '77 brings back the classic basketball silhouette with modern materials and comfort.",
+      "images": [
+        "blazer-white.jpg",
+        "blazer-black.jpg",
+        "blazer-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 33,
+      "rating": 4.5,
+      "reviewsCount": 1123,
+      "tags": [
+        "basketball",
+        "retro",
+        "mid-top",
+        "classic"
+      ],
+      "releaseDate": "2024-01-17",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "19",
+      "name": "Adidas Gazelle",
+      "brand": "Adidas",
+      "model": "Gazelle",
+      "price": 90,
+      "originalPrice": 100,
+      "discount": 10,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red",
+        "Green"
+      ],
+      "description": "The Adidas Gazelle features premium suede construction and classic three-stripe design for timeless style.",
+      "images": [
+        "gazelle-white.jpg",
+        "gazelle-black.jpg",
+        "gazelle-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 42,
+      "rating": 4.6,
+      "reviewsCount": 1345,
+      "tags": [
+        "suede",
+        "classic",
+        "three-stripe",
+        "timeless"
+      ],
+      "releaseDate": "2024-01-18",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "20",
+      "name": "Puma Cali Sport",
+      "brand": "Puma",
+      "model": "Cali Sport",
+      "price": 95,
+      "originalPrice": 110,
+      "discount": 14,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The Puma Cali Sport combines retro styling with modern comfort and bold design elements.",
+      "images": [
+        "cali-white.jpg",
+        "cali-black.jpg",
+        "cali-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 28,
+      "rating": 4.3,
+      "reviewsCount": 789,
+      "tags": [
+        "retro",
+        "lifestyle",
+        "comfortable",
+        "bold"
+      ],
+      "releaseDate": "2024-01-19",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "21",
+      "name": "Air Jordan 3 Retro",
+      "brand": "Jordan",
+      "model": "Air Jordan 3",
+      "price": 190,
+      "originalPrice": 210,
+      "discount": 10,
+      "category": "Basketball",
+      "gender": "Unisex",
+      "sizes": [
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White/Cement",
+        "Black/Cement",
+        "Red/Cement"
+      ],
+      "description": "The Air Jordan 3 Retro features the iconic elephant print and visible Air-Sole unit for premium comfort.",
+      "images": [
+        "jordan3-white.jpg",
+        "jordan3-black.jpg",
+        "jordan3-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 18,
+      "rating": 4.9,
+      "reviewsCount": 1156,
+      "tags": [
+        "basketball",
+        "retro",
+        "jordan",
+        "elephant-print"
+      ],
+      "releaseDate": "2024-01-20",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "22",
+      "name": "Nike React Element 55",
+      "brand": "Nike",
+      "model": "React Element 55",
+      "price": 130,
+      "originalPrice": 140,
+      "discount": 7,
+      "category": "Running",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The Nike React Element 55 delivers responsive cushioning and futuristic design for modern runners.",
+      "images": [
+        "react55-white.jpg",
+        "react55-black.jpg",
+        "react55-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 22,
+      "rating": 4.4,
+      "reviewsCount": 678,
+      "tags": [
+        "running",
+        "react",
+        "futuristic",
+        "comfortable"
+      ],
+      "releaseDate": "2024-01-21",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "23",
+      "name": "Converse Pro Leather",
+      "brand": "Converse",
+      "model": "Pro Leather",
+      "price": 85,
+      "originalPrice": 95,
+      "discount": 11,
+      "category": "Basketball",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Red",
+        "Blue"
+      ],
+      "description": "The Converse Pro Leather delivers classic basketball styling with premium leather construction.",
+      "images": [
+        "proleather-white.jpg",
+        "proleather-black.jpg",
+        "proleather-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 26,
+      "rating": 4.2,
+      "reviewsCount": 445,
+      "tags": [
+        "basketball",
+        "leather",
+        "classic",
+        "retro"
+      ],
+      "releaseDate": "2024-01-22",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "24",
+      "name": "New Balance 327",
+      "brand": "New Balance",
+      "model": "327",
+      "price": 100,
+      "originalPrice": 110,
+      "discount": 9,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The New Balance 327 features retro-inspired design with modern comfort and premium materials.",
+      "images": [
+        "327-white.jpg",
+        "327-black.jpg",
+        "327-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 31,
+      "rating": 4.5,
+      "reviewsCount": 892,
+      "tags": [
+        "retro",
+        "lifestyle",
+        "comfortable",
+        "premium"
+      ],
+      "releaseDate": "2024-01-23",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "25",
+      "name": "Vans Sk8-Hi",
+      "brand": "Vans",
+      "model": "Sk8-Hi",
+      "price": 75,
+      "originalPrice": 85,
+      "discount": 12,
+      "category": "Skateboarding",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Black/White",
+        "White/Black",
+        "Red/White",
+        "Blue/White"
+      ],
+      "description": "The Vans Sk8-Hi features high-top design with signature side stripe for skateboarding and lifestyle wear.",
+      "images": [
+        "sk8hi-black.jpg",
+        "sk8hi-white.jpg",
+        "sk8hi-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 37,
+      "rating": 4.6,
+      "reviewsCount": 1456,
+      "tags": [
+        "skateboarding",
+        "high-top",
+        "classic",
+        "durable"
+      ],
+      "releaseDate": "2024-01-24",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "26",
+      "name": "Reebok Workout Plus",
+      "brand": "Reebok",
+      "model": "Workout Plus",
+      "price": 65,
+      "originalPrice": 75,
+      "discount": 13,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The Reebok Workout Plus delivers classic athletic styling with modern comfort and versatility.",
+      "images": [
+        "workout-white.jpg",
+        "workout-black.jpg",
+        "workout-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 29,
+      "rating": 4.1,
+      "reviewsCount": 567,
+      "tags": [
+        "athletic",
+        "classic",
+        "comfortable",
+        "versatile"
+      ],
+      "releaseDate": "2024-01-25",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "27",
+      "name": "Nike Air Max 90",
+      "brand": "Nike",
+      "model": "Air Max 90",
+      "price": 120,
+      "originalPrice": 130,
+      "discount": 8,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The Nike Air Max 90 features visible Air-Sole unit and classic design for ultimate comfort and style.",
+      "images": [
+        "airmax90-white.jpg",
+        "airmax90-black.jpg",
+        "airmax90-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 34,
+      "rating": 4.7,
+      "reviewsCount": 1789,
+      "tags": [
+        "air-max",
+        "classic",
+        "comfortable",
+        "visible-air"
+      ],
+      "releaseDate": "2024-01-26",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "28",
+      "name": "Adidas Originals Superstar",
+      "brand": "Adidas",
+      "model": "Superstar",
+      "price": 90,
+      "originalPrice": 100,
+      "discount": 10,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White/Black",
+        "Black/White",
+        "Red/White",
+        "Blue/White"
+      ],
+      "description": "The Adidas Originals Superstar features the iconic shell toe and three-stripe design for timeless style.",
+      "images": [
+        "superstar-white.jpg",
+        "superstar-black.jpg",
+        "superstar-red.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 46,
+      "rating": 4.5,
+      "reviewsCount": 2134,
+      "tags": [
+        "shell-toe",
+        "classic",
+        "three-stripe",
+        "iconic"
+      ],
+      "releaseDate": "2024-01-27",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "29",
+      "name": "Puma Thunder Spectra",
+      "brand": "Puma",
+      "model": "Thunder Spectra",
+      "price": 110,
+      "originalPrice": 125,
+      "discount": 12,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "White",
+        "Black",
+        "Navy",
+        "Red"
+      ],
+      "description": "The Puma Thunder Spectra combines retro styling with modern comfort and bold design elements.",
+      "images": [
+        "thunder-white.jpg",
+        "thunder-black.jpg",
+        "thunder-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 23,
+      "rating": 4.4,
+      "reviewsCount": 789,
+      "tags": [
+        "retro",
+        "lifestyle",
+        "bold",
+        "comfortable"
+      ],
+      "releaseDate": "2024-01-28",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "30",
+      "name": "New Balance 997H",
+      "brand": "New Balance",
+      "model": "997H",
+      "price": 95,
+      "originalPrice": 105,
+      "discount": 10,
+      "category": "Lifestyle",
+      "gender": "Unisex",
+      "sizes": [
+        "6",
+        "6.5",
+        "7",
+        "7.5",
+        "8",
+        "8.5",
+        "9",
+        "9.5",
+        "10",
+        "10.5",
+        "11",
+        "11.5",
+        "12"
+      ],
+      "colors": [
+        "Grey",
+        "Black",
+        "Navy",
+        "White"
+      ],
+      "description": "The New Balance 997H offers premium materials and superior comfort with a modern silhouette.",
+      "images": [
+        "997h-grey.jpg",
+        "997h-black.jpg",
+        "997h-navy.jpg"
+      ],
+      "inStock": true,
+      "stockQuantity": 27,
+      "rating": 4.6,
+      "reviewsCount": 1023,
+      "tags": [
+        "premium",
+        "comfortable",
+        "modern",
+        "quality"
+      ],
+      "releaseDate": "2024-01-29",
+      "createdAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "carts": [
+    {
+      "id": "1",
+      "userId": 1,
+      "items": [
+        {
+          "productId": 1,
+          "quantity": 1,
+          "size": "9",
+          "color": "Black/White",
+          "price": 170
+        },
+        {
+          "productId": 3,
+          "quantity": 2,
+          "size": "9.5",
+          "color": "White",
+          "price": 180
+        }
+      ],
+      "total": 530,
+      "createdAt": "2024-01-20T14:22:00Z",
+      "updatedAt": "2024-01-20T14:22:00Z"
+    },
+    {
+      "id": "2",
+      "userId": 2,
+      "items": [
+        {
+          "productId": 2,
+          "quantity": 1,
+          "size": "8",
+          "color": "White/Black",
+          "price": 150
+        },
+        {
+          "productId": 4,
+          "quantity": 1,
+          "size": "8.5",
+          "color": "Black",
+          "price": 65
+        },
+        {
+          "productId": 6,
+          "quantity": 1,
+          "size": "8",
+          "color": "Grey",
+          "price": 185
+        }
+      ],
+      "total": 400,
+      "createdAt": "2024-01-19T16:45:00Z",
+      "updatedAt": "2024-01-19T16:45:00Z"
+    },
+    {
+      "id": "3",
+      "userId": 3,
+      "items": [
+        {
+          "productId": 11,
+          "quantity": 1,
+          "size": "10",
+          "color": "Black/Cement",
+          "price": 200
+        },
+        {
+          "productId": 21,
+          "quantity": 1,
+          "size": "10.5",
+          "color": "White/Cement",
+          "price": 190
+        }
+      ],
+      "total": 390,
+      "createdAt": "2024-01-21T09:30:00Z",
+      "updatedAt": "2024-01-21T09:30:00Z"
+    },
+    {
+      "id": "4",
+      "userId": 4,
+      "items": [
+        {
+          "productId": 7,
+          "quantity": 1,
+          "size": "7",
+          "color": "Black/White",
+          "price": 70
+        },
+        {
+          "productId": 16,
+          "quantity": 2,
+          "size": "7.5",
+          "color": "White",
+          "price": 60
+        },
+        {
+          "productId": 25,
+          "quantity": 1,
+          "size": "7",
+          "color": "Black/White",
+          "price": 75
+        }
+      ],
+      "total": 265,
+      "createdAt": "2024-01-18T11:15:00Z",
+      "updatedAt": "2024-01-18T11:15:00Z"
+    },
+    {
+      "id": "5",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 9,
+          "quantity": 1,
+          "size": "11",
+          "color": "White/Black",
+          "price": 110
+        },
+        {
+          "productId": 12,
+          "quantity": 1,
+          "size": "11.5",
+          "color": "White",
+          "price": 90
+        },
+        {
+          "productId": 18,
+          "quantity": 1,
+          "size": "11",
+          "color": "White/Black",
+          "price": 85
+        },
+        {
+          "productId": 27,
+          "quantity": 1,
+          "size": "11",
+          "color": "White",
+          "price": 120
+        }
+      ],
+      "total": 405,
+      "createdAt": "2024-01-17T13:20:00Z",
+      "updatedAt": "2024-01-17T13:20:00Z"
+    }
+  ],
+  "wishlists": [
+    {
+      "id": "1",
+      "userId": 1,
+      "items": [
+        {
+          "productId": 5,
+          "size": "9",
+          "color": "Black/White",
+          "addedAt": "2024-01-19T10:30:00Z"
+        },
+        {
+          "productId": 8,
+          "size": "9.5",
+          "color": "White",
+          "addedAt": "2024-01-18T15:20:00Z"
+        },
+        {
+          "productId": 13,
+          "size": "9",
+          "color": "Black",
+          "addedAt": "2024-01-17T12:45:00Z"
+        },
+        {
+          "productId": 19,
+          "size": "9.5",
+          "color": "White",
+          "addedAt": "2024-01-16T14:10:00Z"
+        },
+        {
+          "productId": 28,
+          "size": "9",
+          "color": "White/Black",
+          "addedAt": "2024-01-15T16:30:00Z"
+        }
+      ],
+      "createdAt": "2024-01-15T16:30:00Z",
+      "updatedAt": "2024-01-19T10:30:00Z"
+    },
+    {
+      "id": "2",
+      "userId": 2,
+      "items": [
+        {
+          "productId": 10,
+          "size": "8",
+          "color": "White/Green",
+          "addedAt": "2024-01-18T11:20:00Z"
+        },
+        {
+          "productId": 14,
+          "size": "8.5",
+          "color": "Black",
+          "addedAt": "2024-01-17T09:15:00Z"
+        },
+        {
+          "productId": 20,
+          "size": "8",
+          "color": "White",
+          "addedAt": "2024-01-16T13:40:00Z"
+        },
+        {
+          "productId": 24,
+          "size": "8.5",
+          "color": "White",
+          "addedAt": "2024-01-15T10:25:00Z"
+        },
+        {
+          "productId": 29,
+          "size": "8",
+          "color": "White",
+          "addedAt": "2024-01-14T15:50:00Z"
+        }
+      ],
+      "createdAt": "2024-01-14T15:50:00Z",
+      "updatedAt": "2024-01-18T11:20:00Z"
+    },
+    {
+      "id": "3",
+      "userId": 3,
+      "items": [
+        {
+          "productId": 15,
+          "size": "10",
+          "color": "Grey",
+          "addedAt": "2024-01-20T08:45:00Z"
+        },
+        {
+          "productId": 22,
+          "size": "10.5",
+          "color": "White",
+          "addedAt": "2024-01-19T14:20:00Z"
+        },
+        {
+          "productId": 26,
+          "size": "10",
+          "color": "White",
+          "addedAt": "2024-01-18T16:30:00Z"
+        },
+        {
+          "productId": 30,
+          "size": "10.5",
+          "color": "Grey",
+          "addedAt": "2024-01-17T11:15:00Z"
+        },
+        {
+          "productId": 17,
+          "size": "10",
+          "color": "White",
+          "addedAt": "2024-01-16T09:40:00Z"
+        }
+      ],
+      "createdAt": "2024-01-16T09:40:00Z",
+      "updatedAt": "2024-01-20T08:45:00Z"
+    },
+    {
+      "id": "4",
+      "userId": 4,
+      "items": [
+        {
+          "productId": 23,
+          "size": "7",
+          "color": "White",
+          "addedAt": "2024-01-17T12:30:00Z"
+        },
+        {
+          "productId": 9,
+          "size": "7.5",
+          "color": "White/Black",
+          "addedAt": "2024-01-16T14:45:00Z"
+        }
+      ],
+      "createdAt": "2024-01-16T14:45:00Z",
+      "updatedAt": "2024-01-17T12:30:00Z"
+    },
+    {
+      "id": "5",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 1,
+          "size": "11",
+          "color": "Red/White",
+          "addedAt": "2024-01-16T10:20:00Z"
+        },
+        {
+          "productId": 11,
+          "size": "11.5",
+          "color": "White/Cement",
+          "addedAt": "2024-01-15T13:15:00Z"
+        },
+        {
+          "productId": 21,
+          "size": "11",
+          "color": "Black/Cement",
+          "addedAt": "2024-01-14T16:30:00Z"
+        }
+      ],
+      "createdAt": "2024-01-14T16:30:00Z",
+      "updatedAt": "2024-01-16T10:20:00Z"
+    }
+  ]
+}
