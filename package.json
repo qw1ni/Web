@@ -1,0 +1,27 @@
+{
+  "name": "sneaker_store_landing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "json-server --watch db.json --port 3000",
+    "start:dev": "json-server --watch db.json --port 3000 --delay 1000",
+    "start:prod": "json-server --watch db.json --port 3000 --host 0.0.0.0",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morganizwd/Sneaker_store_landing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/morganizwd/Sneaker_store_landing/issues"
+  },
+  "homepage": "https://github.com/morganizwd/Sneaker_store_landing#readme",
+  "devDependencies": {
+    "json-server": "^1.0.0-beta.3"
+  }
+}
