@@ -12,34 +12,35 @@
     <div data-include="header"></div>
 
     <main class="content" id="main-content" role="main">
+        <main class="content" id="main-content" role="main">
         <section class="hero reveal" aria-label="Главная секция">
             <div class="hero__container container">
                 <div class="hero__title">
                     <span class="hero__icon-text1">
-                        <p class="text__margin">THE ESSENCE</p><img src="./images/womanWithShoes.svg"
+                        <p class="text__margin" data-i18n="hero.title.essence">THE ESSENCE</p><img src="./images/womanWithShoes.svg"
                             alt="Woman With Shoes" loading="lazy" class="title__icon1">
                     </span>
-                    HANDCRAFTED<br>
+                    <span data-i18n="hero.title.handcrafted">HANDCRAFTED</span><br>
                     <span class="hero__icon-text2"><img src="./images/Shoes.svg" alt="Shoes" loading="lazy"
                             class="title__icon2">
-                        <p class="text__margin">OF FOOTWEAR.</p>
+                        <p class="text__margin" data-i18n="hero.title.footwear">OF FOOTWEAR.</p>
                     </span>
                 </div>
                 <div class="hero__text">
-                    <p>In terms of footwear, we are the first in Canada to have opened not simple "shops" but real
-                        company outlets that offer the same service as<br> the artisan shops of yesteryear: this to make
-                        you go without fail every time you want to buy a pair of handmade genuine leather shoes.<br>
+                    <p data-i18n="hero.text">In terms of footwear, we are the first in Canada to have opened not simple "shops" but real
+                        company outlets that offer the same service as the artisan shops of yesteryear: this to make
+                        you go without fail every time you want to buy a pair of handmade genuine leather shoes.
                         Without fear of making mistakes and with the certainty that you will be able to wear them
-                        comfortably from the beginning.<br> Are you also curious to find out why hundreds of people
+                        comfortably from the beginning. Are you also curious to find out why hundreds of people
                         choose us every day?</p>
                 </div>
                 <div class="hero__buttons">
                     <a href="./about.html" class="hero__button button">
-                        Find Out More
+                        <span data-i18n="hero.button.more">Find Out More</span>
                         <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy" class="hero__button-arrow">
                     </a>
                     <a href="./catalog.html" class="hero__button button hero__button--secondary">
-                        Go to Catalog
+                        <span data-i18n="hero.button.catalog">Go to Catalog</span>
                         <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy" class="hero__button-arrow">
                     </a>
                 </div>
@@ -114,7 +115,7 @@
         <section class="sellers reveal" aria-label="Лучшие продажи">
             <div class="sellers__container container">
                 <div class="sellers__title">
-                    <h2>Best Sellers</h2>
+                    <h2 data-i18n="sellers.title">Best Sellers</h2>
                 </div>
                 <div class="sellers__slider" id="best-sellers-slider">
                     <!-- Слайды будут добавлены динамически -->
@@ -132,41 +133,41 @@
                         <div class="catalog__item" data-product-id="1">
                             <img src="./images/catalogItem1.svg" alt="Nike Air Max Plus 3">
                             <p class="catalog__item-text">Nike Air Max Plus 3</p>
-                            <button class="catalog__quick-view-btn" data-product-id="1">Quick View</button>
+                            <button class="catalog__quick-view-btn" data-product-id="1" data-i18n="catalog.quick-view">Quick View</button>
                         </div>
                         <div class="catalog__item" data-product-id="2">
                             <img src="./images/catalogItem2.svg" alt="Air Jordan 4 Retro Lightning">
                             <p class="catalog__item-text">Air Jordan 4 Retro Lightning (Premium Batch)</p>
-                            <button class="catalog__quick-view-btn" data-product-id="2">Quick View</button>
+                            <button class="catalog__quick-view-btn" data-product-id="2" data-i18n="catalog.quick-view">Quick View</button>
                         </div>
                     </div>
                     <div class="catalog__main-inner2">
                         <div class="catalog__item" data-product-id="3">
                             <img src="./images/catalogItem3.svg" alt="Air Jordan 13 Retro Court Purple">
                             <p class="catalog__item-text">Air Jordan 13 Retro Court Purple (Reflective)</p>
-                            <button class="catalog__quick-view-btn" data-product-id="3">Quick View</button>
+                            <button class="catalog__quick-view-btn" data-product-id="3" data-i18n="catalog.quick-view">Quick View</button>
                         </div>
                         <div class="catalog__item" data-product-id="4">
                             <img src="./images/catalogitem4.svg" alt="Air Jordan 1 AJKO Blue Red">
                             <p class="catalog__item-text">Air Jordan 1 AJKO Blue Red</p>
-                            <button class="catalog__quick-view-btn" data-product-id="4">Quick View</button>
+                            <button class="catalog__quick-view-btn" data-product-id="4" data-i18n="catalog.quick-view">Quick View</button>
                         </div>
                     </div>
                     <div class="catalog__main-inner1">
                         <div class="catalog__item" data-product-id="5">
                             <img src="./images/catalogItem5.svg" alt="Yeezy Boost 350 V2 MX Rock">
                             <p class="catalog__item-text">Yeezy Boost 350 V2 MX Rock (Real Boost)</p>
-                            <button class="catalog__quick-view-btn" data-product-id="5">Quick View</button>
+                            <button class="catalog__quick-view-btn" data-product-id="5" data-i18n="catalog.quick-view">Quick View</button>
                         </div>
                         <div class="catalog__item" data-product-id="6">
                             <img src="./images/catalogItem6.svg" alt="Vans Old Skool Suede Honey Gold">
                             <p class="catalog__item-text">Vans Old Skool Suede Honey Gold</p>
-                            <button class="catalog__quick-view-btn" data-product-id="6">Quick View</button>
+                            <button class="catalog__quick-view-btn" data-product-id="6" data-i18n="catalog.quick-view">Quick View</button>
                         </div>
                     </div>
                 </div>
                 <a href="./new-arrivals.html" class="catalog__button button">
-                    Lets Discover More
+                    <span data-i18n="catalog.button">Lets Discover More</span>
                     <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy" class="catalog__button-arrow">
                 </a>
             </div>
@@ -179,14 +180,14 @@
                 </div>
                 <div class="explore__content">
                     <div class="explore__title">
-                        <p>WE PROVIDE MODERN<br> SHOES</p>
+                        <p data-i18n-html="explore.title">WE PROVIDE MODERN<br> SHOES</p>
                     </div>
-                    <div class="explore__text">Design for the way you
-                        live your life. Atoms are beautiful in their<br> simplicity, supporting your feet with absolute
+                    <div class="explore__text" data-i18n-html="explore.text">Design for the way you
+                        live your life. Atoms are beautiful in their simplicity, supporting your feet with absolute
                         comfort.</div>
                     <div class="explore__button-container">
                         <a href="./product-details.html" class="explore__button button">
-                            Explore More
+                            <span data-i18n="explore.button">Explore More</span>
                             <img src="./images/rightArrow.svg" alt="Right Arrow" loading="lazy"
                                 class="catalog__button-arrow">
                         </a>
@@ -382,17 +383,18 @@
     </main>
 
     <div data-include="footer"></div>
-    <script src="./scripts/partials.js"></script>
-    <script src="./scripts/main.js"></script>
+    <script src="./scripts/partials.js?v=4"></script>
+    <script src="./scripts/main.js?v=4"></script>
     
     <!-- API Integration -->
-    <script src="./scripts/api.js"></script>
-    <script src="./scripts/preloader.js"></script>
-    <script src="./scripts/accessibility.js"></script>
-    <script src="./scripts/auth.js"></script>
-    <script src="./scripts/cart.js"></script>
-    <script src="./scripts/simple-slider.js"></script>
-    <script src="./scripts/modal.js"></script>
+    <script src="./scripts/api.js?v=4"></script>
+    <script src="./scripts/preloader.js?v=4"></script>
+    <script src="./scripts/i18n.js?v=4"></script>
+    <script src="./scripts/accessibility.js?v=4"></script>
+    <script src="./scripts/auth.js?v=4"></script>
+    <script src="./scripts/cart.js?v=4"></script>
+    <script src="./scripts/simple-slider.js?v=4"></script>
+    <script src="./scripts/modal.js?v=4"></script>
     <script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU" type="text/javascript"></script>
     
     <script>

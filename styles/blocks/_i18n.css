@@ -1,0 +1,70 @@
+/**
+ * i18n Styles
+ * Language toggle button and related elements
+ */
+
+.language-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 2px solid var(--color-light);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'FuturaBT-Medium', sans-serif;
+    color: var(--color-light);
+}
+
+.language-toggle:hover {
+    background: var(--color-light);
+    color: var(--color-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.language-toggle:active {
+    transform: translateY(0);
+}
+
+.lang-flag {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.lang-code {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .language-toggle {
+        padding: 6px 10px;
+    }
+    
+    .lang-flag {
+        font-size: 16px;
+    }
+    
+    .lang-code {
+        font-size: 12px;
+    }
+}
+
+/* Animation for language change */
+@keyframes languageChange {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.language-toggle.changing {
+    animation: languageChange 0.3s ease;
+}
+

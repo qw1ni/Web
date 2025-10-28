@@ -157,6 +157,14 @@ function createAccessibilityPanel() {
         <h3 style="margin: 0 0 20px 0 !important; font-size: 18px !important; color: #007bff !important; font-weight: bold !important;">♿ Настройки доступности</h3>
         
         <div style="margin-bottom: 18px !important;">
+            <label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important; font-size: 14px !important;">🌐 Язык / Language:</label>
+            <select id="language-select" style="width: 100% !important; padding: 10px !important; border: 2px solid #007bff !important; border-radius: 6px !important; font-size: 14px !important; background: white !important; cursor: pointer !important;">
+                <option value="en">English (EN)</option>
+                <option value="ru">Русский (RU)</option>
+            </select>
+        </div>
+        
+        <div style="margin-bottom: 18px !important;">
             <label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important; font-size: 14px !important;">📝 Размер шрифта:</label>
             <select id="font-size" style="width: 100% !important; padding: 10px !important; border: 2px solid #007bff !important; border-radius: 6px !important; font-size: 14px !important; background: white !important; cursor: pointer !important;">
                 <option value="small">A- (Маленький)</option>
@@ -214,6 +222,50 @@ function createAccessibilityPanel() {
 
 // Setup accessibility event listeners
 function setupAccessibilityEventListeners(panel) {
+    // Language selector
+    const languageSelect = panel.querySelector('#language-select');
+    console.log('Language select element:', languageSelect);
+    console.log('window.I18n:', window.I18n);
+    
+    if (languageSelect) {
+        // Set current language
+        const currentLang = localStorage.getItem('language') || 'en';
+        languageSelect.value = currentLang;
+        console.log('Set language select to:', currentLang);
+        
+        languageSelect.addEventListener('change', function() {
+            const newLang = this.value;
+            console.log('Language select changed to:', newLang);
+            
+            // Store language
+            localStorage.setItem('language', newLang);
+            
+            // Update i18n if available
+            if (window.I18n && window.I18n.manager) {
+                window.I18n.manager.currentLanguage = newLang;
+                window.I18n.manager.setStoredLanguage(newLang);
+                window.I18n.manager.translatePage();
+            } else {
+                console.warn('I18n manager not available, will translate on next page load');
+                // If i18n not ready yet, reload page to apply language
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+            
+            // Dispatch custom event for other scripts
+            document.dispatchEvent(new CustomEvent('languageChanged', {
+                detail: { language: newLang }
+            }));
+            
+            const langName = newLang === 'en' ? 'English' : 'Русский';
+            showNotification(`Язык изменен / Language changed: ${langName}`, 'success');
+            console.log('🌐 Language changed to:', newLang);
+        });
+    } else {
+        console.error('Language select element not found!');
+    }
+    
     // Font size
     const fontSizeSelect = panel.querySelector('#font-size');
     fontSizeSelect.value = accessibilitySettings.fontSize; // Restore saved value
@@ -335,6 +387,16 @@ function resetAccessibilitySettings() {
     // Update panel values
     const panel = document.querySelector('.accessibility-panel');
     if (panel) {
+        const languageSelect = panel.querySelector('#language-select');
+        if (languageSelect) {
+            languageSelect.value = 'en';
+            if (window.I18n && window.I18n.manager) {
+                window.I18n.manager.currentLanguage = 'en';
+                window.I18n.manager.setStoredLanguage('en');
+                window.I18n.manager.translatePage();
+            }
+        }
+        
         panel.querySelector('#font-size').value = 'medium';
         panel.querySelector('#color-scheme').value = 'default';
         panel.querySelector('#high-contrast').checked = false;
@@ -345,7 +407,7 @@ function resetAccessibilitySettings() {
     applyAccessibilitySettings();
     saveAccessibilitySettings();
     
-    showNotification('Настройки доступности сброшены', 'success');
+    showNotification('Настройки сброшены / Settings reset', 'success');
     console.log('Accessibility settings reset');
 }
 
