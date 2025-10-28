@@ -3,48 +3,74 @@
  * Clean implementation for accessibility features
  */
 
-/* Font Size Classes */
+/* Font Size Classes - Improved scaling */
 .font-size-small {
-    font-size: 12px !important;
+    font-size: 14px;
 }
 
-.font-size-small * {
-    font-size: inherit !important;
-}
+.font-size-small h1 { font-size: 1.8em; }
+.font-size-small h2 { font-size: 1.5em; }
+.font-size-small h3 { font-size: 1.3em; }
+.font-size-small h4 { font-size: 1.1em; }
+.font-size-small p, .font-size-small li, .font-size-small span { font-size: 1em; }
+.font-size-small small { font-size: 0.85em; }
 
 .font-size-medium {
-    font-size: 14px !important;
+    font-size: 16px;
 }
 
-.font-size-medium * {
-    font-size: inherit !important;
-}
+.font-size-medium h1 { font-size: 2em; }
+.font-size-medium h2 { font-size: 1.6em; }
+.font-size-medium h3 { font-size: 1.4em; }
+.font-size-medium h4 { font-size: 1.2em; }
+.font-size-medium p, .font-size-medium li, .font-size-medium span { font-size: 1em; }
+.font-size-medium small { font-size: 0.875em; }
 
 .font-size-large {
-    font-size: 16px !important;
+    font-size: 18px;
 }
 
-.font-size-large * {
-    font-size: inherit !important;
-}
+.font-size-large h1 { font-size: 2.2em; }
+.font-size-large h2 { font-size: 1.8em; }
+.font-size-large h3 { font-size: 1.5em; }
+.font-size-large h4 { font-size: 1.3em; }
+.font-size-large p, .font-size-large li, .font-size-large span { font-size: 1em; }
+.font-size-large small { font-size: 0.9em; }
+.font-size-large button, .font-size-large input { font-size: 1em; }
 
 .font-size-extra-large {
-    font-size: 18px !important;
+    font-size: 20px;
 }
 
-.font-size-extra-large * {
-    font-size: inherit !important;
-}
+.font-size-extra-large h1 { font-size: 2.5em; }
+.font-size-extra-large h2 { font-size: 2em; }
+.font-size-extra-large h3 { font-size: 1.7em; }
+.font-size-extra-large h4 { font-size: 1.4em; }
+.font-size-extra-large p, .font-size-extra-large li, .font-size-extra-large span { font-size: 1em; }
+.font-size-extra-large small { font-size: 0.9em; }
+.font-size-extra-large button, .font-size-extra-large input { font-size: 1em; }
 
-/* Color Scheme Classes */
+/* Color Scheme Classes - Improved implementation */
 .color-scheme-black-white {
     background-color: #000000 !important;
     color: #ffffff !important;
 }
 
-.color-scheme-black-white * {
-    background-color: inherit !important;
-    color: inherit !important;
+.color-scheme-black-white *:not(.accessibility-panel):not(.accessibility-panel *):not(.accessibility-toggle) {
+    background-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.color-scheme-black-white a {
+    color: #4da6ff !important;
+}
+
+.color-scheme-black-white button,
+.color-scheme-black-white input,
+.color-scheme-black-white select {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
 }
 
 .color-scheme-black-green {
@@ -52,9 +78,22 @@
     color: #00ff00 !important;
 }
 
-.color-scheme-black-green * {
-    background-color: inherit !important;
-    color: inherit !important;
+.color-scheme-black-green *:not(.accessibility-panel):not(.accessibility-panel *):not(.accessibility-toggle) {
+    background-color: transparent !important;
+    color: #00ff00 !important;
+}
+
+.color-scheme-black-green a {
+    color: #00ff00 !important;
+    text-decoration: underline;
+}
+
+.color-scheme-black-green button,
+.color-scheme-black-green input,
+.color-scheme-black-green select {
+    background-color: #003300 !important;
+    color: #00ff00 !important;
+    border-color: #00ff00 !important;
 }
 
 .color-scheme-white-black {
@@ -62,54 +101,115 @@
     color: #000000 !important;
 }
 
-.color-scheme-white-black * {
-    background-color: inherit !important;
-    color: inherit !important;
+.color-scheme-white-black *:not(.accessibility-panel):not(.accessibility-panel *):not(.accessibility-toggle) {
+    background-color: transparent !important;
+    color: #000000 !important;
+}
+
+.color-scheme-white-black a {
+    color: #0066cc !important;
+}
+
+.color-scheme-white-black button,
+.color-scheme-white-black input,
+.color-scheme-white-black select {
+    background-color: #f0f0f0 !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
 }
 
 .color-scheme-beige-brown {
     background-color: #f5f5dc !important;
+    color: #4a2511 !important;
+}
+
+.color-scheme-beige-brown *:not(.accessibility-panel):not(.accessibility-panel *):not(.accessibility-toggle) {
+    background-color: transparent !important;
+    color: #4a2511 !important;
+}
+
+.color-scheme-beige-brown a {
     color: #8b4513 !important;
 }
 
-.color-scheme-beige-brown * {
-    background-color: inherit !important;
-    color: inherit !important;
+.color-scheme-beige-brown button,
+.color-scheme-beige-brown input,
+.color-scheme-beige-brown select {
+    background-color: #e8e8d0 !important;
+    color: #4a2511 !important;
+    border-color: #8b4513 !important;
 }
 
 .color-scheme-blue-darkblue {
     background-color: #add8e6 !important;
+    color: #000033 !important;
+}
+
+.color-scheme-blue-darkblue *:not(.accessibility-panel):not(.accessibility-panel *):not(.accessibility-toggle) {
+    background-color: transparent !important;
+    color: #000033 !important;
+}
+
+.color-scheme-blue-darkblue a {
     color: #000080 !important;
 }
 
-.color-scheme-blue-darkblue * {
-    background-color: inherit !important;
-    color: inherit !important;
+.color-scheme-blue-darkblue button,
+.color-scheme-blue-darkblue input,
+.color-scheme-blue-darkblue select {
+    background-color: #87ceeb !important;
+    color: #000033 !important;
+    border-color: #000080 !important;
 }
 
-/* High Contrast */
+/* High Contrast - More selective application */
 .high-contrast {
-    filter: contrast(150%) brightness(120%) !important;
+    filter: contrast(200%) !important;
 }
 
-.high-contrast * {
-    filter: inherit !important;
+.high-contrast img:not(.accessibility-toggle) {
+    filter: contrast(150%) brightness(110%) !important;
 }
 
-/* Hide Images */
-.hide-images img {
-    display: none !important;
+.high-contrast button:not(.accessibility-panel button),
+.high-contrast a {
+    font-weight: bold !important;
+    text-decoration: underline !important;
 }
 
-.hide-images::before {
-    content: "Изображение скрыто для доступности";
-    display: block;
-    padding: 10px;
-    background: #f0f0f0;
-    border: 1px solid #ccc;
-    margin: 5px 0;
-    font-style: italic;
-    color: #666;
+/* Hide Images - Better implementation */
+.hide-images img:not(.accessibility-toggle) {
+    visibility: hidden !important;
+    position: relative !important;
+}
+
+.hide-images img:not(.accessibility-toggle)::after {
+    content: "[Изображение скрыто]" !important;
+    visibility: visible !important;
+    display: block !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: #f0f0f0 !important;
+    padding: 10px !important;
+    border: 2px solid #999 !important;
+    border-radius: 4px !important;
+    font-style: italic !important;
+    color: #666 !important;
+    font-size: 14px !important;
+}
+
+.hide-images svg:not(.accessibility-toggle *) {
+    opacity: 0.1 !important;
+}
+
+.hide-images .hero__image,
+.hide-images .catalog__image,
+.hide-images .product__image,
+.hide-images [class*="image"] {
+    opacity: 0.1 !important;
+    filter: blur(5px) !important;
 }
 
 /* Disable Animations */

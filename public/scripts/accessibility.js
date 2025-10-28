@@ -83,27 +83,44 @@ function createAccessibilityButton() {
     button.className = 'accessibility-toggle';
     button.innerHTML = '♿';
     button.title = 'Настройки доступности';
+    button.setAttribute('type', 'button');
+    button.setAttribute('aria-label', 'Открыть настройки доступности');
     button.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        font-size: 20px;
-        cursor: pointer;
-        z-index: 9999;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        width: 50px !important;
+        height: 50px !important;
+        background: #007bff !important;
+        color: white !important;
+        border: 2px solid white !important;
+        border-radius: 50% !important;
+        font-size: 24px !important;
+        cursor: pointer !important;
+        z-index: 999999 !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+        transition: all 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
     `;
+    
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.1)';
+        this.style.background = '#0056b3 !important';
+    });
+    
+    button.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+        this.style.background = '#007bff !important';
+    });
     
     button.addEventListener('click', toggleAccessibilityPanel);
     document.body.appendChild(button);
     
-    console.log('Accessibility button created');
+    console.log('✅ Accessibility button created and added to body');
 }
 
 // Create accessibility control panel
@@ -117,27 +134,31 @@ function createAccessibilityPanel() {
     const panel = document.createElement('div');
     panel.className = 'accessibility-panel';
     panel.style.cssText = `
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        width: 300px;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        z-index: 9998;
-        display: none;
-        font-family: Arial, sans-serif;
-        color: #333;
+        position: fixed !important;
+        top: 80px !important;
+        right: 20px !important;
+        width: 320px !important;
+        max-width: calc(100vw - 40px) !important;
+        background: white !important;
+        border: 2px solid #007bff !important;
+        border-radius: 12px !important;
+        padding: 24px !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+        z-index: 999998 !important;
+        display: none !important;
+        font-family: Arial, sans-serif !important;
+        color: #333 !important;
+        box-sizing: border-box !important;
+        max-height: calc(100vh - 100px) !important;
+        overflow-y: auto !important;
     `;
     
     panel.innerHTML = `
-        <h3 style="margin: 0 0 15px 0; font-size: 16px;">Настройки доступности</h3>
+        <h3 style="margin: 0 0 20px 0 !important; font-size: 18px !important; color: #007bff !important; font-weight: bold !important;">♿ Настройки доступности</h3>
         
-        <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Размер шрифта:</label>
-            <select id="font-size" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+        <div style="margin-bottom: 18px !important;">
+            <label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important; font-size: 14px !important;">📝 Размер шрифта:</label>
+            <select id="font-size" style="width: 100% !important; padding: 10px !important; border: 2px solid #007bff !important; border-radius: 6px !important; font-size: 14px !important; background: white !important; cursor: pointer !important;">
                 <option value="small">A- (Маленький)</option>
                 <option value="medium">A (Обычный)</option>
                 <option value="large">A+ (Большой)</option>
@@ -145,9 +166,9 @@ function createAccessibilityPanel() {
             </select>
         </div>
         
-        <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Цветовая схема:</label>
-            <select id="color-scheme" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+        <div style="margin-bottom: 18px !important;">
+            <label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important; font-size: 14px !important;">🎨 Цветовая схема:</label>
+            <select id="color-scheme" style="width: 100% !important; padding: 10px !important; border: 2px solid #007bff !important; border-radius: 6px !important; font-size: 14px !important; background: white !important; cursor: pointer !important;">
                 <option value="default">По умолчанию</option>
                 <option value="black-white">Черный/Белый</option>
                 <option value="black-green">Черный/Зеленый</option>
@@ -157,29 +178,29 @@ function createAccessibilityPanel() {
             </select>
         </div>
         
-        <div style="margin-bottom: 15px;">
-            <label style="display: flex; align-items: center; cursor: pointer;">
-                <input type="checkbox" id="high-contrast" style="margin-right: 8px;">
-                Высокий контраст
+        <div style="margin-bottom: 15px !important; padding: 10px !important; background: #f8f9fa !important; border-radius: 6px !important;">
+            <label style="display: flex !important; align-items: center !important; cursor: pointer !important; font-size: 14px !important; color: #333 !important;">
+                <input type="checkbox" id="high-contrast" style="margin-right: 10px !important; width: 18px !important; height: 18px !important; cursor: pointer !important;">
+                <span>🔆 Высокий контраст</span>
             </label>
         </div>
         
-        <div style="margin-bottom: 15px;">
-            <label style="display: flex; align-items: center; cursor: pointer;">
-                <input type="checkbox" id="hide-images" style="margin-right: 8px;">
-                Скрыть изображения
+        <div style="margin-bottom: 15px !important; padding: 10px !important; background: #f8f9fa !important; border-radius: 6px !important;">
+            <label style="display: flex !important; align-items: center !important; cursor: pointer !important; font-size: 14px !important; color: #333 !important;">
+                <input type="checkbox" id="hide-images" style="margin-right: 10px !important; width: 18px !important; height: 18px !important; cursor: pointer !important;">
+                <span>🖼️ Скрыть изображения</span>
             </label>
         </div>
         
-        <div style="margin-bottom: 15px;">
-            <label style="display: flex; align-items: center; cursor: pointer;">
-                <input type="checkbox" id="disable-animations" style="margin-right: 8px;">
-                Отключить анимации
+        <div style="margin-bottom: 20px !important; padding: 10px !important; background: #f8f9fa !important; border-radius: 6px !important;">
+            <label style="display: flex !important; align-items: center !important; cursor: pointer !important; font-size: 14px !important; color: #333 !important;">
+                <input type="checkbox" id="disable-animations" style="margin-right: 10px !important; width: 18px !important; height: 18px !important; cursor: pointer !important;">
+                <span>⏸️ Отключить анимации</span>
             </label>
         </div>
         
-        <button onclick="resetAccessibilitySettings()" style="width: 100%; padding: 10px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
-            Сбросить настройки
+        <button onclick="resetAccessibilitySettings()" style="width: 100% !important; padding: 12px !important; background: #dc3545 !important; color: white !important; border: none !important; border-radius: 6px !important; cursor: pointer !important; font-size: 14px !important; font-weight: bold !important; transition: background 0.2s !important;" onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'">
+            🔄 Сбросить настройки
         </button>
     `;
     
@@ -188,49 +209,59 @@ function createAccessibilityPanel() {
     // Setup event listeners
     setupAccessibilityEventListeners(panel);
     
-    console.log('Accessibility panel created');
+    console.log('✅ Accessibility panel created and added to body');
 }
 
 // Setup accessibility event listeners
 function setupAccessibilityEventListeners(panel) {
     // Font size
     const fontSizeSelect = panel.querySelector('#font-size');
+    fontSizeSelect.value = accessibilitySettings.fontSize; // Restore saved value
     fontSizeSelect.addEventListener('change', function() {
         accessibilitySettings.fontSize = this.value;
         applyAccessibilitySettings();
         saveAccessibilitySettings();
+        showNotification('Размер шрифта изменен', 'success');
     });
     
     // Color scheme
     const colorSchemeSelect = panel.querySelector('#color-scheme');
+    colorSchemeSelect.value = accessibilitySettings.colorScheme; // Restore saved value
     colorSchemeSelect.addEventListener('change', function() {
         accessibilitySettings.colorScheme = this.value;
         applyAccessibilitySettings();
         saveAccessibilitySettings();
+        showNotification('Цветовая схема изменена', 'success');
     });
     
     // High contrast
     const highContrastCheckbox = panel.querySelector('#high-contrast');
+    highContrastCheckbox.checked = accessibilitySettings.highContrast; // Restore saved value
     highContrastCheckbox.addEventListener('change', function() {
         accessibilitySettings.highContrast = this.checked;
         applyAccessibilitySettings();
         saveAccessibilitySettings();
+        showNotification(this.checked ? 'Высокий контраст включен' : 'Высокий контраст выключен', 'success');
     });
     
     // Hide images
     const hideImagesCheckbox = panel.querySelector('#hide-images');
+    hideImagesCheckbox.checked = accessibilitySettings.hideImages; // Restore saved value
     hideImagesCheckbox.addEventListener('change', function() {
         accessibilitySettings.hideImages = this.checked;
         applyAccessibilitySettings();
         saveAccessibilitySettings();
+        showNotification(this.checked ? 'Изображения скрыты' : 'Изображения показаны', 'success');
     });
     
     // Disable animations
     const disableAnimationsCheckbox = panel.querySelector('#disable-animations');
+    disableAnimationsCheckbox.checked = accessibilitySettings.disableAnimations; // Restore saved value
     disableAnimationsCheckbox.addEventListener('change', function() {
         accessibilitySettings.disableAnimations = this.checked;
         applyAccessibilitySettings();
         saveAccessibilitySettings();
+        showNotification(this.checked ? 'Анимации отключены' : 'Анимации включены', 'success');
     });
 }
 
@@ -238,7 +269,12 @@ function setupAccessibilityEventListeners(panel) {
 function toggleAccessibilityPanel() {
     const panel = document.querySelector('.accessibility-panel');
     if (panel) {
-        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        const isHidden = panel.style.display === 'none' || panel.style.display === '';
+        panel.style.display = isHidden ? 'block !important' : 'none !important';
+        panel.style.setProperty('display', isHidden ? 'block' : 'none', 'important');
+        console.log(`Panel ${isHidden ? 'opened' : 'closed'}`);
+    } else {
+        console.error('Accessibility panel not found!');
     }
 }
 
@@ -246,19 +282,25 @@ function toggleAccessibilityPanel() {
 function applyAccessibilitySettings() {
     const body = document.body;
     
-    // Remove all accessibility classes
-    Object.values(fontSizes).forEach(cls => body.classList.remove(cls));
-    Object.values(colorSchemes).forEach(cls => body.classList.remove(cls));
+    // Remove all accessibility classes (filter out empty strings)
+    Object.values(fontSizes).forEach(cls => {
+        if (cls) body.classList.remove(cls);
+    });
+    Object.values(colorSchemes).forEach(cls => {
+        if (cls) body.classList.remove(cls);
+    });
     body.classList.remove('high-contrast', 'hide-images', 'disable-animations');
     
     // Apply font size
-    if (fontSizes[accessibilitySettings.fontSize]) {
-        body.classList.add(fontSizes[accessibilitySettings.fontSize]);
+    const fontSizeClass = fontSizes[accessibilitySettings.fontSize];
+    if (fontSizeClass) {
+        body.classList.add(fontSizeClass);
     }
     
-    // Apply color scheme
-    if (colorSchemes[accessibilitySettings.colorScheme]) {
-        body.classList.add(colorSchemes[accessibilitySettings.colorScheme]);
+    // Apply color scheme (skip if empty string)
+    const colorSchemeClass = colorSchemes[accessibilitySettings.colorScheme];
+    if (colorSchemeClass) {
+        body.classList.add(colorSchemeClass);
     }
     
     // Apply high contrast
@@ -276,7 +318,8 @@ function applyAccessibilitySettings() {
         body.classList.add('disable-animations');
     }
     
-    console.log('Applied accessibility settings:', accessibilitySettings);
+    console.log('✅ Applied accessibility settings:', accessibilitySettings);
+    console.log('Body classes:', body.className);
 }
 
 // Reset accessibility settings
@@ -348,11 +391,21 @@ function showNotification(message, type = 'info') {
 }
 
 // Initialize when DOM is ready
+console.log('🚀 Accessibility script loaded, document.readyState:', document.readyState);
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAccessibility);
+    console.log('⏳ Waiting for DOMContentLoaded...');
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('✅ DOMContentLoaded fired, initializing accessibility...');
+        initAccessibility();
+    });
 } else {
+    console.log('✅ DOM already loaded, initializing accessibility immediately...');
     initAccessibility();
 }
 
 // Make functions globally available
 window.resetAccessibilitySettings = resetAccessibilitySettings;
+window.toggleAccessibilityPanel = toggleAccessibilityPanel;
+
+console.log('✅ Accessibility functions exposed to window');
