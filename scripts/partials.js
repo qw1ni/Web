@@ -13,6 +13,10 @@
             // Сразу используем fallback для быстрой загрузки
             loadFallback(element, partialName);
         }
+        
+        // Отправляем событие, что partials загружены
+        document.dispatchEvent(new CustomEvent('partialsLoaded'));
+        console.log('✅ Partials loaded');
     }
 
     // Fallback для частичных файлов
@@ -31,20 +35,20 @@
                             </button>
                             <ul class="header__menu-text-list">
                                 <li class="header__menu-item">
-                                    <a href="./catalog.html" class="header__menu-link">Catalog</a>
+                                    <a href="./catalog.html" class="header__menu-link" data-i18n="nav.catalog">Catalog</a>
                                 </li>
                                 <li class="header__menu-item">
-                                    <a href="./new-arrivals.html" class="header__menu-link">New
+                                    <a href="./new-arrivals.html" class="header__menu-link" data-i18n="nav.new-arrival">New
                                         Arrival</a>
                                 </li>
                                 <li class="header__menu-item">
-                                    <a href="./men.html" class="header__menu-link">Men</a>
+                                    <a href="./men.html" class="header__menu-link" data-i18n="nav.men">Men</a>
                                 </li>
                                 <li class="header__menu-item">
-                                    <a href="./women.html" class="header__menu-link">Women</a>
+                                    <a href="./women.html" class="header__menu-link" data-i18n="nav.women">Women</a>
                                 </li>
                                 <li class="header__menu-item">
-                                    <a href="./kids.html" class="header__menu-link">Kids</a>
+                                    <a href="./kids.html" class="header__menu-link" data-i18n="nav.kids">Kids</a>
                                 </li>
                             </ul>
                         </nav>
@@ -61,6 +65,13 @@
                                     </a>
                                 </li>
                                 <li class="header__menu-icons-item">
+                                    <button class="language-toggle" id="language-toggle" aria-label="Change language"
+                                        title="Change language">
+                                        <span class="lang-flag">🌐</span>
+                                        <span class="lang-code" id="current-lang">EN</span>
+                                    </button>
+                                </li>
+                                <li class="header__menu-icons-item">
                                     <div class="auth-buttons">
                                         <a href="./login.html" class="header__menu-icons-link login-button" id="login-btn">
                                             <img src="./images/Account.svg" alt="Account" loading="lazy">
@@ -69,11 +80,11 @@
                                             <div class="user-info">
                                                 <span id="user-name">User</span>
                                                 <div class="user-dropdown">
-                                                    <a href="./profile.html">Profile</a>
-                                                    <a href="./cart.html">Cart</a>
-                                                    <a href="./orders.html">Orders</a>
-                                                    <a href="./wishlist.html">Wishlist</a>
-                                                    <button onclick="logout()">Logout</button>
+                                                    <a href="./profile.html" data-i18n="nav.profile">Profile</a>
+                                                    <a href="./cart.html" data-i18n="nav.cart">Cart</a>
+                                                    <a href="./orders.html" data-i18n="nav.orders">Orders</a>
+                                                    <a href="./wishlist.html" data-i18n="nav.wishlist">Wishlist</a>
+                                                    <button onclick="logout()" data-i18n="nav.logout">Logout</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -91,8 +102,8 @@
                         <aside class="header__mobile" aria-hidden="true" aria-labelledby="mobileMenuTitle">
                             <div class="header__mobile-inner">
                                 <div class="header__mobile-header">
-                                    <span id="mobileMenuTitle" class="header__mobile-title">Menu</span>
-                                    <button class="header__mobile-close" type="button" aria-label="Close menu">
+                                    <span id="mobileMenuTitle" class="header__mobile-title" data-i18n="nav.menu">Menu</span>
+                                    <button class="header__mobile-close" type="button" aria-label="Close menu" data-i18n-alt="nav.closeMenu">
                                         <span class="burger-button-line"></span>
                                         <span class="burger-button-line"></span>
                                     </button>
@@ -110,29 +121,29 @@
                                 <li class="footer__offers-item">
                                     <img src="./images/Truck.svg" alt="Delivery" loading="lazy">
                                     <div class="item__text">
-                                        <p class="item__text-upper">Free Delivery</p>
-                                        <p class="item__text-lower">From $29.99</p>
+                                        <p class="item__text-upper" data-i18n="offers.freeDelivery.title">Free Delivery</p>
+                                        <p class="item__text-lower" data-i18n="offers.freeDelivery.subtitle">From $29.99</p>
                                     </div>
                                 </li>
                                 <li class="footer__offers-item">
                                     <img src="./images/Stopwatch.svg" alt="Stopwatch" loading="lazy">
                                     <div class="item__text">
-                                        <p class="item__text-upper">Free Withdrawal 1h</p>
-                                        <p class="item__text-lower">In Store</p>
+                                        <p class="item__text-upper" data-i18n="offers.withdrawal.title">Free Withdrawal 1h</p>
+                                        <p class="item__text-lower" data-i18n="offers.withdrawal.subtitle">In Store</p>
                                     </div>
                                 </li>
                                 <li class="footer__offers-item">
                                     <img src="./images/Security.svg" alt="Shield" loading="lazy">
                                     <div class="item__text">
-                                        <p class="item__text-upper">100% Secure Payment</p>
-                                        <p class="item__text-lower">At Your Service</p>
+                                        <p class="item__text-upper" data-i18n="offers.secure.title">100% Secure Payment</p>
+                                        <p class="item__text-lower" data-i18n="offers.secure.subtitle">At Your Service</p>
                                     </div>
                                 </li>
                                 <li class="footer__offers-item">
                                     <img src="./images/Corp.svg" alt="Corp" loading="lazy">
                                     <div class="item__text">
-                                        <p class="item__text-upper">Returns & Exchanges</p>
-                                        <p class="item__text-lower">Offered 365 Days</p>
+                                        <p class="item__text-upper" data-i18n="offers.returns.title">Returns & Exchanges</p>
+                                        <p class="item__text-lower" data-i18n="offers.returns.subtitle">Offered 365 Days</p>
                                     </div>
                                 </li>
                             </ul>
@@ -141,11 +152,11 @@
                         <div class="footer__main">
                             <div class="footer__main-form">
                                 <div class="main-form__title">
-                                    <p>Let's Stay In Touch</p>
+                                    <p data-i18n="footer.form.title">Let's Stay In Touch</p>
                                 </div>
                                 <form class="main-form__form">
-                                    <input class="form__input" type="email" placeholder="Enter Email..." title="Subscribe" />
-                                    <button class="form__button" type="submit">Subscribe</button>
+                                    <input class="form__input" type="email" placeholder="Enter Email..." title="Subscribe" data-i18n-placeholder="footer.form.placeholder" />
+                                    <button class="form__button" type="submit" data-i18n="buttons.subscribe">Subscribe</button>
                                 </form>
                                 <div class="main__image">
                                     <img src="./images/LogoAlternate.svg" alt="Nike Logo" loading="lazy">
@@ -155,31 +166,31 @@
                             <div class="footer__main-links">
                                 <div class="footer__list-once">
                                     <div class="footer__list-container">
-                                        <p class="footer__list-once-title">SHOP</p>
+                                        <p class="footer__list-once-title" data-i18n="footer.shop">SHOP</p>
                                         <ul class="main__list">
                                             <li>
-                                                <a href="./men.html" class="main__list-item">Mens</a>
+                                                <a href="./men.html" class="main__list-item" data-i18n="footer.mens">Mens</a>
                                             </li>
                                             <li>
-                                                <a href="./women.html" class="main__list-item">Womens</a>
+                                                <a href="./women.html" class="main__list-item" data-i18n="footer.womens">Womens</a>
                                             </li>
                                             <li>
-                                                <a href="./new-arrivals.html" class="main__list-item">New Arrival</a>
+                                                <a href="./new-arrivals.html" class="main__list-item" data-i18n="footer.newArrival">New Arrival</a>
                                             </li>
                                         </ul>
                                     </div>
 
                                     <div class="footer__list-container">
-                                        <p class="footer__list-once-title">CONTACT US</p>
+                                        <p class="footer__list-once-title" data-i18n="footer.contact">CONTACT US</p>
                                         <ul class="main__list">
                                             <li>
-                                                <a href="./stores.html" class="main__list-item">Find a Store</a>
+                                                <a href="./stores.html" class="main__list-item" data-i18n="footer.findStore">Find a Store</a>
                                             </li>
                                             <li>
-                                                <a href="./contact.html" class="main__list-item">Contact Us</a>
+                                                <a href="./contact.html" class="main__list-item" data-i18n="footer.contactUs">Contact Us</a>
                                             </li>
                                             <li>
-                                                <a href="./terms.html" class="main__list-item">Terms & Conditions</a>
+                                                <a href="./terms.html" class="main__list-item" data-i18n="footer.terms">Terms & Conditions</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -187,31 +198,31 @@
 
                                 <div class="footer__list-once">
                                     <div class="footer__list-container">
-                                        <p class="footer__list-once-title">OUR SERVICES</p>
+                                        <p class="footer__list-once-title" data-i18n="footer.services">OUR SERVICES</p>
                                         <ul class="main__list">
                                             <li>
-                                                <a href="./customize.html" class="main__list-item">Customize your products</a>
+                                                <a href="./customize.html" class="main__list-item" data-i18n="footer.customize">Customize your products</a>
                                             </li>
                                             <li>
-                                                <a href="./gift-card.html" class="main__list-item">Gift Card</a>
+                                                <a href="./gift-card.html" class="main__list-item" data-i18n="footer.giftCard">Gift Card</a>
                                             </li>
                                             <li>
-                                                <a href="./repair.html" class="main__list-item">Maintain & Repair</a>
+                                                <a href="./repair.html" class="main__list-item" data-i18n="footer.maintainRepair">Maintain & Repair</a>
                                             </li>
                                         </ul>
                                     </div>
 
                                     <div class="footer__list-container">
-                                        <p class="footer__list-once-title">OUR ENTERPRISE</p>
+                                        <p class="footer__list-once-title" data-i18n="footer.enterprise">OUR ENTERPRISE</p>
                                         <ul class="main__list">
                                             <li>
-                                                <a href="./about.html" class="main__list-item">Who are we?</a>
+                                                <a href="./about.html" class="main__list-item" data-i18n="footer.who">Who are we?</a>
                                             </li>
                                             <li>
-                                                <a href="./press.html" class="main__list-item">Press and news</a>
+                                                <a href="./press.html" class="main__list-item" data-i18n="footer.press">Press and news</a>
                                             </li>
                                             <li>
-                                                <a href="./alliances.html" class="main__list-item">Our alliances</a>
+                                                <a href="./alliances.html" class="main__list-item" data-i18n="footer.alliances">Our alliances</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -219,31 +230,31 @@
 
                                 <div class="footer__list-solo">
                                     <div class="footer__list-container">
-                                        <p class="footer__list-once-title">NEED HELP ?</p>
+                                        <p class="footer__list-once-title" data-i18n="footer.help">NEED HELP ?</p>
                                         <ul class="main__list">
                                             <li>
-                                                <a href="./account.html" class="main__list-item">My Account</a>
+                                                <a href="./account.html" class="main__list-item" data-i18n="footer.myAccount">My Account</a>
                                             </li>
                                             <li>
-                                                <a href="./shipping.html" class="main__list-item">Shipping</a>
+                                                <a href="./shipping.html" class="main__list-item" data-i18n="footer.shipping">Shipping</a>
                                             </li>
                                             <li>
-                                                <a href="./returns.html" class="main__list-item">Return & Exchanges</a>
+                                                <a href="./returns.html" class="main__list-item" data-i18n="footer.returns">Return & Exchanges</a>
                                             </li>
                                             <li>
-                                                <a href="./faqs.html" class="main__list-item">FAQs</a>
+                                                <a href="./faqs.html" class="main__list-item" data-i18n="footer.faqs">FAQs</a>
                                             </li>
                                             <li>
-                                                <a href="./rewards.html" class="main__list-item">Rewards</a>
+                                                <a href="./rewards.html" class="main__list-item" data-i18n="footer.rewards">Rewards</a>
                                             </li>
                                             <li>
-                                                <a href="./loyalty.html" class="main__list-item">Loyalty program</a>
+                                                <a href="./loyalty.html" class="main__list-item" data-i18n="footer.loyalty">Loyalty program</a>
                                             </li>
                                             <li>
-                                                <a href="./guides.html" class="main__list-item">How to choose your product?</a>
+                                                <a href="./guides.html" class="main__list-item" data-i18n="footer.howToChoose">How to choose your product?</a>
                                             </li>
                                             <li>
-                                                <a href="./trends.html" class="main__list-item">Sports Trends</a>
+                                                <a href="./trends.html" class="main__list-item" data-i18n="footer.trends">Sports Trends</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -252,7 +263,7 @@
                         </div>
 
                         <div class="footer__copyright">
-                            <div class="footer__copyright-text">
+                            <div class="footer__copyright-text" data-i18n="footer.rights" data-i18n-html>
                                 2022 Nike, Inc. All Rights Reserved <span class="special--symbol"><img src="./images/Copyright.svg" alt="Copyright" loading="lazy"></span>
                             </div>
                             <div class="footer__copyright-soc1als">

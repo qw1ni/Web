@@ -12,6 +12,13 @@ const translations = {
         'nav.men': 'Men',
         'nav.women': 'Women',
         'nav.kids': 'Kids',
+        'nav.profile': 'Profile',
+        'nav.cart': 'Cart',
+        'nav.orders': 'Orders',
+        'nav.wishlist': 'Wishlist',
+        'nav.logout': 'Logout',
+        'nav.menu': 'Menu',
+        'nav.closeMenu': 'Close menu',
         
         // Hero section
         'hero.title.essence': 'THE ESSENCE',
@@ -59,11 +66,48 @@ const translations = {
         'joinus.text': 'Sign up for free. Join the community, Never pay for shipping.',
         'joinus.button': 'Join Us',
         
-        // Footer
-        'footer.about': 'About Us',
-        'footer.contact': 'Contact',
-        'footer.privacy': 'Privacy Policy',
-        'footer.terms': 'Terms of Service'
+        // Footer offers
+        'offers.freeDelivery.title': 'Free Delivery',
+        'offers.freeDelivery.subtitle': 'From $29.99',
+        'offers.withdrawal.title': 'Free Withdrawal 1h',
+        'offers.withdrawal.subtitle': 'In Store',
+        'offers.secure.title': '100% Secure Payment',
+        'offers.secure.subtitle': 'At Your Service',
+        'offers.returns.title': 'Returns & Exchanges',
+        'offers.returns.subtitle': 'Offered 365 Days',
+        
+        // Footer form
+        'footer.form.title': 'Let\'s Stay In Touch',
+        'footer.form.placeholder': 'Enter Email...',
+        'buttons.subscribe': 'Subscribe',
+        
+        // Footer navigation
+        'footer.shop': 'SHOP',
+        'footer.mens': 'Mens',
+        'footer.womens': 'Womens',
+        'footer.newArrival': 'New Arrival',
+        'footer.contact': 'CONTACT US',
+        'footer.findStore': 'Find a Store',
+        'footer.contactUs': 'Contact Us',
+        'footer.terms': 'Terms & Conditions',
+        'footer.services': 'OUR SERVICES',
+        'footer.customize': 'Customize your products',
+        'footer.giftCard': 'Gift Card',
+        'footer.maintainRepair': 'Maintain & Repair',
+        'footer.enterprise': 'OUR ENTERPRISE',
+        'footer.who': 'Who are we?',
+        'footer.press': 'Press and news',
+        'footer.alliances': 'Our alliances',
+        'footer.help': 'NEED HELP ?',
+        'footer.myAccount': 'My Account',
+        'footer.shipping': 'Shipping',
+        'footer.returns': 'Return & Exchanges',
+        'footer.faqs': 'FAQs',
+        'footer.rewards': 'Rewards',
+        'footer.loyalty': 'Loyalty program',
+        'footer.howToChoose': 'How to choose your product?',
+        'footer.trends': 'Sports Trends',
+        'footer.rights': '2022 Nike, Inc. All Rights Reserved <span class="special--symbol"><img src="./images/Copyright.svg" alt="Copyright" loading="lazy"></span>'
     },
     
     ru: {
@@ -73,6 +117,13 @@ const translations = {
         'nav.men': 'Мужчинам',
         'nav.women': 'Женщинам',
         'nav.kids': 'Детям',
+        'nav.profile': 'Профиль',
+        'nav.cart': 'Корзина',
+        'nav.orders': 'Заказы',
+        'nav.wishlist': 'Избранное',
+        'nav.logout': 'Выйти',
+        'nav.menu': 'Меню',
+        'nav.closeMenu': 'Закрыть меню',
         
         // Hero section
         'hero.title.essence': 'СУТЬ',
@@ -90,13 +141,13 @@ const translations = {
         'catalog.button': 'Откройте больше',
         
         // Explore section
-        'explore.title': 'МЫ ПРЕДОСТАВЛЯЕМ СОВРЕМЕННУЮ ОБУВЬ',
-        'explore.text': 'Дизайн для вашего образа жизни. Atoms прекрасны в своей простоте, поддерживая ваши ноги с абсолютным комфортом.',
+        'explore.title': 'МЫ ПРЕДОСТАВЛЯЕМ СОВРЕМЕННУЮ<br> ОБУВЬ',
+        'explore.text': 'Дизайн для вашего образа жизни. Atoms прекрасны в их<br> простоте, поддерживая ваши ноги с абсолютным комфортом.',
         'explore.button': 'Узнать больше',
         
         // Gallery section
-        'gallery.title': 'ЛУЧШАЯ ОБУВЬ ДЛЯ ЛУЧШИХ ЛЮДЕЙ',
-        'gallery.text': 'Дизайн для вашего образа жизни. Atoms прекрасны в своей простоте, поддерживая ваши ноги с абсолютным комфортом.',
+        'gallery.title': 'ЛУЧШАЯ ОБУВЬ ДЛЯ<br> ЛУЧШИХ ЛЮДЕЙ',
+        'gallery.text': 'Дизайн для вашего образа жизни. Atoms прекрасны в<br> их простоте, поддерживая ваши ноги с абсолютным комфортом.',
         'gallery.button': 'Узнать больше',
         
         // Visionaries section
@@ -120,11 +171,48 @@ const translations = {
         'joinus.text': 'Зарегистрируйтесь бесплатно. Присоединяйтесь к сообществу. Никогда не платите за доставку.',
         'joinus.button': 'Присоединиться',
         
-        // Footer
-        'footer.about': 'О нас',
-        'footer.contact': 'Контакты',
-        'footer.privacy': 'Политика конфиденциальности',
-        'footer.terms': 'Условия использования'
+        // Footer offers
+        'offers.freeDelivery.title': 'Бесплатная доставка',
+        'offers.freeDelivery.subtitle': 'От $29.99',
+        'offers.withdrawal.title': 'Бесплатный самовывоз за 1ч',
+        'offers.withdrawal.subtitle': 'В магазине',
+        'offers.secure.title': '100% Безопасная оплата',
+        'offers.secure.subtitle': 'К вашим услугам',
+        'offers.returns.title': 'Возврат и обмен',
+        'offers.returns.subtitle': 'В течение 365 дней',
+        
+        // Footer form
+        'footer.form.title': 'Давайте оставаться на связи',
+        'footer.form.placeholder': 'Введите email...',
+        'buttons.subscribe': 'Подписаться',
+        
+        // Footer navigation
+        'footer.shop': 'МАГАЗИН',
+        'footer.mens': 'Мужское',
+        'footer.womens': 'Женское',
+        'footer.newArrival': 'Новинки',
+        'footer.contact': 'СВЯЖИТЕСЬ С НАМИ',
+        'footer.findStore': 'Найти магазин',
+        'footer.contactUs': 'Связаться с нами',
+        'footer.terms': 'Условия использования',
+        'footer.services': 'НАШИ УСЛУГИ',
+        'footer.customize': 'Настройте свои продукты',
+        'footer.giftCard': 'Подарочная карта',
+        'footer.maintainRepair': 'Обслуживание и ремонт',
+        'footer.enterprise': 'НАШЕ ПРЕДПРИЯТИЕ',
+        'footer.who': 'Кто мы?',
+        'footer.press': 'Пресса и новости',
+        'footer.alliances': 'Наши союзники',
+        'footer.help': 'НУЖНА ПОМОЩЬ ?',
+        'footer.myAccount': 'Мой аккаунт',
+        'footer.shipping': 'Доставка',
+        'footer.returns': 'Возврат и обмен',
+        'footer.faqs': 'Частые вопросы',
+        'footer.rewards': 'Награды',
+        'footer.loyalty': 'Программа лояльности',
+        'footer.howToChoose': 'Как выбрать свой продукт?',
+        'footer.trends': 'Спортивные тренды',
+        'footer.rights': '2022 Nike, Inc. Все права защищены <span class="special--symbol"><img src="./images/Copyright.svg" alt="Copyright" loading="lazy"></span>'
     }
 };
 
@@ -256,16 +344,24 @@ class I18nManager {
 let i18nManager;
 
 function initI18n() {
-    // Wait for partials to load (header, footer)
-    setTimeout(() => {
-        i18nManager = new I18nManager();
-    }, 100);
+    i18nManager = new I18nManager();
+    console.log('✅ i18n initialized');
 }
 
+// Wait for partials to load before initializing i18n
+document.addEventListener('partialsLoaded', () => {
+    console.log('📦 Partials loaded, initializing i18n...');
+    // Small delay to ensure DOM is fully updated
+    setTimeout(initI18n, 50);
+});
+
+// Fallback: if partials event doesn't fire, initialize after DOM load
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initI18n);
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initI18n, 200);
+    });
 } else {
-    initI18n();
+    setTimeout(initI18n, 200);
 }
 
 // Export for global use
