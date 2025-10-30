@@ -750,9 +750,371 @@
         }
 
         // Оформление заказа
-        function checkout() {
-            // Здесь будет логика оформления заказа
-            alert('Функция оформления заказа будет реализована в следующем этапе');
+        async function checkout() {
+            try {
+                const preloader = window.SneakerStorePreloader?.preloader;
+                if (preloader) await preloader.showMessage('Оформление заказа...', 1000);
+                
+                const cart = window.SneakerStoreCart.getCart();
+                
+                if (!cart.items || cart.items.length === 0) {
+                    alert('Корзина пуста');
+                    return;
+                }
+
+                // Проверяем авторизацию
+                const authManager = window.SneakerStoreAuth?.authManager;
+                if (!authManager || !authManager.isAuthenticated()) {
+                    if (confirm('Для оформления заказа необходимо войти в систему. Перейти на страницу входа?')) {
+                        window.location.href = 'login.html';
+                    }
+                    return;
+                }
+
+                const user = authManager.getCurrentUser();
+                
+                // Создаем заказ
+                const orderData = {
+                    userId: user.id,
+                    customerInfo: {
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        phone: user.phone,
+                        address: user.address
+                    },
+                    items: cart.items.map(item => ({
+                        productId: item.productId,
+                        productName: item.product.name,
+                        brand: item.product.brand,
+                        size: item.size,
+                        color: item.color,
+                        quantity: item.quantity,
+                        price: item.price,
+                        subtotal: item.price * item.quantity
+                    })),
+                    subtotal: cart.total,
+                    tax: cart.total * 0.1, // 10% налог
+                    shipping: cart.total > 100 ? 0 : 10, // Бесплатная доставка от $100
+                    total: cart.total + (cart.total * 0.1) + (cart.total > 100 ? 0 : 10),
+                    status: 'pending',
+                    paymentMethod: 'Оплата при получении',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                // Отправляем заказ на сервер
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.post('/orders', orderData);
+
+                if (response.success) {
+                    const order = response.data;
+                    
+                    // Показываем чек
+                    showOrderReceipt(order);
+                    
+                    // Очищаем корзину
+                    await window.SneakerStoreCart.clearCart();
+                    
+                } else {
+                    throw new Error(response.error || 'Ошибка создания заказа');
+                }
+                
+            } catch (error) {
+                console.error('Ошибка оформления заказа:', error);
+                alert('Ошибка при оформлении заказа: ' + error.message);
+            }
+        }
+
+        // Показ чека заказа
+        function showOrderReceipt(order) {
+            const receiptHTML = `
+                <div class="receipt-modal">
+                    <div class="receipt-content">
+                        <div class="receipt-header">
+                            <div class="receipt-icon">✅</div>
+                            <h2>Заказ оформлен!</h2>
+                            <p class="receipt-order-number">Номер заказа: #${order.id}</p>
+                        </div>
+
+                        <div class="receipt-customer">
+                            <h3>Данные получателя</h3>
+                            <p><strong>${order.customerInfo.firstName} ${order.customerInfo.lastName}</strong></p>
+                            <p>Email: ${order.customerInfo.email}</p>
+                            <p>Телефон: ${order.customerInfo.phone}</p>
+                            <p>Адрес доставки: ${order.customerInfo.address.street}, ${order.customerInfo.address.city}, ${order.customerInfo.address.zipCode}</p>
+                        </div>
+
+                        <div class="receipt-items">
+                            <h3>Состав заказа</h3>
+                            <table class="receipt-table">
+                                <thead>
+                                    <tr>
+                                        <th>Товар</th>
+                                        <th>Размер</th>
+                                        <th>Кол-во</th>
+                                        <th>Цена</th>
+                                        <th>Сумма</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${order.items.map(item => `
+                                        <tr>
+                                            <td>
+                                                <strong>${item.productName}</strong><br>
+                                                <small>${item.brand}</small>
+                                            </td>
+                                            <td>${item.size}</td>
+                                            <td>${item.quantity}</td>
+                                            <td>$${item.price.toFixed(2)}</td>
+                                            <td>$${item.subtotal.toFixed(2)}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="receipt-summary">
+                            <div class="receipt-row">
+                                <span>Подытог:</span>
+                                <span>$${order.subtotal.toFixed(2)}</span>
+                            </div>
+                            <div class="receipt-row">
+                                <span>Налог (10%):</span>
+                                <span>$${order.tax.toFixed(2)}</span>
+                            </div>
+                            <div class="receipt-row">
+                                <span>Доставка:</span>
+                                <span>${order.shipping === 0 ? 'Бесплатно' : '$' + order.shipping.toFixed(2)}</span>
+                            </div>
+                            <div class="receipt-row receipt-total">
+                                <span><strong>Итого:</strong></span>
+                                <span><strong>$${order.total.toFixed(2)}</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="receipt-payment">
+                            <p><strong>Способ оплаты:</strong> ${order.paymentMethod}</p>
+                            <p><strong>Статус:</strong> В обработке</p>
+                        </div>
+
+                        <div class="receipt-footer">
+                            <p>Спасибо за покупку! Мы отправим вам подтверждение на email.</p>
+                            <button class="btn-primary" onclick="closeReceipt()">Закрыть</button>
+                            <button class="btn-secondary" onclick="window.location.href='catalog.html'">Продолжить покупки</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Добавляем стили для чека
+            const style = document.createElement('style');
+            style.textContent = `
+                .receipt-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                    animation: fadeIn 0.3s ease;
+                }
+
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+
+                .receipt-content {
+                    background: white;
+                    border-radius: 15px;
+                    padding: 30px;
+                    max-width: 600px;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    animation: slideIn 0.3s ease;
+                }
+
+                @keyframes slideIn {
+                    from {
+                        transform: translateY(-50px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
+
+                .receipt-header {
+                    text-align: center;
+                    margin-bottom: 30px;
+                }
+
+                .receipt-icon {
+                    font-size: 60px;
+                    margin-bottom: 15px;
+                    animation: bounce 0.5s ease;
+                }
+
+                @keyframes bounce {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.2); }
+                }
+
+                .receipt-header h2 {
+                    color: #28a745;
+                    margin-bottom: 10px;
+                }
+
+                .receipt-order-number {
+                    color: #666;
+                    font-size: 14px;
+                }
+
+                .receipt-customer,
+                .receipt-items,
+                .receipt-summary,
+                .receipt-payment {
+                    margin-bottom: 25px;
+                    padding-bottom: 20px;
+                    border-bottom: 1px dashed #ddd;
+                }
+
+                .receipt-customer h3,
+                .receipt-items h3 {
+                    margin-bottom: 15px;
+                    color: #333;
+                }
+
+                .receipt-customer p {
+                    margin: 5px 0;
+                    color: #666;
+                }
+
+                .receipt-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .receipt-table th {
+                    background: #f8f9fa;
+                    padding: 10px;
+                    text-align: left;
+                    font-weight: 600;
+                    border-bottom: 2px solid #dee2e6;
+                }
+
+                .receipt-table td {
+                    padding: 10px;
+                    border-bottom: 1px solid #dee2e6;
+                }
+
+                .receipt-summary {
+                    padding: 20px;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+
+                .receipt-row {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px 0;
+                }
+
+                .receipt-total {
+                    border-top: 2px solid #333;
+                    margin-top: 10px;
+                    padding-top: 15px;
+                    font-size: 1.2em;
+                    color: #28a745;
+                }
+
+                .receipt-payment p {
+                    margin: 8px 0;
+                    color: #666;
+                }
+
+                .receipt-footer {
+                    text-align: center;
+                    padding-top: 20px;
+                }
+
+                .receipt-footer p {
+                    margin-bottom: 20px;
+                    color: #666;
+                }
+
+                .receipt-footer button {
+                    margin: 5px;
+                    padding: 12px 30px;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    transition: all 0.3s ease;
+                }
+
+                .btn-primary {
+                    background: var(--color-accent, #28a745);
+                    color: white;
+                }
+
+                .btn-primary:hover {
+                    opacity: 0.9;
+                    transform: translateY(-2px);
+                }
+
+                .btn-secondary {
+                    background: #6c757d;
+                    color: white;
+                }
+
+                .btn-secondary:hover {
+                    opacity: 0.9;
+                    transform: translateY(-2px);
+                }
+
+                @media (max-width: 768px) {
+                    .receipt-content {
+                        padding: 20px;
+                        max-width: 95%;
+                    }
+
+                    .receipt-table {
+                        font-size: 12px;
+                    }
+
+                    .receipt-table th,
+                    .receipt-table td {
+                        padding: 8px 5px;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Добавляем чек на страницу
+            const receiptDiv = document.createElement('div');
+            receiptDiv.id = 'order-receipt';
+            receiptDiv.innerHTML = receiptHTML;
+            document.body.appendChild(receiptDiv);
+        }
+
+        // Закрыть чек
+        function closeReceipt() {
+            const receipt = document.getElementById('order-receipt');
+            if (receipt) {
+                receipt.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    receipt.remove();
+                    // Перезагружаем страницу, чтобы обновить корзину
+                    window.location.reload();
+                }, 300);
+            }
         }
 
         // Настройка обработчиков событий

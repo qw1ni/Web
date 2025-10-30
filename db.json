@@ -1855,30 +1855,11 @@
     {
       "id": "34c3",
       "userId": "7e12",
-      "items": [
-        {
-          "id": 1761824898549.256,
-          "productId": "28",
-          "product": {
-            "id": "28",
-            "name": "Adidas Originals Superstar",
-            "brand": "Adidas",
-            "price": 90,
-            "image": "./images/catalogItem5.svg",
-            "inStock": true,
-            "stockQuantity": 46
-          },
-          "size": "7",
-          "color": "Black/White",
-          "quantity": 1,
-          "price": 90,
-          "addedAt": "2025-10-30T11:48:18.549Z"
-        }
-      ],
-      "total": 90,
-      "itemCount": 1,
+      "items": [],
+      "total": 0,
+      "itemCount": 0,
       "createdAt": "2025-10-30T11:41:25.036Z",
-      "updatedAt": "2025-10-30T11:48:18.562Z"
+      "updatedAt": "2025-10-30T11:53:14.427Z"
     }
   ],
   "wishlists": [
@@ -2041,6 +2022,45 @@
       ],
       "createdAt": "2024-01-14T16:30:00Z",
       "updatedAt": "2024-01-16T10:20:00Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "5af7",
+      "userId": "7e12",
+      "customerInfo": {
+        "firstName": "Adam",
+        "lastName": "Smith",
+        "email": "morganizwd@gmail.com",
+        "phone": "+375 33 614 62 23",
+        "address": {
+          "street": "",
+          "city": "",
+          "state": "",
+          "zipCode": "",
+          "country": "Belarus"
+        }
+      },
+      "items": [
+        {
+          "productId": "28",
+          "productName": "Adidas Originals Superstar",
+          "brand": "Adidas",
+          "size": "7",
+          "color": "Black/White",
+          "quantity": 1,
+          "price": 90,
+          "subtotal": 90
+        }
+      ],
+      "subtotal": 90,
+      "tax": 9,
+      "shipping": 10,
+      "total": 109,
+      "status": "pending",
+      "paymentMethod": "Оплата при получении",
+      "createdAt": "2025-10-30T11:53:14.389Z",
+      "updatedAt": "2025-10-30T11:53:14.389Z"
     }
   ]
 }
