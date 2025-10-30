@@ -157,6 +157,11 @@
 
             // Загружаем данные профиля
             await loadProfileData();
+            
+            // Останавливаем прелоадер после загрузки
+            if (window.SneakerStorePreloader && window.SneakerStorePreloader.preloader) {
+                await window.SneakerStorePreloader.preloader.stop();
+            }
         });
 
         // Загрузка данных профиля
