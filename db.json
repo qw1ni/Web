@@ -17,7 +17,7 @@
       "isAdmin": false,
       "role": "customer",
       "createdAt": "2024-01-15T10:30:00Z",
-      "lastLogin": "2025-10-30T11:22:52.845Z"
+      "lastLogin": "2025-10-30T11:37:49.644Z"
     },
     {
       "id": "2",
@@ -211,7 +211,7 @@
         "country": "Belarus"
       },
       "createdAt": "2025-10-18T09:39:11.756Z",
-      "lastLogin": "2025-10-18T09:39:24.038Z"
+      "lastLogin": "2025-10-30T11:41:23.023Z"
     }
   ],
   "products": [
@@ -1851,6 +1851,34 @@
       "total": 405,
       "createdAt": "2024-01-17T13:20:00Z",
       "updatedAt": "2024-01-17T13:20:00Z"
+    },
+    {
+      "id": "34c3",
+      "userId": "7e12",
+      "items": [
+        {
+          "id": 1761824898549.256,
+          "productId": "28",
+          "product": {
+            "id": "28",
+            "name": "Adidas Originals Superstar",
+            "brand": "Adidas",
+            "price": 90,
+            "image": "./images/catalogItem5.svg",
+            "inStock": true,
+            "stockQuantity": 46
+          },
+          "size": "7",
+          "color": "Black/White",
+          "quantity": 1,
+          "price": 90,
+          "addedAt": "2025-10-30T11:48:18.549Z"
+        }
+      ],
+      "total": 90,
+      "itemCount": 1,
+      "createdAt": "2025-10-30T11:41:25.036Z",
+      "updatedAt": "2025-10-30T11:48:18.562Z"
     }
   ],
   "wishlists": [

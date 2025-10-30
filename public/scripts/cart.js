@@ -2,7 +2,7 @@
 
 (function() {
     const API_BASE_URL = 'http://localhost:3000';
-    const CART_STORAGE_KEY = 'sneaker_store_cart';
+    const CART_STORAGE_KEY_PREFIX = 'sneaker_store_cart_';
 
     class CartManager {
         constructor() {
@@ -14,11 +14,6 @@
             console.log('Page port:', window.location.port);
             console.log('Page origin:', window.location.origin);
             
-            // Проверяем localStorage перед загрузкой
-            console.log('Checking localStorage before load:');
-            console.log('All localStorage keys:', Object.keys(localStorage));
-            console.log('CART_STORAGE_KEY value:', localStorage.getItem(CART_STORAGE_KEY));
-            
             // Проверяем, что API доступен
             if (typeof SneakerStoreAPI === 'undefined') {
                 console.error('SneakerStoreAPI not loaded. Make sure api.js is loaded before cart.js');
@@ -27,18 +22,31 @@
                 this.apiClient = new SneakerStoreAPI.ApiClient();
             }
             
-            // Загружаем корзину из localStorage
-            this.cart = this.loadCartFromStorage();
+            // Инициализируем пустую корзину
+            this.cart = {
+                items: [],
+                total: 0,
+                itemCount: 0,
+                lastUpdated: new Date().toISOString()
+            };
             this.listeners = [];
+            this.currentUserId = null;
             
-            console.log('CartManager initialized with cart:', this.cart);
+            console.log('CartManager initialized with empty cart');
+        }
+        
+        // Получаем ключ для localStorage с учетом пользователя
+        getStorageKey() {
+            const userId = this.currentUserId || 'guest';
+            return CART_STORAGE_KEY_PREFIX + userId;
         }
 
         // Загрузка корзины из localStorage
         loadCartFromStorage() {
             try {
-                console.log('Loading cart from localStorage...');
-                const stored = localStorage.getItem(CART_STORAGE_KEY);
+                const storageKey = this.getStorageKey();
+                console.log('Loading cart from localStorage with key:', storageKey);
+                const stored = localStorage.getItem(storageKey);
                 console.log('Raw stored data:', stored);
                 
                 if (stored) {
@@ -63,13 +71,10 @@
         // Сохранение корзины в localStorage
         saveCartToStorage() {
             try {
-                console.log('Saving cart to localStorage:', this.cart);
-                localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(this.cart));
+                const storageKey = this.getStorageKey();
+                console.log('Saving cart to localStorage with key:', storageKey);
+                localStorage.setItem(storageKey, JSON.stringify(this.cart));
                 console.log('Cart saved to localStorage successfully');
-                
-                // Проверяем, что сохранилось
-                const saved = localStorage.getItem(CART_STORAGE_KEY);
-                console.log('Verification - saved cart:', saved);
             } catch (error) {
                 console.error('Ошибка сохранения корзины в localStorage:', error);
             }
@@ -81,12 +86,26 @@
             const authManager = window.SneakerStoreAuth?.authManager;
             if (!authManager || !authManager.isAuthenticated()) {
                 console.log('User not authenticated, skipping sync');
+                this.currentUserId = null;
+                // Загружаем гостевую корзину
+                this.cart = this.loadCartFromStorage();
+                this.notifyListeners();
                 return;
             }
 
             try {
                 const user = authManager.getCurrentUser();
                 console.log('User authenticated:', user);
+                
+                // Устанавливаем текущего пользователя
+                const oldUserId = this.currentUserId;
+                this.currentUserId = user.id;
+                
+                // Если сменился пользователь, загружаем его корзину из localStorage
+                if (oldUserId !== this.currentUserId) {
+                    console.log('User changed, loading cart for user:', this.currentUserId);
+                    this.cart = this.loadCartFromStorage();
+                }
                 
                 // Получаем корзину пользователя с сервера
                 const response = await this.apiClient.get('/carts', { userId: user.id });
@@ -95,11 +114,16 @@
                 if (response.success && response.data.length > 0) {
                     const serverCart = response.data[0];
                     console.log('Server cart found:', serverCart);
-                    // Объединяем локальную и серверную корзины
-                    this.mergeCarts(serverCart);
+                    // ЗАМЕНЯЕМ локальную корзину серверной (приоритет у сервера)
+                    this.cart.items = serverCart.items || [];
+                    this.cart.total = serverCart.total || 0;
+                    this.cart.itemCount = serverCart.itemCount || serverCart.items?.length || 0;
+                    this.cart.lastUpdated = new Date().toISOString();
+                    this.saveCartToStorage();
+                    this.notifyListeners();
                 } else {
                     console.log('No server cart found, creating new one');
-                    // Создаем новую корзину на сервере
+                    // Создаем новую пустую корзину на сервере
                     await this.createServerCart();
                 }
             } catch (error) {
@@ -116,9 +140,9 @@
                 const user = authManager.getCurrentUser();
                 const cartData = {
                     userId: user.id,
-                    items: this.cart.items,
-                    total: this.cart.total,
-                    itemCount: this.cart.itemCount,
+                    items: [],
+                    total: 0,
+                    itemCount: 0,
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString()
                 };
@@ -126,6 +150,13 @@
                 const response = await this.apiClient.post('/carts', cartData);
                 if (response.success) {
                     console.log('Корзина создана на сервере');
+                    // Обновляем локальную корзину
+                    this.cart.items = [];
+                    this.cart.total = 0;
+                    this.cart.itemCount = 0;
+                    this.cart.lastUpdated = new Date().toISOString();
+                    this.saveCartToStorage();
+                    this.notifyListeners();
                 }
             } catch (error) {
                 console.error('Ошибка создания корзины на сервере:', error);
@@ -235,13 +266,38 @@
                 console.log('Cart after adding item:', this.cart);
 
                 // Синхронизируем с сервером
-                await this.syncWithServer();
+                await this.syncCartWithServer();
 
                 console.log('Item successfully added to cart');
                 return { success: true, message: 'Товар добавлен в корзину' };
             } catch (error) {
                 console.error('Ошибка добавления товара в корзину:', error);
                 return { success: false, error: error.message };
+            }
+        }
+
+        // Синхронизация корзины с сервером (обновление)
+        async syncCartWithServer() {
+            const authManager = window.SneakerStoreAuth?.authManager;
+            if (!authManager || !authManager.isAuthenticated()) return;
+
+            try {
+                const user = authManager.getCurrentUser();
+                const response = await this.apiClient.get('/carts', { userId: user.id });
+                
+                if (response.success && response.data.length > 0) {
+                    const serverCart = response.data[0];
+                    // Обновляем корзину на сервере
+                    await this.apiClient.put(`/carts/${serverCart.id}`, {
+                        ...serverCart,
+                        items: this.cart.items,
+                        total: this.cart.total,
+                        itemCount: this.cart.itemCount,
+                        updatedAt: new Date().toISOString()
+                    });
+                }
+            } catch (error) {
+                console.error('Ошибка синхронизации корзины с сервером:', error);
             }
         }
 
@@ -261,7 +317,7 @@
                 this.notifyListeners();
 
                 // Синхронизируем с сервером
-                await this.syncWithServer();
+                await this.syncCartWithServer();
 
                 return { success: true, message: 'Товар удален из корзины' };
             } catch (error) {
@@ -301,7 +357,7 @@
                 this.notifyListeners();
 
                 // Синхронизируем с сервером
-                await this.syncWithServer();
+                await this.syncCartWithServer();
 
                 return { success: true, message: 'Количество обновлено' };
             } catch (error) {
@@ -318,7 +374,7 @@
                 this.notifyListeners();
 
                 // Синхронизируем с сервером
-                await this.syncWithServer();
+                await this.syncCartWithServer();
 
                 return { success: true, message: 'Корзина очищена' };
             } catch (error) {
@@ -476,17 +532,11 @@
 
     // Отладка при уходе со страницы
     window.addEventListener('beforeunload', () => {
-        console.log('Page unloading, localStorage before unload:');
-        console.log('Page origin:', window.location.origin);
-        console.log('All localStorage keys:', Object.keys(localStorage));
-        console.log('CART_STORAGE_KEY value:', localStorage.getItem(CART_STORAGE_KEY));
+        console.log('Page unloading, saving cart...');
     });
 
     // Отладка при загрузке страницы
     window.addEventListener('load', () => {
-        console.log('Page loaded, localStorage after load:');
-        console.log('Page origin:', window.location.origin);
-        console.log('All localStorage keys:', Object.keys(localStorage));
-        console.log('CART_STORAGE_KEY value:', localStorage.getItem(CART_STORAGE_KEY));
+        console.log('Page loaded, cart initialized');
     });
 })();
