@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Sneaker Store - Мои заказы</title>
+    <style>
+        .orders-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 70vh;
+        }
+        
+        .orders-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .orders-header h1 {
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+        }
+        
+        .orders-header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .orders-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--color-accent);
+            background: transparent;
+            color: var(--color-light);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--color-accent);
+            color: white;
+        }
+        
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .order-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: var(--border);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .order-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .order-number {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--color-light);
+        }
+        
+        .order-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+        }
+        
+        .order-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .status-processing {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .status-shipped {
+            background: #007bff;
+            color: white;
+        }
+        
+        .status-delivered {
+            background: #28a745;
+            color: white;
+        }
+        
+        .status-cancelled {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .order-items {
+            margin: 20px 0;
+        }
+        
+        .order-items-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--color-light);
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: var(--color-light);
+        }
+        
+        .item-info {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .item-price {
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+        
+        .order-summary {
+            display: flex;
+            justify-content: flex-end;
+            gap: 30px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        
+        .summary-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+        }
+        
+        .summary-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--color-accent);
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-details {
+            background: var(--color-accent);
+            color: white;
+        }
+        
+        .btn-details:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-reorder {
+            background: transparent;
+            color: var(--color-light);
+            border: 2px solid var(--color-accent);
+        }
+        
+        .btn-reorder:hover {
+            background: var(--color-accent);
+        }
+        
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-orders-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-orders h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: var(--color-light);
+        }
+        
+        .empty-orders p {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 30px;
+        }
+        
+        .empty-orders-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--color-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .empty-orders-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--color-light);
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--color-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error {
+            background: rgba(220, 53, 69, 0.1);
+            color: #ff6b6b;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .orders-container {
+                padding: 10px;
+            }
+            
+            .orders-header {
+                padding: 30px 20px;
+            }
+            
+            .orders-header h1 {
+                font-size: 2em;
+            }
+            
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .order-summary {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-end;
+            }
+            
+            .order-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div data-include="header"></div>
+
+    <main class="content">
+        <div class="orders-container">
+            <div class="orders-header">
+                <h1>📦 Мои заказы</h1>
+                <p id="user-info">История ваших покупок</p>
+            </div>
+
+            <div class="orders-filter" id="orders-filter">
+                <button class="filter-btn active" data-filter="all">Все заказы</button>
+                <button class="filter-btn" data-filter="pending">В обработке</button>
+                <button class="filter-btn" data-filter="processing">Обрабатывается</button>
+                <button class="filter-btn" data-filter="shipped">Отправлено</button>
+                <button class="filter-btn" data-filter="delivered">Доставлено</button>
+            </div>
+
+            <div id="orders-loading" class="loading">
+                <div class="loading-spinner"></div>
+                <p>Загрузка заказов...</p>
+            </div>
+
+            <div id="orders-error" class="error" style="display: none;"></div>
+
+            <div id="orders-list" class="orders-list" style="display: none;">
+                <!-- Заказы будут добавлены динамически -->
+            </div>
+        </div>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/preloader.js"></script>
+    <script src="./scripts/accessibility.js"></script>
+    
+    <script>
+        let allOrders = [];
+        let currentFilter = 'all';
+
+        // Проверка авторизации при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Проверяем, авторизован ли пользователь
+            if (!window.SneakerStoreAuth || !window.SneakerStoreAuth.authManager.isAuthenticated()) {
+                alert('Необходима авторизация для просмотра заказов');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const user = window.SneakerStoreAuth.authManager.getCurrentUser();
+            document.getElementById('user-info').textContent = `История покупок: ${user.firstName} ${user.lastName}`;
+
+            // Загружаем заказы
+            await loadOrders();
+
+            // Настраиваем фильтры
+            setupFilters();
+            
+            // Останавливаем прелоадер после загрузки
+            if (window.SneakerStorePreloader && window.SneakerStorePreloader.preloader) {
+                await window.SneakerStorePreloader.preloader.stop();
+            }
+        });
+
+        // Загрузка заказов
+        async function loadOrders() {
+            try {
+                const user = window.SneakerStoreAuth.authManager.getCurrentUser();
+                
+                // Делаем прямой fetch запрос
+                const response = await fetch(`http://localhost:3000/orders?userId=${user.id}`);
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers.get('content-type'));
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Сначала получим текст ответа
+                const text = await response.text();
+                console.log('Response text:', text);
+                console.log('Response text length:', text.length);
+                
+                // Теперь попробуем распарсить
+                const data = text ? JSON.parse(text) : [];
+                console.log('Orders data:', data);
+                
+                allOrders = data || [];
+                console.log('Orders loaded:', allOrders);
+                
+                // Сортируем по дате (новые первыми)
+                if (allOrders.length > 0) {
+                    allOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                }
+                
+                displayOrders(allOrders);
+                
+            } catch (error) {
+                console.error('Ошибка загрузки заказов:', error);
+                showError('Ошибка при загрузке заказов: ' + error.message);
+            } finally {
+                document.getElementById('orders-loading').style.display = 'none';
+            }
+        }
+
+        // Отображение заказов
+        function displayOrders(orders) {
+            const container = document.getElementById('orders-list');
+            
+            if (!orders || orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-orders">
+                        <div class="empty-orders-icon">📦</div>
+                        <h3>У вас пока нет заказов</h3>
+                        <p>Начните делать покупки в нашем каталоге!</p>
+                        <a href="catalog.html" class="empty-orders-btn">Перейти в каталог</a>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = orders.map(order => createOrderCard(order)).join('');
+            }
+            
+            container.style.display = 'block';
+        }
+
+        // Создание карточки заказа
+        function createOrderCard(order) {
+            const statusClass = `status-${order.status}`;
+            const statusText = getStatusText(order.status);
+            const orderDate = new Date(order.createdAt).toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            return `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <div class="order-number">Заказ #${order.id}</div>
+                            <div class="order-date">${orderDate}</div>
+                        </div>
+                        <div class="order-status ${statusClass}">${statusText}</div>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-items-title">Состав заказа:</div>
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <div class="item-details">
+                                    <div class="item-name">${item.productName}</div>
+                                    <div class="item-info">
+                                        ${item.brand} • Размер: ${item.size} • Цвет: ${item.color} • Кол-во: ${item.quantity}
+                                    </div>
+                                </div>
+                                <div class="item-price">$${item.subtotal.toFixed(2)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-item">
+                            <div class="summary-label">Подытог</div>
+                            <div class="summary-value">$${order.subtotal.toFixed(2)}</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Налог</div>
+                            <div class="summary-value">$${order.tax.toFixed(2)}</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Доставка</div>
+                            <div class="summary-value">${order.shipping === 0 ? 'Бесплатно' : '$' + order.shipping.toFixed(2)}</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Итого</div>
+                            <div class="summary-value" style="font-size: 1.5em;">$${order.total.toFixed(2)}</div>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="btn btn-details" onclick="showOrderDetails('${order.id}')">
+                            Детали заказа
+                        </button>
+                        <button class="btn btn-reorder" onclick="reorder('${order.id}')">
+                            Повторить заказ
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Получение текста статуса
+        function getStatusText(status) {
+            const statusTexts = {
+                'pending': 'В обработке',
+                'processing': 'Обрабатывается',
+                'shipped': 'Отправлено',
+                'delivered': 'Доставлено',
+                'cancelled': 'Отменено'
+            };
+            return statusTexts[status] || status;
+        }
+
+        // Настройка фильтров
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Убираем активный класс со всех кнопок
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    // Добавляем активный класс на нажатую кнопку
+                    btn.classList.add('active');
+                    
+                    // Применяем фильтр
+                    const filter = btn.getAttribute('data-filter');
+                    currentFilter = filter;
+                    applyFilter(filter);
+                });
+            });
+        }
+
+        // Применение фильтра
+        function applyFilter(filter) {
+            let filteredOrders = allOrders;
+            
+            if (filter !== 'all') {
+                filteredOrders = allOrders.filter(order => order.status === filter);
+            }
+            
+            displayOrders(filteredOrders);
+        }
+
+        // Показ деталей заказа
+        function showOrderDetails(orderId) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            alert(`
+Заказ #${order.id}
+
+Статус: ${getStatusText(order.status)}
+Дата: ${new Date(order.createdAt).toLocaleDateString('ru-RU')}
+
+Получатель:
+${order.customerInfo.firstName} ${order.customerInfo.lastName}
+Email: ${order.customerInfo.email}
+Телефон: ${order.customerInfo.phone}
+
+Адрес доставки:
+${order.customerInfo.address.street}
+${order.customerInfo.address.city}, ${order.customerInfo.address.zipCode}
+${order.customerInfo.address.country}
+
+Способ оплаты: ${order.paymentMethod}
+            `);
+        }
+
+        // Повторить заказ
+        async function reorder(orderId) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            if (confirm(`Добавить все товары из заказа #${order.id} в корзину?`)) {
+                try {
+                    const cartManager = window.SneakerStoreCart?.cartManager;
+                    if (!cartManager) {
+                        throw new Error('Корзина недоступна');
+                    }
+
+                    // Добавляем каждый товар в корзину
+                    for (const item of order.items) {
+                        await cartManager.addItem(
+                            item.productId,
+                            item.size,
+                            item.color,
+                            item.quantity
+                        );
+                    }
+
+                    alert('Товары добавлены в корзину!');
+                    window.location.href = 'cart.html';
+                } catch (error) {
+                    console.error('Ошибка при повторе заказа:', error);
+                    alert('Ошибка при добавлении товаров в корзину: ' + error.message);
+                }
+            }
+        }
+
+        // Показ ошибки
+        function showError(message) {
+            const errorElement = document.getElementById('orders-error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
