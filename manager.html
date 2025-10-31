@@ -243,28 +243,54 @@
     <script>
         // Проверка авторизации при загрузке страницы
         document.addEventListener('DOMContentLoaded', async function() {
-            // Проверяем, авторизован ли пользователь и является ли он менеджером
-            if (!window.SneakerStoreAuth || !window.SneakerStoreAuth.authManager.isAuthenticated()) {
-                alert('Необходима авторизация');
-                window.location.href = '/login.html';
-                return;
+            const preloaderInstance = window.SneakerStorePreloader ? window.SneakerStorePreloader.preloader : null;
+
+            async function stopPreloader() {
+                if (preloaderInstance && typeof preloaderInstance.stop === 'function') {
+                    await preloaderInstance.stop();
+                } else {
+                    const preloaderEl = document.getElementById('preloader');
+                    if (preloaderEl) {
+                        preloaderEl.classList.add('fade-out');
+                        preloaderEl.style.display = 'none';
+                    }
+                }
             }
 
-            if (!window.SneakerStoreAuth.authManager.isManager()) {
-                alert('Доступ запрещен. Требуются права менеджера');
-                window.location.href = '/index.html';
-                return;
+            if (preloaderInstance && typeof preloaderInstance.start === 'function') {
+                preloaderInstance.start();
             }
 
-            // Показываем информацию о пользователе
-            const user = window.SneakerStoreAuth.authManager.getCurrentUser();
-            document.getElementById('manager-user-info').innerHTML = `
-                <p>Добро пожаловать, ${user.firstName} ${user.lastName}!</p>
-                <button class="btn btn-danger" onclick="logout()">Выйти</button>
-            `;
+            try {
+                // Проверяем, авторизован ли пользователь и является ли он менеджером
+                if (!window.SneakerStoreAuth || !window.SneakerStoreAuth.authManager.isAuthenticated()) {
+                    alert('Необходима авторизация');
+                    await stopPreloader();
+                    window.location.href = '/login.html';
+                    return;
+                }
 
-            // Загружаем данные
-            await loadManagerData();
+                if (!window.SneakerStoreAuth.authManager.isManager()) {
+                    alert('Доступ запрещен. Требуются права менеджера');
+                    await stopPreloader();
+                    window.location.href = '/index.html';
+                    return;
+                }
+
+                // Показываем информацию о пользователе
+                const user = window.SneakerStoreAuth.authManager.getCurrentUser();
+                document.getElementById('manager-user-info').innerHTML = `
+                    <p>Добро пожаловать, ${user.firstName} ${user.lastName}!</p>
+                    <button class="btn btn-danger" onclick="logout()">Выйти</button>
+                `;
+
+                // Загружаем данные
+                await loadManagerData();
+            } catch (error) {
+                console.error('Ошибка инициализации панели менеджера:', error);
+            } finally {
+                await stopPreloader();
+            }
         });
 
         // Загрузка данных для панели менеджера
