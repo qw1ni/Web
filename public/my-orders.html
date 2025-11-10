@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/styles.css">
-    <title>Sneaker Store - Мои заказы</title>
+    <title>Sneaker Store - My Orders</title>
     <style>
         .orders-container {
             max-width: 1200px;
@@ -350,21 +350,21 @@
     <main class="content">
         <div class="orders-container">
             <div class="orders-header">
-                <h1>📦 Мои заказы</h1>
-                <p id="user-info">История ваших покупок</p>
+                <h1 data-i18n="orders.page.title">📦 My Orders</h1>
+                <p id="user-info" data-i18n="orders.page.subtitle">Your purchase history</p>
             </div>
 
             <div class="orders-filter" id="orders-filter">
-                <button class="filter-btn active" data-filter="all">Все заказы</button>
-                <button class="filter-btn" data-filter="pending">В обработке</button>
-                <button class="filter-btn" data-filter="processing">Обрабатывается</button>
-                <button class="filter-btn" data-filter="shipped">Отправлено</button>
-                <button class="filter-btn" data-filter="delivered">Доставлено</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="orders.filters.all">All orders</button>
+                <button class="filter-btn" data-filter="pending" data-i18n="orders.filters.pending">Pending</button>
+                <button class="filter-btn" data-filter="processing" data-i18n="orders.filters.processing">Processing</button>
+                <button class="filter-btn" data-filter="shipped" data-i18n="orders.filters.shipped">Shipped</button>
+                <button class="filter-btn" data-filter="delivered" data-i18n="orders.filters.delivered">Delivered</button>
             </div>
 
             <div id="orders-loading" class="loading">
                 <div class="loading-spinner"></div>
-                <p>Загрузка заказов...</p>
+                <p data-i18n="orders.loading">Loading your orders...</p>
             </div>
 
             <div id="orders-error" class="error" style="display: none;"></div>
@@ -378,272 +378,359 @@
     <div data-include="footer"></div>
 
     <script src="./scripts/partials.js"></script>
+    <script src="./scripts/i18n.js"></script>
     <script src="./scripts/api.js"></script>
     <script src="./scripts/auth.js"></script>
     <script src="./scripts/preloader.js"></script>
     <script src="./scripts/accessibility.js"></script>
     
     <script>
-        let allOrders = [];
-        let currentFilter = 'all';
+        const ordersFallbacks = {
+            'orders.page.subtitle': 'Your purchase history',
+            'orders.alerts.authRequired': 'You must be signed in to view orders.',
+            'orders.messages.history': 'Order history: {name}',
+            'orders.loading': 'Loading your orders...',
+            'orders.errors.load': 'Failed to load orders: {reason}',
+            'orders.errors.none': 'You do not have any orders yet.',
+            'orders.empty.title': 'You do not have any orders yet',
+            'orders.empty.text': 'Start shopping in our catalog!',
+            'orders.empty.button': 'Browse catalog',
+            'orders.orderNumber': 'Order #{id}',
+            'orders.date': 'Placed on {date}',
+            'orders.status.pending': 'Pending',
+            'orders.status.processing': 'Processing',
+            'orders.status.shipped': 'Shipped',
+            'orders.status.delivered': 'Delivered',
+            'orders.status.cancelled': 'Cancelled',
+            'orders.items.title': 'Order items',
+            'orders.item.details': '{brand} • Size: {size} • Color: {color} • Qty: {quantity}',
+            'orders.summary.subtotal': 'Subtotal',
+            'orders.summary.tax': 'Tax',
+            'orders.summary.shipping': 'Shipping',
+            'orders.summary.total': 'Total',
+            'orders.buttons.details': 'View details',
+            'orders.buttons.reorder': 'Reorder',
+            'orders.modal.reorder': 'Add all items from order #{id} to your cart?',
+            'orders.messages.reorderSuccess': 'Items added to your cart!',
+            'orders.errors.reorderUnavailable': 'Cart is unavailable.',
+            'orders.errors.reorderFailed': 'Failed to reorder items: {reason}',
+            'orders.details.title': 'Order #{id}',
+            'orders.details.status': 'Status: {status}',
+            'orders.details.date': 'Date: {date}',
+            'orders.details.recipient': 'Recipient:',
+            'orders.details.contact': 'Email: {email}\nPhone: {phone}',
+            'orders.details.address': 'Shipping address:',
+            'orders.details.payment': 'Payment method: {method}'
+        };
 
-        // Проверка авторизации при загрузке страницы
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Проверяем, авторизован ли пользователь
-            if (!window.SneakerStoreAuth || !window.SneakerStoreAuth.authManager.isAuthenticated()) {
-                alert('Необходима авторизация для просмотра заказов');
+        function t(key, replacements = {}) {
+            const translateFn = window.I18n && typeof window.I18n.translate === 'function'
+                ? window.I18n.translate
+                : () => key;
+            let result = translateFn(key);
+            if (result === key && ordersFallbacks[key]) {
+                result = ordersFallbacks[key];
+            }
+            result = String(result);
+            Object.entries(replacements).forEach(([placeholder, value]) => {
+                result = result.replace(`{${placeholder}}`, value);
+            });
+            return result;
+        }
+
+        const ordersState = {
+            allOrders: [],
+            currentFilter: 'all'
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!window.SneakerStoreAuth || !window.SneakerStoreAuth.authManager?.isAuthenticated()) {
+                alert(t('orders.alerts.authRequired'));
                 window.location.href = 'login.html';
                 return;
             }
 
-            const user = window.SneakerStoreAuth.authManager.getCurrentUser();
-            document.getElementById('user-info').textContent = `История покупок: ${user.firstName} ${user.lastName}`;
-
-            // Загружаем заказы
-            await loadOrders();
-
-            // Настраиваем фильтры
-            setupFilters();
-            
-            // Останавливаем прелоадер после загрузки
-            if (window.SneakerStorePreloader && window.SneakerStorePreloader.preloader) {
-                await window.SneakerStorePreloader.preloader.stop();
-            }
+            await initializeOrdersPage();
         });
 
-        // Загрузка заказов
-        async function loadOrders() {
-            try {
-                const user = window.SneakerStoreAuth.authManager.getCurrentUser();
-                
-                // Делаем прямой fetch запрос
-                const response = await fetch(`http://localhost:3000/orders?userId=${user.id}`);
-                
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers.get('content-type'));
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+        document.addEventListener('languageChanged', () => {
+            renderOrders();
+            updateUserHeading();
+            resetFilterLabels();
+        });
+
+        async function initializeOrdersPage() {
+            updateUserHeading();
+            await loadOrders();
+            setupFilters();
+
+            if (window.SneakerStorePreloader?.preloader) {
+                try {
+                    await window.SneakerStorePreloader.preloader.stop();
+                } catch (error) {
+                    console.warn('Failed to stop preloader:', error);
                 }
-                
-                // Сначала получим текст ответа
-                const text = await response.text();
-                console.log('Response text:', text);
-                console.log('Response text length:', text.length);
-                
-                // Теперь попробуем распарсить
-                const data = text ? JSON.parse(text) : [];
-                console.log('Orders data:', data);
-                
-                allOrders = data || [];
-                console.log('Orders loaded:', allOrders);
-                
-                // Сортируем по дате (новые первыми)
-                if (allOrders.length > 0) {
-                    allOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                }
-                
-                displayOrders(allOrders);
-                
-            } catch (error) {
-                console.error('Ошибка загрузки заказов:', error);
-                showError('Ошибка при загрузке заказов: ' + error.message);
-            } finally {
-                document.getElementById('orders-loading').style.display = 'none';
             }
         }
 
-        // Отображение заказов
-        function displayOrders(orders) {
+        function updateUserHeading() {
+            const heading = document.getElementById('user-info');
+            if (!heading) return;
+
+            const user = window.SneakerStoreAuth?.authManager?.getCurrentUser();
+            if (!user) return;
+
+            const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
+            heading.textContent = t('orders.messages.history', { name });
+        }
+
+        function resetFilterLabels() {
+            const filters = document.querySelectorAll('.filter-btn');
+            filters.forEach(btn => {
+                const key = btn.getAttribute('data-i18n');
+                if (key) {
+                    btn.textContent = t(key);
+                }
+            });
+        }
+
+        async function loadOrders() {
+            const loading = document.getElementById('orders-loading');
+            const errorElement = document.getElementById('orders-error');
+
+            if (loading) loading.style.display = 'block';
+            if (errorElement) errorElement.style.display = 'none';
+
+            try {
+                const user = window.SneakerStoreAuth.authManager.getCurrentUser();
+                const response = await fetch(`http://localhost:3000/orders?userId=${user.id}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error ${response.status}`);
+                }
+
+                const text = await response.text();
+                const data = text ? JSON.parse(text) : [];
+
+                ordersState.allOrders = Array.isArray(data) ? data : [];
+                ordersState.allOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                renderOrders();
+            } catch (error) {
+                console.error('Failed to load orders:', error);
+                showError(t('orders.errors.load', { reason: error.message }));
+            } finally {
+                if (loading) loading.style.display = 'none';
+            }
+        }
+
+        function renderOrders() {
             const container = document.getElementById('orders-list');
-            
-            if (!orders || orders.length === 0) {
+            if (!container) return;
+
+            let filteredOrders = ordersState.allOrders;
+            if (ordersState.currentFilter !== 'all') {
+                filteredOrders = filteredOrders.filter(order => order.status === ordersState.currentFilter);
+            }
+
+            if (filteredOrders.length === 0) {
                 container.innerHTML = `
                     <div class="empty-orders">
                         <div class="empty-orders-icon">📦</div>
-                        <h3>У вас пока нет заказов</h3>
-                        <p>Начните делать покупки в нашем каталоге!</p>
-                        <a href="catalog.html" class="empty-orders-btn">Перейти в каталог</a>
+                        <h3>${t('orders.empty.title')}</h3>
+                        <p>${t('orders.empty.text')}</p>
+                        <a href="catalog.html" class="empty-orders-btn">${t('orders.empty.button')}</a>
                     </div>
                 `;
             } else {
-                container.innerHTML = orders.map(order => createOrderCard(order)).join('');
+                container.innerHTML = filteredOrders.map(createOrderCard).join('');
             }
-            
+
             container.style.display = 'block';
         }
 
-        // Создание карточки заказа
         function createOrderCard(order) {
             const statusClass = `status-${order.status}`;
-            const statusText = getStatusText(order.status);
-            const orderDate = new Date(order.createdAt).toLocaleDateString('ru-RU', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            const statusText = t(`orders.status.${order.status}`);
+            const date = formatDate(order.createdAt);
+
+            const itemsHtml = (order.items || []).map(item => {
+                const details = t('orders.item.details', {
+                    brand: item.brand || '',
+                    size: item.size,
+                    color: item.color,
+                    quantity: item.quantity
+                });
+
+                return `
+                    <div class="order-item">
+                        <div class="item-details">
+                            <div class="item-name">${item.productName}</div>
+                            <div class="item-info">${details}</div>
+                        </div>
+                        <div class="item-price">${formatCurrency(item.subtotal)}</div>
+                    </div>
+                `;
+            }).join('');
+
+            const shippingValue = order.shipping === 0 ? t('cart.summary.free') || 'Free' : formatCurrency(order.shipping);
 
             return `
                 <div class="order-card">
                     <div class="order-header">
                         <div class="order-info">
-                            <div class="order-number">Заказ #${order.id}</div>
-                            <div class="order-date">${orderDate}</div>
+                            <div class="order-number">${t('orders.orderNumber', { id: order.id })}</div>
+                            <div class="order-date">${t('orders.date', { date })}</div>
                         </div>
                         <div class="order-status ${statusClass}">${statusText}</div>
                     </div>
 
                     <div class="order-items">
-                        <div class="order-items-title">Состав заказа:</div>
-                        ${order.items.map(item => `
-                            <div class="order-item">
-                                <div class="item-details">
-                                    <div class="item-name">${item.productName}</div>
-                                    <div class="item-info">
-                                        ${item.brand} • Размер: ${item.size} • Цвет: ${item.color} • Кол-во: ${item.quantity}
-                                    </div>
-                                </div>
-                                <div class="item-price">$${item.subtotal.toFixed(2)}</div>
-                            </div>
-                        `).join('')}
+                        <div class="order-items-title">${t('orders.items.title')}</div>
+                        ${itemsHtml}
                     </div>
 
                     <div class="order-summary">
                         <div class="summary-item">
-                            <div class="summary-label">Подытог</div>
-                            <div class="summary-value">$${order.subtotal.toFixed(2)}</div>
+                            <div class="summary-label">${t('orders.summary.subtotal')}</div>
+                            <div class="summary-value">${formatCurrency(order.subtotal)}</div>
                         </div>
                         <div class="summary-item">
-                            <div class="summary-label">Налог</div>
-                            <div class="summary-value">$${order.tax.toFixed(2)}</div>
+                            <div class="summary-label">${t('orders.summary.tax')}</div>
+                            <div class="summary-value">${formatCurrency(order.tax)}</div>
                         </div>
                         <div class="summary-item">
-                            <div class="summary-label">Доставка</div>
-                            <div class="summary-value">${order.shipping === 0 ? 'Бесплатно' : '$' + order.shipping.toFixed(2)}</div>
+                            <div class="summary-label">${t('orders.summary.shipping')}</div>
+                            <div class="summary-value">${shippingValue}</div>
                         </div>
                         <div class="summary-item">
-                            <div class="summary-label">Итого</div>
-                            <div class="summary-value" style="font-size: 1.5em;">$${order.total.toFixed(2)}</div>
+                            <div class="summary-label">${t('orders.summary.total')}</div>
+                            <div class="summary-value" style="font-size: 1.5em;">${formatCurrency(order.total)}</div>
                         </div>
                     </div>
 
                     <div class="order-actions">
-                        <button class="btn btn-details" onclick="showOrderDetails('${order.id}')">
-                            Детали заказа
-                        </button>
-                        <button class="btn btn-reorder" onclick="reorder('${order.id}')">
-                            Повторить заказ
-                        </button>
+                        <button class="btn btn-details" onclick="showOrderDetails('${order.id}')">${t('orders.buttons.details')}</button>
+                        <button class="btn btn-reorder" onclick="reorder('${order.id}')">${t('orders.buttons.reorder')}</button>
                     </div>
                 </div>
             `;
         }
 
-        // Получение текста статуса
-        function getStatusText(status) {
-            const statusTexts = {
-                'pending': 'В обработке',
-                'processing': 'Обрабатывается',
-                'shipped': 'Отправлено',
-                'delivered': 'Доставлено',
-                'cancelled': 'Отменено'
-            };
-            return statusTexts[status] || status;
+        function formatDate(value) {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return value;
+
+            const language = window.I18n?.getCurrentLanguage?.() || 'en';
+            const locale = language === 'ru' ? 'ru-RU' : 'en-US';
+
+            try {
+                return new Intl.DateTimeFormat(locale, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }).format(date);
+            } catch {
+                return date.toISOString().split('T')[0];
+            }
         }
 
-        // Настройка фильтров
+        function formatCurrency(value) {
+            const amount = Number(value) || 0;
+            const language = window.I18n?.getCurrentLanguage?.() || 'en';
+            const locale = language === 'ru' ? 'ru-RU' : 'en-US';
+
+            try {
+                return new Intl.NumberFormat(locale, {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                }).format(amount);
+            } catch {
+                return `$${amount.toFixed(2)}`;
+            }
+        }
+
         function setupFilters() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            
-            filterButtons.forEach(btn => {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Убираем активный класс со всех кнопок
-                    filterButtons.forEach(b => b.classList.remove('active'));
-                    // Добавляем активный класс на нажатую кнопку
+                    buttons.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    
-                    // Применяем фильтр
-                    const filter = btn.getAttribute('data-filter');
-                    currentFilter = filter;
-                    applyFilter(filter);
+
+                    ordersState.currentFilter = btn.getAttribute('data-filter') || 'all';
+                    renderOrders();
                 });
             });
         }
 
-        // Применение фильтра
-        function applyFilter(filter) {
-            let filteredOrders = allOrders;
-            
-            if (filter !== 'all') {
-                filteredOrders = allOrders.filter(order => order.status === filter);
-            }
-            
-            displayOrders(filteredOrders);
-        }
-
-        // Показ деталей заказа
         function showOrderDetails(orderId) {
-            const order = allOrders.find(o => o.id === orderId);
+            const order = ordersState.allOrders.find(o => o.id === orderId);
             if (!order) return;
 
-            alert(`
-Заказ #${order.id}
+            const date = formatDate(order.createdAt);
+            const status = t(`orders.status.${order.status}`);
 
-Статус: ${getStatusText(order.status)}
-Дата: ${new Date(order.createdAt).toLocaleDateString('ru-RU')}
+            const addressParts = [
+                order.customerInfo.address.street,
+                [order.customerInfo.address.city, order.customerInfo.address.zipCode].filter(Boolean).join(', '),
+                order.customerInfo.address.country
+            ].filter(Boolean).join('\n');
 
-Получатель:
+            const message = `
+${t('orders.details.title', { id: order.id })}
+
+${t('orders.details.status', { status })}
+${t('orders.details.date', { date })}
+
+${t('orders.details.recipient')}
 ${order.customerInfo.firstName} ${order.customerInfo.lastName}
-Email: ${order.customerInfo.email}
-Телефон: ${order.customerInfo.phone}
+${t('orders.details.contact', { email: order.customerInfo.email, phone: order.customerInfo.phone || '-' })}
 
-Адрес доставки:
-${order.customerInfo.address.street}
-${order.customerInfo.address.city}, ${order.customerInfo.address.zipCode}
-${order.customerInfo.address.country}
+${t('orders.details.address')}
+${addressParts}
 
-Способ оплаты: ${order.paymentMethod}
-            `);
+${t('orders.details.payment', { method: order.paymentMethod || '-' })}
+            `;
+
+            alert(message.trim());
         }
 
-        // Повторить заказ
         async function reorder(orderId) {
-            const order = allOrders.find(o => o.id === orderId);
+            const order = ordersState.allOrders.find(o => o.id === orderId);
             if (!order) return;
-
-            if (confirm(`Добавить все товары из заказа #${order.id} в корзину?`)) {
-                try {
-                    const cartManager = window.SneakerStoreCart?.cartManager;
-                    if (!cartManager) {
-                        throw new Error('Корзина недоступна');
-                    }
-
-                    // Добавляем каждый товар в корзину
-                    for (const item of order.items) {
-                        await cartManager.addItem(
-                            item.productId,
-                            item.size,
-                            item.color,
-                            item.quantity
-                        );
-                    }
-
-                    alert('Товары добавлены в корзину!');
-                    window.location.href = 'cart.html';
-                } catch (error) {
-                    console.error('Ошибка при повторе заказа:', error);
-                    alert('Ошибка при добавлении товаров в корзину: ' + error.message);
+ 
+            if (!confirm(t('orders.modal.reorder', { id: order.id }))) {
+                return;
+            }
+ 
+            try {
+                const cartManager = window.SneakerStoreCart?.cartManager;
+                if (!cartManager) {
+                    throw new Error(t('orders.errors.reorderUnavailable'));
                 }
+ 
+                for (const item of order.items) {
+                    await cartManager.addItem(item.productId, item.size, item.color, item.quantity);
+                }
+ 
+                alert(t('orders.messages.reorderSuccess'));
+                window.location.href = 'cart.html';
+            } catch (error) {
+                console.error('Failed to reorder:', error);
+                alert(t('orders.errors.reorderFailed', { reason: error.message }));
             }
         }
 
-        // Показ ошибки
         function showError(message) {
             const errorElement = document.getElementById('orders-error');
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
         }
     </script>
 </body>
