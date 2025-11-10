@@ -345,46 +345,49 @@
             return result;
         }
 
-        document.getElementById('login-form').addEventListener('submit', async function (e) {
-            e.preventDefault();
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.dataset.authHandler = 'custom';
 
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
+            loginForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
 
-            showMessage(t('auth.login.signingIn'), 'info');
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const remember = document.getElementById('login-remember')?.checked || false;
 
-            try {
-                const loginFn = window.SneakerStoreAuth?.authManager?.login;
-                if (typeof loginFn !== 'function') {
-                    throw new Error('Auth manager login function is unavailable');
+                showMessage(t('auth.login.signingIn'), 'info');
+
+                try {
+                    const authManager = window.SneakerStoreAuth?.authManager;
+                    if (!authManager || typeof authManager.login !== 'function') {
+                        throw new Error('Auth manager login function is unavailable');
+                    }
+
+                    const result = await authManager.login(email, password, remember);
+
+                    if (result?.success) {
+                        showMessage(t('auth.login.welcome', { name: result.user.firstName }), 'success');
+
+                        const redirectUrl = resolveRedirect(result.user);
+                        window.location.assign(redirectUrl);
+                    } else {
+                        const reason = result?.errors?.length ? result.errors.join(', ') : '';
+                        const message = reason
+                            ? t('auth.login.failedWithReason', { reason })
+                            : t('auth.login.failed');
+                        showMessage(message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showMessage(t('auth.login.connectionError'), 'error');
                 }
+            });
+        }
 
-                const result = await loginFn(email, password, false);
-
-                if (result?.success) {
-                    showMessage(t('auth.login.welcome', { name: result.user.firstName }), 'success');
-
-                    setTimeout(() => {
-                        if (result.user.role === 'admin') {
-                            window.location.href = './admin.html';
-                        } else if (result.user.role === 'manager') {
-                            window.location.href = './manager.html';
-                        } else {
-                            window.location.href = './index.html';
-                        }
-                    }, 1000);
-                } else {
-                    const reason = result?.errors?.length ? result.errors.join(', ') : '';
-                    const message = reason
-                        ? t('auth.login.failedWithReason', { reason })
-                        : t('auth.login.failed');
-                    showMessage(message, 'error');
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                showMessage(t('auth.login.connectionError'), 'error');
-            }
-        });
+        function resolveRedirect(user) {
+            return new URL('./index.html', window.location.href).toString();
+        }
 
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');

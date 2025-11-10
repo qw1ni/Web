@@ -477,27 +477,41 @@ class AuthManager {
    * Настройка формы входа
    */
   setupLoginForm() {
-    const loginForm = document.querySelector('#login-form, .auth__form');
+    const loginForm = document.querySelector('#login-form, form[data-auth="login"]');
     if (!loginForm) return;
-    
+
+    if (loginForm.dataset.authHandler === 'custom') {
+      console.log('Login form uses custom handler, skipping AuthManager binding');
+      return;
+    }
+
+    if (loginForm.dataset.authHandler === 'authManager') {
+      return;
+    }
+
+    loginForm.dataset.authHandler = 'authManager';
+
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
       const email = loginForm.querySelector('input[name="email"]').value;
       const password = loginForm.querySelector('input[name="password"]').value;
-      const remember = loginForm.querySelector('input[name="remember"]')?.checked || false;
-      
+      const remember = loginForm.querySelector('input[name="remember"]').checked ?? false;
+
       const result = await this.login(email, password, remember);
-      
+
       if (result.success) {
         this.showMessage('Вход выполнен успешно!', 'success');
-        setTimeout(() => {
-          window.location.href = '/index.html';
-        }, 1500);
+        const redirectUrl = this.getRedirectUrl(result.user);
+        window.location.assign(redirectUrl);
       } else {
         this.showMessage(result.errors.join(', '), 'error');
       }
     });
+  }
+
+  getRedirectUrl(user) {
+    return new URL('./index.html', window.location.href).toString();
   }
 
   /**
