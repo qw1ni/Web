@@ -395,13 +395,22 @@ class RegisterValidator {
             console.log('Server response:', result);
             
             if (result.success) {
-                this.showMessage('Registration successful! You can now sign in.', 'success');
-                // Очищаем форму
+                this.showMessage('Registration successful! Redirecting...', 'success');
+
+                try {
+                    const authManager = window.SneakerStoreAuth?.authManager;
+                    if (authManager && typeof authManager.login === 'function') {
+                        await authManager.login(userData.email, userData.password, false);
+                    }
+                } catch (autoLoginError) {
+                    console.error('Auto login after registration failed:', autoLoginError);
+                }
+
                 document.getElementById('register-form').reset();
-                // Перенаправляем на страницу входа через 2 секунды
+
                 setTimeout(() => {
-                    window.location.href = './login.html';
-                }, 2000);
+                    window.location.href = './index.html';
+                }, 1000);
             } else {
                 this.showMessage(`Registration failed: ${result.error}`, 'error');
             }

@@ -331,6 +331,19 @@
             'auth.login.failedWithReason': 'Login failed: {reason}'
         };
 
+        function redirectIfAuthenticated() {
+            const authManager = window.SneakerStoreAuth?.authManager;
+            if (authManager && typeof authManager.isAuthenticated === 'function' && authManager.isAuthenticated()) {
+                const redirectUrl = new URL('./index.html', window.location.href).toString();
+                window.location.replace(redirectUrl);
+                return true;
+            }
+            return false;
+        }
+
+        redirectIfAuthenticated();
+        document.addEventListener('partialsLoaded', () => redirectIfAuthenticated());
+
         function t(key, replacements = {}) {
             const translateFn = window.I18n && typeof window.I18n.translate === 'function'
                 ? window.I18n.translate
