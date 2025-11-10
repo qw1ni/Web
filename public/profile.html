@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,14 +101,14 @@
     <main class="content">
         <div class="profile-container">
             <div class="profile-header">
-                <h1>👤 Профиль пользователя</h1>
+                <h1 data-i18n="profile.title">👤 User Profile</h1>
                 <div id="profile-user-info"></div>
             </div>
 
             <!-- Информация о пользователе -->
             <div class="profile-section">
-                <h2 class="section-title">📋 Личная информация</h2>
-                <div id="user-info-loading" class="loading">Загрузка информации...</div>
+                <h2 class="section-title" data-i18n="profile.sections.info">📋 Personal Information</h2>
+                <div id="user-info-loading" class="loading" data-i18n="profile.loading.info">Loading information...</div>
                 <div id="user-info-error" class="error" style="display: none;"></div>
                 <div class="profile-info" id="user-info" style="display: none;">
                 </div>
@@ -116,8 +116,8 @@
 
             <!-- Статистика пользователя -->
             <div class="profile-section">
-                <h2 class="section-title">📊 Статистика</h2>
-                <div id="user-stats-loading" class="loading">Загрузка статистики...</div>
+                <h2 class="section-title" data-i18n="profile.sections.stats">📊 Statistics</h2>
+                <div id="user-stats-loading" class="loading" data-i18n="profile.loading.stats">Loading statistics...</div>
                 <div id="user-stats-error" class="error" style="display: none;"></div>
                 <div class="profile-info" id="user-stats" style="display: none;">
                 </div>
@@ -125,12 +125,12 @@
 
             <!-- Действия -->
             <div class="profile-section">
-                <h2 class="section-title">⚙️ Действия</h2>
+                <h2 class="section-title" data-i18n="profile.sections.actions">⚙️ Actions</h2>
                 <div style="text-align: center;">
-                    <button class="btn btn-primary" onclick="editProfile()">Редактировать профиль</button>
-                    <button class="btn btn-primary" onclick="viewOrders()">Мои заказы</button>
-                    <button class="btn btn-primary" onclick="viewWishlist()">Избранное</button>
-                    <button class="btn btn-danger" onclick="logout()">Выйти из системы</button>
+                    <button class="btn btn-primary" onclick="editProfile()" data-i18n="profile.buttons.edit">Edit profile</button>
+                    <button class="btn btn-primary" onclick="viewOrders()" data-i18n="profile.buttons.orders">My orders</button>
+                    <button class="btn btn-primary" onclick="viewWishlist()" data-i18n="profile.buttons.wishlist">Wishlist</button>
+                    <button class="btn btn-danger" onclick="logout()" data-i18n="profile.buttons.logout">Sign out</button>
                 </div>
             </div>
         </div>
@@ -139,6 +139,7 @@
     <div data-include="footer"></div>
 
     <script src="./scripts/partials.js"></script>
+    <script src="./scripts/i18n.js"></script>
     <script src="./scripts/main.js"></script>
     <script src="./scripts/api.js"></script>
     <script src="./scripts/preloader.js"></script>
@@ -146,188 +147,363 @@
     <script src="./scripts/cart.js"></script>
     
     <script>
-        // Проверка авторизации при загрузке страницы
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Проверяем, авторизован ли пользователь
-            if (!window.SneakerStoreAuth || !window.SneakerStoreAuth.authManager.isAuthenticated()) {
-                alert('Необходима авторизация');
-                window.location.href = '/login.html';
+        const profileFallbacks = {
+            'profile.messages.loginRequired': 'Authentication required',
+            'profile.messages.welcome': 'Welcome, {name}!',
+            'profile.messages.role': 'Role: {role}',
+            'profile.values.notProvided': 'Not provided',
+            'profile.values.never': 'Never',
+            'profile.labels.name': 'Name',
+            'profile.labels.email': 'Email',
+            'profile.labels.phone': 'Phone',
+            'profile.labels.role': 'Role',
+            'profile.labels.registered': 'Member since',
+            'profile.labels.lastLogin': 'Last login',
+            'profile.labels.address': 'Address',
+            'profile.stats.orders': 'Total orders',
+            'profile.stats.spent': 'Total spent',
+            'profile.stats.wishlist': 'Wishlist items',
+            'profile.stats.wishlistValue': '{count} items',
+            'profile.stats.memberSince': 'Member since',
+            'profile.stats.memberSinceValue': '{year}',
+            'profile.errors.userInfo': 'Failed to load user information: {reason}',
+            'profile.errors.userStats': 'Failed to load statistics: {reason}',
+            'profile.errors.general': 'Failed to load profile data: {reason}',
+            'profile.errors.apiUnavailable': 'The API client is unavailable.',
+            'profile.alerts.editProfile': 'Profile editing is coming soon.',
+            'profile.alerts.orders': 'Order history is coming soon.',
+            'profile.alerts.wishlist': 'Wishlist view is coming soon.',
+            'profile.roles.customer': 'Customer',
+            'profile.roles.manager': 'Manager',
+            'profile.roles.admin': 'Admin',
+            'profile.roles.unknown': 'User'
+        };
+
+        function t(key, replacements = {}) {
+            const translateFn = window.I18n && typeof window.I18n.translate === 'function'
+                ? window.I18n.translate
+                : () => key;
+            let result = translateFn(key);
+            if (result === key && profileFallbacks[key]) {
+                result = profileFallbacks[key];
+            }
+            result = String(result);
+            Object.entries(replacements).forEach(([placeholder, value]) => {
+                result = result.replace(`{${placeholder}}`, value);
+            });
+            return result;
+        }
+
+        const profileState = {
+            user: null,
+            stats: null
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!isAuthenticated()) {
+                alert(t('profile.messages.loginRequired'));
+                window.location.href = './login.html';
                 return;
             }
 
-            // Загружаем данные профиля
             await loadProfileData();
-            
-            // Останавливаем прелоадер после загрузки
+
             if (window.SneakerStorePreloader && window.SneakerStorePreloader.preloader) {
-                await window.SneakerStorePreloader.preloader.stop();
+                try {
+                    await window.SneakerStorePreloader.preloader.stop();
+                } catch (error) {
+                    console.warn('Failed to stop preloader:', error);
+                }
             }
         });
 
-        // Загрузка данных профиля
-        async function loadProfileData() {
-            try {
-                await Promise.all([
-                    loadUserInfo(),
-                    loadUserStats()
-                ]);
-            } catch (error) {
-                console.error('Ошибка загрузки данных профиля:', error);
-            }
+        document.addEventListener('languageChanged', () => {
+            renderProfile();
+        });
+
+        function isAuthenticated() {
+            return window.SneakerStoreAuth &&
+                window.SneakerStoreAuth.authManager &&
+                typeof window.SneakerStoreAuth.authManager.isAuthenticated === 'function' &&
+                window.SneakerStoreAuth.authManager.isAuthenticated();
         }
 
-        // Загрузка информации о пользователе
+        async function loadProfileData() {
+            showLoading('user-info-loading');
+            showLoading('user-stats-loading');
+            hideElement('user-info');
+            hideElement('user-stats');
+            hideError('user-info-error');
+            hideError('user-stats-error');
+
+            await Promise.allSettled([
+                loadUserInfo(),
+                loadUserStats()
+            ]);
+        }
+
         async function loadUserInfo() {
             try {
                 const authManager = window.SneakerStoreAuth.authManager;
                 const user = authManager.getCurrentUser();
-                
-                // Показываем информацию о пользователе в заголовке
-                document.getElementById('profile-user-info').innerHTML = `
-                    <p>Добро пожаловать, ${user.firstName} ${user.lastName}!</p>
-                    <p>Роль: <span style="text-transform: capitalize;">${user.role}</span></p>
-                `;
-                
-                // Отображаем детальную информацию
+                profileState.user = user;
+                renderProfileHeader(user);
                 displayUserInfo(user);
-                
             } catch (error) {
-                showError('user-info-error', 'Ошибка загрузки информации о пользователе: ' + error.message);
+                console.error('Failed to load user info:', error);
+                profileState.user = null;
+                hideLoading('user-info-loading');
+                showError('user-info-error', 'profile.errors.userInfo', { reason: error.message });
             }
         }
 
-        // Отображение информации о пользователе
-        function displayUserInfo(user) {
-            const container = document.getElementById('user-info');
-            container.innerHTML = `
-                <div class="info-item">
-                    <div class="info-label">Имя</div>
-                    <div class="info-value">${user.firstName} ${user.lastName}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Email</div>
-                    <div class="info-value">${user.email}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Телефон</div>
-                    <div class="info-value">${user.phone || 'Не указан'}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Роль</div>
-                    <div class="info-value" style="text-transform: capitalize;">${user.role}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Дата регистрации</div>
-                    <div class="info-value">${new Date(user.createdAt).toLocaleDateString()}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Последний вход</div>
-                    <div class="info-value">${user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Никогда'}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Адрес</div>
-                    <div class="info-value">
-                        ${user.address.street ? user.address.street + ', ' : ''}
-                        ${user.address.city ? user.address.city + ', ' : ''}
-                        ${user.address.state ? user.address.state + ' ' : ''}
-                        ${user.address.zipCode ? user.address.zipCode + ', ' : ''}
-                        ${user.address.country || 'Не указан'}
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('user-info-loading').style.display = 'none';
-            document.getElementById('user-info').style.display = 'grid';
-        }
-
-        // Загрузка статистики пользователя
         async function loadUserStats() {
             try {
                 const authManager = window.SneakerStoreAuth.authManager;
                 const user = authManager.getCurrentUser();
-                const apiClient = new SneakerStoreAPI.ApiClient();
-                
-                // Получаем корзины и избранное пользователя
+                const ApiClient = window.SneakerStoreAPI && window.SneakerStoreAPI.ApiClient;
+                if (!ApiClient) {
+                    throw new Error(t('profile.errors.apiUnavailable'));
+                }
+
+                const apiClient = new ApiClient();
                 const [cartsResponse, wishlistsResponse] = await Promise.all([
                     apiClient.get('/carts', { userId: user.id }),
                     apiClient.get('/wishlists', { userId: user.id })
                 ]);
-                
+
                 let totalOrders = 0;
                 let totalSpent = 0;
                 let totalWishlistItems = 0;
-                
-                if (cartsResponse.success && cartsResponse.data) {
+
+                if (cartsResponse && cartsResponse.success && Array.isArray(cartsResponse.data)) {
                     totalOrders = cartsResponse.data.length;
-                    totalSpent = cartsResponse.data.reduce((sum, cart) => sum + cart.total, 0);
+                    totalSpent = cartsResponse.data.reduce((sum, cart) => sum + (cart.total || 0), 0);
                 }
-                
-                if (wishlistsResponse.success && wishlistsResponse.data && wishlistsResponse.data.length > 0) {
-                    totalWishlistItems = wishlistsResponse.data[0].items.length;
+
+                if (wishlistsResponse && wishlistsResponse.success && Array.isArray(wishlistsResponse.data) && wishlistsResponse.data[0]) {
+                    totalWishlistItems = Array.isArray(wishlistsResponse.data[0].items)
+                        ? wishlistsResponse.data[0].items.length
+                        : 0;
                 }
-                
-                displayUserStats({
+
+                profileState.stats = {
                     totalOrders,
                     totalSpent,
                     totalWishlistItems,
-                    memberSince: new Date(user.createdAt).getFullYear()
-                });
-                
+                    memberSince: user.createdAt ? new Date(user.createdAt).getFullYear() : null
+                };
+
+                displayUserStats(profileState.stats);
             } catch (error) {
-                showError('user-stats-error', 'Ошибка загрузки статистики: ' + error.message);
+                console.error('Failed to load user stats:', error);
+                profileState.stats = null;
+                hideLoading('user-stats-loading');
+                showError('user-stats-error', 'profile.errors.userStats', { reason: error.message });
             }
         }
 
-        // Отображение статистики пользователя
-        function displayUserStats(stats) {
-            const container = document.getElementById('user-stats');
+        function renderProfileHeader(user) {
+            const container = document.getElementById('profile-user-info');
+            if (!container) return;
+
+            const name = [user.firstName, user.lastName].filter(Boolean).join(' ') || t('profile.values.notProvided');
+            const role = translateRole(user.role);
+
             container.innerHTML = `
-                <div class="info-item">
-                    <div class="info-label">Всего заказов</div>
-                    <div class="info-value">${stats.totalOrders}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Потрачено</div>
-                    <div class="info-value">$${stats.totalSpent}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">В избранном</div>
-                    <div class="info-value">${stats.totalWishlistItems} товаров</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Участник с</div>
-                    <div class="info-value">${stats.memberSince} года</div>
-                </div>
+                <p>${t('profile.messages.welcome', { name })}</p>
+                <p>${t('profile.messages.role', { role })}</p>
             `;
-            
-            document.getElementById('user-stats-loading').style.display = 'none';
-            document.getElementById('user-stats').style.display = 'grid';
         }
 
-        // Действия пользователя
+        function displayUserInfo(user) {
+            const container = document.getElementById('user-info');
+            if (!container) return;
+
+            hideLoading('user-info-loading');
+
+            const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ') || t('profile.values.notProvided');
+            const email = user.email || t('profile.values.notProvided');
+            const phone = user.phone || t('profile.values.notProvided');
+            const role = translateRole(user.role);
+            const registered = user.createdAt ? formatDate(user.createdAt) : t('profile.values.notProvided');
+            const lastLogin = user.lastLogin ? formatDate(user.lastLogin) : t('profile.values.never');
+            const address = formatAddress(user.address);
+
+            const infoItems = [
+                { label: t('profile.labels.name'), value: fullName },
+                { label: t('profile.labels.email'), value: email },
+                { label: t('profile.labels.phone'), value: phone },
+                { label: t('profile.labels.role'), value: role },
+                { label: t('profile.labels.registered'), value: registered },
+                { label: t('profile.labels.lastLogin'), value: lastLogin },
+                { label: t('profile.labels.address'), value: address }
+            ];
+
+            container.innerHTML = infoItems.map(item => `
+                <div class="info-item">
+                    <div class="info-label">${item.label}</div>
+                    <div class="info-value">${item.value}</div>
+                </div>
+            `).join('');
+
+            container.style.display = 'grid';
+        }
+
+        function displayUserStats(stats) {
+            const container = document.getElementById('user-stats');
+            if (!container) return;
+
+            hideLoading('user-stats-loading');
+
+            const wishlistValue = t('profile.stats.wishlistValue', { count: stats.totalWishlistItems });
+            const memberSinceValue = stats.memberSince !== null
+                ? t('profile.stats.memberSinceValue', { year: stats.memberSince })
+                : t('profile.values.notProvided');
+
+            const statsItems = [
+                { label: t('profile.stats.orders'), value: stats.totalOrders },
+                { label: t('profile.stats.spent'), value: formatCurrency(stats.totalSpent) },
+                { label: t('profile.stats.wishlist'), value: wishlistValue },
+                { label: t('profile.stats.memberSince'), value: memberSinceValue }
+            ];
+
+            container.innerHTML = statsItems.map(item => `
+                <div class="info-item">
+                    <div class="info-label">${item.label}</div>
+                    <div class="info-value">${item.value}</div>
+                </div>
+            `).join('');
+
+            container.style.display = 'grid';
+        }
+
+        function formatAddress(address) {
+            if (!address || typeof address !== 'object') {
+                return t('profile.values.notProvided');
+            }
+
+            const parts = [
+                address.street,
+                address.city,
+                address.state,
+                address.zipCode,
+                address.country
+            ].filter(part => part && String(part).trim().length > 0);
+
+            return parts.length > 0 ? parts.join(', ') : t('profile.values.notProvided');
+        }
+
+        function formatDate(value) {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) {
+                return t('profile.values.notProvided');
+            }
+
+            const language = window.I18n && typeof window.I18n.getCurrentLanguage === 'function'
+                ? window.I18n.getCurrentLanguage()
+                : 'en';
+
+            const locale = language === 'ru' ? 'ru-RU' : 'en-US';
+
+            try {
+                return new Intl.DateTimeFormat(locale).format(date);
+            } catch (error) {
+                console.warn('Date formatting failed, falling back to ISO string.', error);
+                return date.toISOString().split('T')[0];
+            }
+        }
+
+        function formatCurrency(value) {
+            const amount = Number(value) || 0;
+            const language = window.I18n && typeof window.I18n.getCurrentLanguage === 'function'
+                ? window.I18n.getCurrentLanguage()
+                : 'en';
+            const locale = language === 'ru' ? 'ru-RU' : 'en-US';
+
+            try {
+                return new Intl.NumberFormat(locale, {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                }).format(amount);
+            } catch (error) {
+                console.warn('Currency formatting failed, falling back to USD string.', error);
+                return `$${amount.toFixed(2)}`;
+            }
+        }
+
+        function translateRole(role) {
+            const normalized = (role || 'unknown').toLowerCase();
+            const key = `profile.roles.${normalized}`;
+            const translation = t(key);
+            if (translation === key) {
+                return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+            }
+            return translation;
+        }
+
+        function showLoading(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.style.display = 'block';
+            }
+        }
+
+        function hideLoading(id) {
+            hideElement(id);
+        }
+
+        function hideElement(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.style.display = 'none';
+            }
+        }
+
+        function hideError(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.style.display = 'none';
+                element.textContent = '';
+            }
+        }
+
+        function showError(id, key, replacements = {}) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = t(key, replacements);
+                element.style.display = 'block';
+            }
+        }
+
+        function renderProfile() {
+            if (profileState.user) {
+                renderProfileHeader(profileState.user);
+                displayUserInfo(profileState.user);
+            }
+            if (profileState.stats) {
+                displayUserStats(profileState.stats);
+            }
+        }
+
         function editProfile() {
-            alert('Редактирование профиля (функция в разработке)');
+            alert(t('profile.alerts.editProfile'));
         }
 
         function viewOrders() {
-            alert('Просмотр заказов (функция в разработке)');
+            alert(t('profile.alerts.orders'));
         }
 
         function viewWishlist() {
-            alert('Просмотр избранного (функция в разработке)');
+            alert(t('profile.alerts.wishlist'));
         }
 
         function logout() {
             if (window.SneakerStoreAuth && window.SneakerStoreAuth.authManager) {
                 window.SneakerStoreAuth.authManager.logout();
             }
-        }
-
-        // Показ ошибок
-        function showError(elementId, message) {
-            const errorElement = document.getElementById(elementId);
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
         }
     </script>
 </body>
