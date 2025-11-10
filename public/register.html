@@ -211,63 +211,66 @@
         <section class="auth reveal">
             <div class="auth__container container">
                 <div class="auth__card">
-                    <h1 class="auth__title">Create Account</h1>
-                    <p class="auth__subtitle">Join the Nike community to unlock exclusive drops, event invites, and
-                        personalised product picks.</p>
+                    <h1 class="auth__title" data-i18n="auth.register.title">Create Account</h1>
+                    <p class="auth__subtitle" data-i18n="auth.register.subtitle">
+                        Join the Nike community to unlock exclusive drops, event invites, and personalised product picks.
+                    </p>
                     <form class="auth__form" id="register-form">
                         <!-- Name -->
                         <div class="form-group">
-                            <label class="auth__label required" for="register-lastname">Last Name *</label>
+                            <label class="auth__label required" for="register-lastname" data-i18n="auth.register.lastname">Last Name</label>
                             <input class="auth__input" type="text" id="register-lastname" name="lastname" autocomplete="family-name"
-                                required placeholder="Smith">
+                                required placeholder="Smith" data-i18n-placeholder="auth.register.lastnamePlaceholder">
                             <div class="error-message" id="lastname-error"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="auth__label required" for="register-firstname">First Name *</label>
+                            <label class="auth__label required" for="register-firstname" data-i18n="auth.register.firstname">First Name</label>
                             <input class="auth__input" type="text" id="register-firstname" name="firstname" autocomplete="given-name"
-                                required placeholder="John">
+                                required placeholder="John" data-i18n-placeholder="auth.register.firstnamePlaceholder">
                             <div class="error-message" id="firstname-error"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="auth__label" for="register-middlename">Middle Name</label>
+                            <label class="auth__label" for="register-middlename" data-i18n="auth.register.middlename">Middle Name</label>
                             <input class="auth__input" type="text" id="register-middlename" name="middlename" autocomplete="additional-name"
-                                placeholder="Michael">
+                                placeholder="Michael" data-i18n-placeholder="auth.register.middlenamePlaceholder">
                             <div class="error-message" id="middlename-error"></div>
                         </div>
 
                         <!-- Username -->
                         <div class="form-group">
-                            <label class="auth__label required" for="register-nickname">Username *</label>
+                            <label class="auth__label required" for="register-nickname" data-i18n="auth.register.nickname">Username</label>
                             <div class="nickname-container">
                                 <input class="auth__input" type="text" id="register-nickname" name="nickname" autocomplete="username"
-                                    required placeholder="Auto-generated username">
-                                <button type="button" class="generate-nickname-btn" id="generate-nickname">Generate</button>
+                                    required placeholder="Auto-generated username" data-i18n-placeholder="auth.register.nicknamePlaceholder">
+                                <button type="button" class="generate-nickname-btn" id="generate-nickname" data-i18n="auth.register.generate">Generate</button>
                             </div>
                             <div class="error-message" id="nickname-error"></div>
-                            <div class="nickname-info" id="nickname-info">Generation attempts: <span id="generation-attempts">0</span>/5</div>
+                            <div class="nickname-info" id="nickname-info" data-i18n="auth.register.nicknameInfo" data-i18n-html="true">
+                                Generation attempts: <span id="generation-attempts">0</span>/{max}
+                            </div>
                         </div>
 
                         <!-- Phone -->
                         <div class="form-group">
-                            <label class="auth__label required" for="register-phone">Phone Number (Belarus) *</label>
+                            <label class="auth__label required" for="register-phone" data-i18n="auth.register.phone">Phone Number (Belarus)</label>
                             <input class="auth__input" type="tel" id="register-phone" name="phone" autocomplete="tel"
-                                required placeholder="+375 (29) 123-45-67">
+                                required placeholder="+375 (29) 123-45-67" data-i18n-placeholder="auth.register.phonePlaceholder">
                             <div class="error-message" id="phone-error"></div>
                         </div>
 
                         <!-- Email -->
                         <div class="form-group">
-                            <label class="auth__label required" for="register-email">Email *</label>
+                            <label class="auth__label required" for="register-email" data-i18n="auth.register.email">Email</label>
                             <input class="auth__input" type="email" id="register-email" name="email" autocomplete="email"
-                                required placeholder="you@example.com">
+                                required placeholder="you@example.com" data-i18n-placeholder="auth.register.emailPlaceholder">
                             <div class="error-message" id="email-error"></div>
                         </div>
 
                         <!-- Birth Date -->
                         <div class="form-group">
-                            <label class="auth__label required" for="register-birthdate">Birth Date *</label>
+                            <label class="auth__label required" for="register-birthdate" data-i18n="auth.register.birthdate">Birth Date</label>
                             <input class="auth__input" type="date" id="register-birthdate" name="birthdate" autocomplete="bday"
                                 required>
                             <div class="error-message" id="birthdate-error"></div>
@@ -275,191 +278,80 @@
 
                         <!-- Password Method -->
                         <div class="form-group">
-                            <label class="auth__label">Password Method *</label>
+                            <label class="auth__label" data-i18n="auth.register.passwordMethod">Password Method</label>
                             <div class="password-method">
                                 <label class="radio-label">
                                     <input type="radio" name="password-method" value="manual" checked>
-                                    <span>Enter manually</span>
+                                    <span data-i18n="auth.register.passwordManual">Enter manually</span>
                                 </label>
                                 <label class="radio-label">
                                     <input type="radio" name="password-method" value="auto">
-                                    <span>Generate automatically</span>
+                                    <span data-i18n="auth.register.passwordAuto">Generate automatically</span>
                                 </label>
                             </div>
                         </div>
 
                         <!-- Password -->
                         <div class="form-group" id="manual-password-group">
-                            <label class="auth__label required" for="register-password">Password *</label>
+                            <label class="auth__label required" for="register-password" data-i18n="auth.register.password">Password</label>
                             <input class="auth__input" type="password" id="register-password" name="password"
-                                autocomplete="new-password" placeholder="Enter password">
+                                autocomplete="new-password" placeholder="Enter password" data-i18n-placeholder="auth.register.passwordPlaceholder">
                             <div class="password-requirements" id="password-requirements">
-                                <div class="requirement" id="req-length">Minimum 8 characters, maximum 20</div>
-                                <div class="requirement" id="req-uppercase">One uppercase letter</div>
-                                <div class="requirement" id="req-lowercase">One lowercase letter</div>
-                                <div class="requirement" id="req-number">One number</div>
-                                <div class="requirement" id="req-special">One special character</div>
-                                <div class="requirement" id="req-common">Not in TOP-100 common passwords</div>
+                                <div class="requirement" id="req-length" data-i18n="auth.register.reqLength">Minimum 8 characters, maximum 20</div>
+                                <div class="requirement" id="req-uppercase" data-i18n="auth.register.reqUppercase">One uppercase letter</div>
+                                <div class="requirement" id="req-lowercase" data-i18n="auth.register.reqLowercase">One lowercase letter</div>
+                                <div class="requirement" id="req-number" data-i18n="auth.register.reqNumber">One number</div>
+                                <div class="requirement" id="req-special" data-i18n="auth.register.reqSpecial">One special character</div>
+                                <div class="requirement" id="req-common" data-i18n="auth.register.reqCommon">Not in TOP-100 common passwords</div>
                             </div>
                             <div class="error-message" id="password-error"></div>
                         </div>
 
                         <div class="form-group" id="manual-password-confirm-group">
-                            <label class="auth__label required" for="register-confirm-password">Confirm Password *</label>
+                            <label class="auth__label required" for="register-confirm-password" data-i18n="auth.register.confirm">Confirm Password</label>
                             <input class="auth__input" type="password" id="register-confirm-password"
-                                name="confirm-password" autocomplete="new-password" placeholder="Repeat password">
+                                name="confirm-password" autocomplete="new-password" placeholder="Repeat password" data-i18n-placeholder="auth.register.confirmPlaceholder">
                             <div class="error-message" id="confirm-password-error"></div>
                         </div>
 
                         <!-- Auto-generated Password -->
                         <div class="form-group" id="auto-password-group" style="display: none;">
-                            <label class="auth__label">Generated Password</label>
+                            <label class="auth__label" data-i18n="auth.register.generatedPassword">Generated Password</label>
                             <div class="generated-password-container">
                                 <input class="auth__input" type="text" id="generated-password" readonly>
-                                <button type="button" class="copy-password-btn" id="copy-password">Copy</button>
+                                <button type="button" class="copy-password-btn" id="copy-password" data-i18n="auth.register.copyPassword">Copy</button>
                             </div>
                         </div>
 
                         <!-- User Agreement -->
                         <div class="form-group">
                             <label class="auth__checkbox required">
-                                <input type="checkbox" id="register-terms" required>
-                                <span class="auth__checkbox-text">I have read and agree to the <a href="#" class="auth__link">User Agreement</a> *</span>
+                                <input type="checkbox" id="register-terms" name="terms" required>
+                                <span class="auth__checkbox-text" data-i18n="auth.register.terms" data-i18n-html="true">
+                                    I have read and agree to the <a href="#" class="auth__link">User Agreement</a> *
+                                </span>
                             </label>
                             <div class="error-message" id="terms-error"></div>
                         </div>
 
-                        <button class="auth__button" type="submit" id="register-submit" disabled>Create Account</button>
+                        <button class="auth__button" type="submit" id="register-submit" disabled data-i18n="auth.register.submit">Create Account</button>
                     </form>
-                    <p class="auth__extra">Already have an account? <a class="auth__link"
-                            href="./login.html">Sign in</a></p>
+                    <p class="auth__extra">
+                        <span data-i18n="auth.register.hasAccount">Already have an account?</span>
+                        <a class="auth__link" href="./login.html" data-i18n="auth.register.loginLink">Sign in</a>
+                    </p>
                     
                     <div id="message" class="auth__message" style="display: none;"></div>
                 </div>
             </div>
         </section>
     </main>
+    <div data-include="footer"></div>
 
-    <footer class="footer">
-        <div class="footer__container container">
-            <p>&copy; 2024 Sneaker Store. All Rights Reserved</p>
-        </div>
-    </footer>
-
-    <script>
-        console.log('Страница регистрации загружена!');
-        
-        // Константы
-        const API_URL = 'http://localhost:3000';
-
-        // Обработка формы регистрации
-        document.getElementById('register-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('register-confirm').value;
-            const termsAccepted = document.getElementById('register-terms').checked;
-            
-            // Валидация
-            if (password !== confirmPassword) {
-                showMessage('Passwords do not match', 'error');
-                return;
-            }
-            
-            if (!termsAccepted) {
-                showMessage('Please accept Terms & Conditions', 'error');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showMessage('Password must be at least 6 characters', 'error');
-                return;
-            }
-            
-            // Показываем загрузку
-            showMessage('Creating account...', 'info');
-            
-            try {
-                // Проверяем, существует ли пользователь
-                const checkResponse = await fetch(`${API_URL}/users?email=${email}`);
-                const existingUsers = await checkResponse.json();
-                
-                if (existingUsers.length > 0) {
-                    showMessage('User with this email already exists', 'error');
-                    return;
-                }
-                
-                // Создаем нового пользователя
-                const nameParts = name.split(' ');
-                const newUser = {
-                    firstName: nameParts[0] || '',
-                    lastName: nameParts.slice(1).join(' ') || '',
-                    email: email,
-                    password: password,
-                    role: 'customer',
-                    isAdmin: false,
-                    phone: '',
-                    address: {
-                        street: '',
-                        city: '',
-                        state: '',
-                        zipCode: '',
-                        country: ''
-                    },
-                    createdAt: new Date().toISOString(),
-                    lastLogin: null
-                };
-                
-                const response = await fetch(`${API_URL}/users`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newUser)
-                });
-                
-                if (response.ok) {
-                    showMessage('Account created successfully! Redirecting to login...', 'success');
-                    setTimeout(() => {
-                        window.location.href = './login.html';
-                    }, 2000);
-                } else {
-                    showMessage('Error creating account. Please try again.', 'error');
-                }
-            } catch (error) {
-                console.error('Registration error:', error);
-                showMessage('Connection error. Please try again.', 'error');
-            }
-        });
-        
-        // Функция показа сообщений
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.style.display = 'block';
-            messageDiv.style.padding = '12px';
-            messageDiv.style.borderRadius = '8px';
-            messageDiv.style.marginTop = '15px';
-            messageDiv.style.textAlign = 'center';
-            
-            if (type === 'success') {
-                messageDiv.style.background = '#d4edda';
-                messageDiv.style.color = '#155724';
-                messageDiv.style.border = '1px solid #c3e6cb';
-            } else if (type === 'error') {
-                messageDiv.style.background = '#f8d7da';
-                messageDiv.style.color = '#721c24';
-                messageDiv.style.border = '1px solid #f5c6cb';
-            } else {
-                messageDiv.style.background = '#d1ecf1';
-                messageDiv.style.color = '#0c5460';
-                messageDiv.style.border = '1px solid #bee5eb';
-            }
-        }
-    </script>
-    
     <script src="./scripts/partials.js"></script>
+    <script src="./scripts/i18n.js"></script>
     <script src="./scripts/accessibility.js"></script>
+    <script src="./scripts/api.js"></script>
     <script src="./scripts/register-validation.js"></script>
 </body>
 

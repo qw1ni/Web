@@ -264,63 +264,87 @@
         <section class="auth reveal">
             <div class="auth__container container">
                 <div class="auth__card">
-                    <h1 class="auth__title">Sign In</h1>
-                    <p class="auth__subtitle">Sign in to your Nike account to track orders, save favorites, and personalize your shopping experience.</p>
+                    <h1 class="auth__title" data-i18n="auth.login.title">Sign In</h1>
+                    <p class="auth__subtitle" data-i18n="auth.login.subtitle">Sign in to your Nike account to track orders, save favorites, and personalize your shopping experience.</p>
                     <form class="auth__form" id="login-form">
                         <div class="form-group">
-                            <label class="auth__label required" for="login-email">Email *</label>
+                            <label class="auth__label required" for="login-email" data-i18n="auth.login.emailLabel">Email</label>
                             <input class="auth__input" type="email" id="login-email" name="email" autocomplete="email"
-                                required placeholder="you@example.com">
+                                required placeholder="you@example.com" data-i18n-placeholder="auth.login.emailPlaceholder">
                             <div class="error-message" id="email-error"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="auth__label required" for="login-password">Password *</label>
+                            <label class="auth__label required" for="login-password" data-i18n="auth.login.passwordLabel">Password</label>
                             <input class="auth__input" type="password" id="login-password" name="password"
-                                autocomplete="current-password" required placeholder="Enter password">
+                                autocomplete="current-password" required placeholder="Enter password" data-i18n-placeholder="auth.login.passwordPlaceholder">
                             <div class="error-message" id="password-error"></div>
                         </div>
 
                         <div class="auth__options">
                             <label class="auth__checkbox" for="login-remember">
                                 <input class="auth__checkbox-input" type="checkbox" id="login-remember" name="remember">
-                                <span class="auth__checkbox-label">Remember me</span>
+                                <span class="auth__checkbox-label" data-i18n="auth.login.remember">Remember me</span>
                             </label>
-                            <a class="auth__link" href="#!">Forgot password?</a>
+                            <a class="auth__link" href="#!" data-i18n="auth.login.forgot">Forgot password?</a>
                         </div>
 
-                        <button class="auth__button" type="submit" id="login-submit">Sign In</button>
+                        <button class="auth__button" type="submit" id="login-submit" data-i18n="auth.login.submit">Sign In</button>
                     </form>
-                    <p class="auth__extra">Don't have an account? <a class="auth__link" href="./register.html">Create Account</a>
+                    <p class="auth__extra">
+                        <span data-i18n="auth.login.noAccount">Don't have an account?</span>
+                        <a class="auth__link" href="./register.html" data-i18n="auth.login.create">Create Account</a>
                     </p>
                     
                     <div id="message" class="auth__message" style="display: none;"></div>
                     
                     <!-- Тестовые аккаунты -->
                     <div class="auth__test-accounts">
-                        <h3 class="auth__test-title">Test Accounts:</h3>
-                        <p class="auth__test-item">👨‍💼 Admin: mike.johnson@example.com / password123</p>
-                        <p class="auth__test-item">📊 Manager: sarah.wilson@example.com / password123</p>
-                        <p class="auth__test-item">🛍️ Customer: john.doe@example.com / password123</p>
+                        <h3 class="auth__test-title" data-i18n="auth.login.testTitle">Test Accounts:</h3>
+                        <p class="auth__test-item" data-i18n="auth.login.testAdmin">👨‍💼 Admin: mike.johnson@example.com / password123</p>
+                        <p class="auth__test-item" data-i18n="auth.login.testManager">📊 Manager: sarah.wilson@example.com / password123</p>
+                        <p class="auth__test-item" data-i18n="auth.login.testCustomer">🛍️ Customer: john.doe@example.com / password123</p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer__container container">
-            <p>&copy; 2024 Sneaker Store. All Rights Reserved</p>
-        </div>
-    </footer>
+    <div data-include="footer"></div>
 
+    <script src="./scripts/partials.js"></script>
+    <script src="./scripts/i18n.js"></script>
+    <script src="./scripts/accessibility.js"></script>
+    
     <script>
-        console.log('Страница входа загружена!');
+        console.log('Login page loaded');
+        
+        const fallbackTranslations = {
+            'auth.login.signingIn': 'Signing in...',
+            'auth.login.userNotFound': 'User not found',
+            'auth.login.invalidPassword': 'Invalid password',
+            'auth.login.connectionError': 'Connection error. Please try again.',
+            'auth.login.welcome': 'Welcome back, {name}!'
+        };
+        
+        function t(key, replacements = {}) {
+            const translateFn = window.I18n && typeof window.I18n.translate === 'function'
+                ? window.I18n.translate
+                : (k) => fallbackTranslations[k] || k;
+            let result = translateFn(key);
+            if (result === key && fallbackTranslations[key]) {
+                result = fallbackTranslations[key];
+            }
+            Object.entries(replacements).forEach(([placeholder, value]) => {
+                result = result.replace(`{${placeholder}}`, value);
+            });
+            return result;
+        }
         
         // Константы
         const SESSION_KEY = 'sneaker_store_user_session';
         const API_URL = 'http://localhost:3000';
-
+        
         // Обработка формы входа
         document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -328,24 +352,20 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             
-            // Показываем загрузку
-            showMessage('Signing in...', 'info');
+            showMessage(t('auth.login.signingIn'), 'info');
             
             try {
-                // Получаем пользователя по email
-                const response = await fetch(`${API_URL}/users?email=${email}`);
+                const response = await fetch(`${API_URL}/users?email=${encodeURIComponent(email)}`);
                 const users = await response.json();
                 
                 if (users.length === 0) {
-                    showMessage('User not found', 'error');
+                    showMessage(t('auth.login.userNotFound'), 'error');
                     return;
                 }
                 
                 const user = users[0];
                 
-                // Проверяем пароль
                 if (user.password === password) {
-                    // Сохраняем сессию
                     const session = {
                         id: user.id,
                         firstName: user.firstName,
@@ -357,17 +377,14 @@
                     
                     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
                     
-                    // Обновляем lastLogin
                     await fetch(`${API_URL}/users/${user.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ lastLogin: new Date().toISOString() })
                     });
                     
-                    // Показываем успех
-                    showMessage(`Welcome back, ${user.firstName}!`, 'success');
+                    showMessage(t('auth.login.welcome', { name: user.firstName }), 'success');
                     
-                    // Перенаправляем в зависимости от роли
                     setTimeout(() => {
                         if (user.role === 'admin') {
                             window.location.href = './admin.html';
@@ -378,15 +395,14 @@
                         }
                     }, 1000);
                 } else {
-                    showMessage('Invalid password', 'error');
+                    showMessage(t('auth.login.invalidPassword'), 'error');
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                showMessage('Connection error. Please try again.', 'error');
+                showMessage(t('auth.login.connectionError'), 'error');
             }
         });
         
-        // Функция показа сообщений
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
             messageDiv.textContent = text;
@@ -411,7 +427,6 @@
             }
         }
         
-        // Экспортируем для совместимости
         window.SneakerStoreAuth = {
             authManager: {
                 isAuthenticated: () => !!localStorage.getItem(SESSION_KEY),
@@ -423,9 +438,6 @@
             }
         };
     </script>
-    
-    <script src="./scripts/partials.js"></script>
-    <script src="./scripts/accessibility.js"></script>
 </body>
 
 </html>
