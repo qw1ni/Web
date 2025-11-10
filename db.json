@@ -216,53 +216,6 @@
   ],
   "products": [
     {
-      "id": "1",
-      "name": "Air Jordan 1 Retro High OG",
-      "brand": "Jordan",
-      "model": "Air Jordan 1",
-      "price": 170,
-      "originalPrice": 200,
-      "discount": 15,
-      "category": "Basketball",
-      "gender": "Unisex",
-      "sizes": [
-        "7",
-        "7.5",
-        "8",
-        "8.5",
-        "9",
-        "9.5",
-        "10",
-        "10.5",
-        "11",
-        "11.5",
-        "12"
-      ],
-      "colors": [
-        "Black/White",
-        "Red/White",
-        "Blue/White"
-      ],
-      "description": "The Air Jordan 1 Retro High OG brings back the classic silhouette with premium materials and original colorways.",
-      "images": [
-        "jordan1-black.jpg",
-        "jordan1-red.jpg",
-        "jordan1-blue.jpg"
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.8,
-      "reviewsCount": 1247,
-      "tags": [
-        "basketball",
-        "retro",
-        "classic",
-        "high-top"
-      ],
-      "releaseDate": "2024-01-15",
-      "createdAt": "2024-01-01T00:00:00Z"
-    },
-    {
       "id": "2",
       "name": "Nike Air Max 270",
       "brand": "Nike",
@@ -1610,7 +1563,7 @@
     {
       "id": "29",
       "name": "Puma Thunder Spectra",
-      "brand": "Puma",
+      "brand": "Rita",
       "model": "Thunder Spectra",
       "price": 110,
       "originalPrice": 125,
@@ -1655,57 +1608,8 @@
         "comfortable"
       ],
       "releaseDate": "2024-01-28",
-      "createdAt": "2024-01-01T00:00:00Z"
-    },
-    {
-      "id": "30",
-      "name": "New Balance 997H",
-      "brand": "New Balance",
-      "model": "997H",
-      "price": 95,
-      "originalPrice": 105,
-      "discount": 10,
-      "category": "Lifestyle",
-      "gender": "Unisex",
-      "sizes": [
-        "6",
-        "6.5",
-        "7",
-        "7.5",
-        "8",
-        "8.5",
-        "9",
-        "9.5",
-        "10",
-        "10.5",
-        "11",
-        "11.5",
-        "12"
-      ],
-      "colors": [
-        "Grey",
-        "Black",
-        "Navy",
-        "White"
-      ],
-      "description": "The New Balance 997H offers premium materials and superior comfort with a modern silhouette.",
-      "images": [
-        "997h-grey.jpg",
-        "997h-black.jpg",
-        "997h-navy.jpg"
-      ],
-      "inStock": true,
-      "stockQuantity": 27,
-      "rating": 4.6,
-      "reviewsCount": 1023,
-      "tags": [
-        "premium",
-        "comfortable",
-        "modern",
-        "quality"
-      ],
-      "releaseDate": "2024-01-29",
-      "createdAt": "2024-01-01T00:00:00Z"
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2025-11-10T18:36:28.643Z"
     }
   ],
   "carts": [

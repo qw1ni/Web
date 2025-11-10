@@ -97,12 +97,16 @@
             background: #dc3545;
             color: white;
         }
-        .btn-success {
-            background: #28a745;
+        .btn-secondary {
+            background: #6c757d;
             color: white;
         }
-        .btn:hover {
-            opacity: 0.8;
+        .btn:hover:not(:disabled) {
+            opacity: 0.85;
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
         .role-badge {
             padding: 4px 8px;
@@ -141,6 +145,98 @@
             padding: 15px;
             border-radius: 5px;
             margin: 10px 0;
+        }
+        .admin-modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            padding: 20px;
+            transition: opacity 0.15s ease;
+            opacity: 0;
+        }
+        .admin-modal[hidden] {
+            display: none;
+        }
+        .admin-modal.is-open {
+            opacity: 1;
+        }
+        .admin-modal__dialog {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .admin-modal__title {
+            margin: 0 0 20px 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .admin-form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .admin-form-field label {
+            font-weight: 600;
+            color: #333;
+        }
+        .admin-form-field input,
+        .admin-form-field textarea {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .admin-form-field textarea {
+            resize: vertical;
+        }
+        .admin-form-field--full {
+            grid-column: 1 / -1;
+        }
+        .checkbox-field {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .admin-modal__actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .admin-modal__error {
+            flex: 1;
+            margin: 0;
+            font-size: 14px;
+            color: #dc3545;
+        }
+        body.admin-modal-open {
+            overflow: hidden;
+        }
+        @media (max-width: 768px) {
+            .admin-form-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-modal__dialog {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -242,6 +338,96 @@
         </div>
     </main>
 
+    <div id="product-modal" class="admin-modal" hidden>
+        <div class="admin-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+            <h3 class="admin-modal__title" id="product-modal-title">Редактирование товара</h3>
+            <form id="product-form" class="admin-form">
+                <input type="hidden" name="productId" id="product-id">
+                <div class="admin-form-grid">
+                    <div class="admin-form-field">
+                        <label for="product-name">Название*</label>
+                        <input type="text" id="product-name" name="name" required>
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-brand">Бренд*</label>
+                        <input type="text" id="product-brand" name="brand" required>
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-model">Модель</label>
+                        <input type="text" id="product-model" name="model">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-category">Категория</label>
+                        <input type="text" id="product-category" name="category">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-gender">Категория (пол)</label>
+                        <input type="text" id="product-gender" name="gender" placeholder="Unisex">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-price">Цена*</label>
+                        <input type="number" id="product-price" name="price" required step="0.01" min="0">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-original-price">Исходная цена</label>
+                        <input type="number" id="product-original-price" name="originalPrice" step="0.01" min="0">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-discount">Скидка (%)</label>
+                        <input type="number" id="product-discount" name="discount" step="0.01" min="0">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-stock-quantity">Количество на складе</label>
+                        <input type="number" id="product-stock-quantity" name="stockQuantity" min="0">
+                    </div>
+                    <div class="admin-form-field">
+                        <label class="checkbox-field">
+                            <input type="checkbox" id="product-in-stock" name="inStock">
+                            <span>В наличии</span>
+                        </label>
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-rating">Рейтинг</label>
+                        <input type="number" id="product-rating" name="rating" step="0.1" min="0" max="5">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-reviews">Количество отзывов</label>
+                        <input type="number" id="product-reviews" name="reviewsCount" min="0">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="product-release-date">Дата релиза</label>
+                        <input type="date" id="product-release-date" name="releaseDate">
+                    </div>
+                    <div class="admin-form-field admin-form-field--full">
+                        <label for="product-sizes">Размеры (через запятую)</label>
+                        <textarea id="product-sizes" name="sizes" rows="2" placeholder="7, 7.5, 8"></textarea>
+                    </div>
+                    <div class="admin-form-field admin-form-field--full">
+                        <label for="product-colors">Цвета (через запятую)</label>
+                        <textarea id="product-colors" name="colors" rows="2" placeholder="Black/White, Red/White"></textarea>
+                    </div>
+                    <div class="admin-form-field admin-form-field--full">
+                        <label for="product-tags">Теги (через запятую)</label>
+                        <textarea id="product-tags" name="tags" rows="2" placeholder="basketball, retro"></textarea>
+                    </div>
+                    <div class="admin-form-field admin-form-field--full">
+                        <label for="product-images">Изображения (URL через запятую)</label>
+                        <textarea id="product-images" name="images" rows="2" placeholder="image1.jpg, image2.jpg"></textarea>
+                    </div>
+                    <div class="admin-form-field admin-form-field--full">
+                        <label for="product-description">Описание</label>
+                        <textarea id="product-description" name="description" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="admin-modal__actions">
+                    <p class="admin-modal__error" id="product-form-error"></p>
+                    <button type="button" class="btn btn-secondary" id="product-modal-cancel">Отмена</button>
+                    <button type="submit" class="btn btn-primary" id="product-form-submit">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div data-include="footer"></div>
 
     <script src="./scripts/api.js"></script>
@@ -249,8 +435,19 @@
     <script src="./scripts/main.js"></script>
     
     <script>
+        let productsCache = [];
+        const productFormState = {
+            modal: null,
+            form: null,
+            submitButton: null,
+            errorContainer: null,
+            currentProduct: null,
+            cancelButton: null
+        };
+
         // Проверка авторизации при загрузке страницы
         document.addEventListener('DOMContentLoaded', async function() {
+            initializeProductForm();
             console.log('Admin page loaded');
             console.log('SneakerStoreAuth available:', !!window.SneakerStoreAuth);
             console.log('authManager available:', !!(window.SneakerStoreAuth && window.SneakerStoreAuth.authManager));
@@ -341,6 +538,21 @@
 
         // Загрузка товаров
         async function loadProducts() {
+            const loadingElement = document.getElementById('products-loading');
+            const tableElement = document.getElementById('products-table');
+            const errorElement = document.getElementById('products-error');
+
+            if (errorElement) {
+                errorElement.style.display = 'none';
+                errorElement.textContent = '';
+            }
+            if (loadingElement) {
+                loadingElement.style.display = 'block';
+            }
+            if (tableElement) {
+                tableElement.style.display = 'none';
+            }
+
             try {
                 const apiClient = new SneakerStoreAPI.ApiClient();
                 const response = await apiClient.get('/products');
@@ -358,9 +570,26 @@
         // Отображение товаров
         function displayProducts(products) {
             const tbody = document.getElementById('products-tbody');
+            const loadingElement = document.getElementById('products-loading');
+            const errorElement = document.getElementById('products-error');
+            const tableElement = document.getElementById('products-table');
+
+            if (loadingElement) {
+                loadingElement.style.display = 'none';
+            }
+            if (errorElement) {
+                errorElement.style.display = 'none';
+                errorElement.textContent = '';
+            }
+            if (tableElement) {
+                tableElement.style.display = 'table';
+            }
+
+            productsCache = products.map(product => ({ ...product, id: String(product.id) }));
+
             tbody.innerHTML = '';
 
-            products.forEach(product => {
+            productsCache.forEach(product => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${product.id}</td>
@@ -370,15 +599,12 @@
                     <td>${product.rating} ⭐</td>
                     <td>${product.inStock ? '✅' : '❌'}</td>
                     <td>
-                        <button class="btn btn-primary" onclick="editProduct(${product.id})">Редактировать</button>
-                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Удалить</button>
+                        <button class="btn btn-primary" onclick="editProduct('${product.id}')">Редактировать</button>
+                        <button class="btn btn-danger" onclick="deleteProduct('${product.id}')">Удалить</button>
                     </td>
                 `;
                 tbody.appendChild(row);
             });
-
-            document.getElementById('products-loading').style.display = 'none';
-            document.getElementById('products-table').style.display = 'table';
         }
 
         // Загрузка заказов (корзин)
@@ -447,6 +673,208 @@
             }
         }
 
+        function initializeProductForm() {
+            productFormState.modal = document.getElementById('product-modal');
+            productFormState.form = document.getElementById('product-form');
+            productFormState.submitButton = document.getElementById('product-form-submit');
+            productFormState.errorContainer = document.getElementById('product-form-error');
+            productFormState.cancelButton = document.getElementById('product-modal-cancel');
+
+            if (!productFormState.modal || !productFormState.form) {
+                return;
+            }
+
+            productFormState.form.addEventListener('submit', handleProductFormSubmit);
+
+            if (productFormState.cancelButton) {
+                productFormState.cancelButton.addEventListener('click', closeProductModal);
+            }
+
+            productFormState.modal.addEventListener('click', (event) => {
+                if (event.target === productFormState.modal) {
+                    closeProductModal();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                const isModalOpen = productFormState.modal && !productFormState.modal.hasAttribute('hidden');
+                if (event.key === 'Escape' && isModalOpen) {
+                    closeProductModal();
+                }
+            });
+        }
+
+        function openProductModal(product) {
+            if (!productFormState.modal || !productFormState.form) {
+                return;
+            }
+
+            productFormState.currentProduct = product;
+            if (productFormState.errorContainer) {
+                productFormState.errorContainer.textContent = '';
+            }
+
+            fillProductForm(product);
+
+            productFormState.modal.removeAttribute('hidden');
+            requestAnimationFrame(() => {
+                productFormState.modal.classList.add('is-open');
+            });
+            document.body.classList.add('admin-modal-open');
+
+            const firstField = productFormState.form.querySelector('input:not([type="hidden"]), textarea, select');
+            if (firstField) {
+                firstField.focus();
+            }
+        }
+
+        function closeProductModal() {
+            if (!productFormState.modal || !productFormState.form) {
+                return;
+            }
+
+            productFormState.modal.classList.remove('is-open');
+            setTimeout(() => {
+                productFormState.modal.setAttribute('hidden', '');
+            }, 150);
+            document.body.classList.remove('admin-modal-open');
+            productFormState.form.reset();
+            if (productFormState.errorContainer) {
+                productFormState.errorContainer.textContent = '';
+            }
+            productFormState.currentProduct = null;
+        }
+
+        function fillProductForm(product) {
+            const form = productFormState.form;
+            form.reset();
+
+            form.elements['productId'].value = product.id ?? '';
+            form.elements['name'].value = product.name ?? '';
+            form.elements['brand'].value = product.brand ?? '';
+            form.elements['model'].value = product.model ?? '';
+            form.elements['category'].value = product.category ?? '';
+            form.elements['gender'].value = product.gender ?? '';
+            form.elements['price'].value = product.price ?? '';
+            form.elements['originalPrice'].value = product.originalPrice ?? '';
+            form.elements['discount'].value = product.discount ?? '';
+            form.elements['stockQuantity'].value = product.stockQuantity ?? '';
+            form.elements['inStock'].checked = !!product.inStock;
+            form.elements['rating'].value = product.rating ?? '';
+            form.elements['reviewsCount'].value = product.reviewsCount ?? '';
+
+            if (product.releaseDate) {
+                const releaseDateValue = String(product.releaseDate).slice(0, 10);
+                form.elements['releaseDate'].value = releaseDateValue;
+            } else {
+                form.elements['releaseDate'].value = '';
+            }
+
+            form.elements['sizes'].value = (product.sizes || []).join(', ');
+            form.elements['colors'].value = (product.colors || []).join(', ');
+            form.elements['tags'].value = (product.tags || []).join(', ');
+            form.elements['images'].value = (product.images || []).join(', ');
+            form.elements['description'].value = product.description ?? '';
+        }
+
+        async function handleProductFormSubmit(event) {
+            event.preventDefault();
+
+            if (!productFormState.form || !productFormState.currentProduct) {
+                return;
+            }
+
+            const form = productFormState.form;
+            const formData = new FormData(form);
+            const productId = formData.get('productId');
+
+            const updatedProduct = {
+                ...productFormState.currentProduct,
+                name: (formData.get('name') || '').trim(),
+                brand: (formData.get('brand') || '').trim(),
+                model: (formData.get('model') || '').trim(),
+                category: (formData.get('category') || '').trim(),
+                gender: (formData.get('gender') || '').trim(),
+                description: (formData.get('description') || '').trim(),
+                price: clampNumber(toFloat(formData.get('price'), productFormState.currentProduct.price || 0), 0),
+                originalPrice: clampNumber(toFloat(formData.get('originalPrice'), productFormState.currentProduct.originalPrice || 0), 0),
+                discount: clampNumber(toFloat(formData.get('discount'), productFormState.currentProduct.discount || 0), 0),
+                stockQuantity: clampNumber(toInt(formData.get('stockQuantity'), productFormState.currentProduct.stockQuantity || 0), 0),
+                inStock: form.elements['inStock'] ? form.elements['inStock'].checked : !!productFormState.currentProduct.inStock,
+                rating: clampNumber(toFloat(formData.get('rating'), productFormState.currentProduct.rating || 0), 0, 5),
+                reviewsCount: clampNumber(toInt(formData.get('reviewsCount'), productFormState.currentProduct.reviewsCount || 0), 0),
+            };
+
+            const releaseDate = formData.get('releaseDate');
+            updatedProduct.releaseDate = releaseDate ? releaseDate : productFormState.currentProduct.releaseDate || '';
+
+            updatedProduct.sizes = parseList(formData.get('sizes'));
+            updatedProduct.colors = parseList(formData.get('colors'));
+            updatedProduct.tags = parseList(formData.get('tags'));
+            updatedProduct.images = parseList(formData.get('images'));
+            updatedProduct.updatedAt = new Date().toISOString();
+
+            const submitButton = productFormState.submitButton;
+            const originalButtonText = submitButton ? submitButton.textContent : '';
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Сохранение...';
+            }
+            if (productFormState.errorContainer) {
+                productFormState.errorContainer.textContent = '';
+            }
+
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.put(`/products/${productId}`, updatedProduct);
+
+                if (!response.success) {
+                    throw new Error(response.error || 'Не удалось сохранить изменения');
+                }
+
+                await loadProducts();
+                await loadStats();
+                closeProductModal();
+                alert('Товар успешно обновлен');
+            } catch (error) {
+                console.error('Ошибка сохранения товара:', error);
+                if (productFormState.errorContainer) {
+                    productFormState.errorContainer.textContent = error.message || 'Не удалось сохранить изменения';
+                }
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText || 'Сохранить';
+                }
+            }
+        }
+
+        function parseList(value) {
+            if (!value) {
+                return [];
+            }
+            return value
+                .split(/[\n,]/)
+                .map(item => item.trim())
+                .filter(Boolean);
+        }
+
+        function toFloat(value, fallback = 0) {
+            const parsed = parseFloat(value);
+            return Number.isNaN(parsed) ? fallback : parsed;
+        }
+
+        function toInt(value, fallback = 0) {
+            const parsed = parseInt(value, 10);
+            return Number.isNaN(parsed) ? fallback : parsed;
+        }
+
+        function clampNumber(value, min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY) {
+            const normalized = Number.isNaN(value) ? min : value;
+            return Math.min(Math.max(normalized, min), max);
+        }
+
         // Действия с пользователями
         function editUser(userId) {
             alert(`Редактирование пользователя #${userId} (функция в разработке)`);
@@ -458,14 +886,58 @@
             }
         }
 
-        // Действия с товарами
-        function editProduct(productId) {
-            alert(`Редактирование товара #${productId} (функция в разработке)`);
+        async function fetchProductById(productId) {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get(`/products/${productId}`);
+                if (response.success && response.data) {
+                    return { ...response.data, id: String(response.data.id ?? productId) };
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки товара:', error);
+            }
+            return null;
         }
 
-        function deleteProduct(productId) {
-            if (confirm(`Вы уверены, что хотите удалить товар #${productId}?`)) {
-                alert(`Удаление товара #${productId} (функция в разработке)`);
+        // Действия с товарами
+        async function editProduct(productId) {
+            const normalizedId = String(productId);
+            let product = productsCache.find(item => item.id === normalizedId);
+
+            if (!product) {
+                product = await fetchProductById(normalizedId);
+                if (!product) {
+                    alert('Не удалось загрузить данные товара. Попробуйте обновить страницу.');
+                    return;
+                }
+            }
+
+            openProductModal(product);
+        }
+
+        async function deleteProduct(productId) {
+            const normalizedId = String(productId);
+            if (!confirm(`Вы уверены, что хотите удалить товар #${normalizedId}?`)) {
+                return;
+            }
+
+            if (productFormState.currentProduct && productFormState.currentProduct.id === normalizedId) {
+                closeProductModal();
+            }
+
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.delete(`/products/${normalizedId}`);
+                if (!response.success) {
+                    throw new Error(response.error || 'Не удалось удалить товар');
+                }
+
+                await loadProducts();
+                await loadStats();
+                alert('Товар успешно удалён');
+            } catch (error) {
+                console.error('Ошибка удаления товара:', error);
+                alert('Не удалось удалить товар. Проверьте консоль для подробностей.');
             }
         }
 
@@ -582,12 +1054,16 @@
             background: #dc3545;
             color: white;
         }
-        .btn-success {
-            background: #28a745;
+        .btn-secondary {
+            background: #6c757d;
             color: white;
         }
-        .btn:hover {
-            opacity: 0.8;
+        .btn:hover:not(:disabled) {
+            opacity: 0.85;
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
         .role-badge {
             padding: 4px 8px;
@@ -626,6 +1102,98 @@
             padding: 15px;
             border-radius: 5px;
             margin: 10px 0;
+        }
+        .admin-modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            padding: 20px;
+            transition: opacity 0.15s ease;
+            opacity: 0;
+        }
+        .admin-modal[hidden] {
+            display: none;
+        }
+        .admin-modal.is-open {
+            opacity: 1;
+        }
+        .admin-modal__dialog {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .admin-modal__title {
+            margin: 0 0 20px 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .admin-form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .admin-form-field label {
+            font-weight: 600;
+            color: #333;
+        }
+        .admin-form-field input,
+        .admin-form-field textarea {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .admin-form-field textarea {
+            resize: vertical;
+        }
+        .admin-form-field--full {
+            grid-column: 1 / -1;
+        }
+        .checkbox-field {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .admin-modal__actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .admin-modal__error {
+            flex: 1;
+            margin: 0;
+            font-size: 14px;
+            color: #dc3545;
+        }
+        body.admin-modal-open {
+            overflow: hidden;
+        }
+        @media (max-width: 768px) {
+            .admin-form-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-modal__dialog {
+                padding: 20px;
+            }
         }
     </style>
 </body>
