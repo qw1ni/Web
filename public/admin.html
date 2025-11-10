@@ -338,6 +338,72 @@
         </div>
     </main>
 
+    <div id="user-modal" class="admin-modal" hidden>
+        <div class="admin-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="user-modal-title">
+            <h3 class="admin-modal__title" id="user-modal-title">Редактирование пользователя</h3>
+            <form id="user-form" class="admin-form">
+                <input type="hidden" name="userId" id="user-id">
+                <div class="admin-form-grid">
+                    <div class="admin-form-field">
+                        <label for="user-first-name">Имя*</label>
+                        <input type="text" id="user-first-name" name="firstName" required>
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-last-name">Фамилия*</label>
+                        <input type="text" id="user-last-name" name="lastName" required>
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-email">Email*</label>
+                        <input type="email" id="user-email" name="email" required>
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-phone">Телефон</label>
+                        <input type="tel" id="user-phone" name="phone">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-role">Роль</label>
+                        <input type="text" id="user-role" name="role" placeholder="customer">
+                    </div>
+                    <div class="admin-form-field">
+                        <label class="checkbox-field">
+                            <input type="checkbox" id="user-is-admin" name="isAdmin">
+                            <span>Администратор</span>
+                        </label>
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-password">Новый пароль</label>
+                        <input type="text" id="user-password" name="password" placeholder="Оставьте пустым, чтобы не менять">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-street">Улица</label>
+                        <input type="text" id="user-street" name="street">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-city">Город</label>
+                        <input type="text" id="user-city" name="city">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-state">Штат/Область</label>
+                        <input type="text" id="user-state" name="state">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-zip">Индекс</label>
+                        <input type="text" id="user-zip" name="zipCode">
+                    </div>
+                    <div class="admin-form-field">
+                        <label for="user-country">Страна</label>
+                        <input type="text" id="user-country" name="country">
+                    </div>
+                </div>
+                <div class="admin-modal__actions">
+                    <p class="admin-modal__error" id="user-form-error"></p>
+                    <button type="button" class="btn btn-secondary" id="user-modal-cancel">Отмена</button>
+                    <button type="submit" class="btn btn-primary" id="user-form-submit">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="product-modal" class="admin-modal" hidden>
         <div class="admin-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
             <h3 class="admin-modal__title" id="product-modal-title">Редактирование товара</h3>
@@ -435,7 +501,16 @@
     <script src="./scripts/main.js"></script>
     
     <script>
+        let usersCache = [];
         let productsCache = [];
+        const userFormState = {
+            modal: null,
+            form: null,
+            submitButton: null,
+            errorContainer: null,
+            currentUser: null,
+            cancelButton: null
+        };
         const productFormState = {
             modal: null,
             form: null,
@@ -447,6 +522,7 @@
 
         // Проверка авторизации при загрузке страницы
         document.addEventListener('DOMContentLoaded', async function() {
+            initializeUserForm();
             initializeProductForm();
             console.log('Admin page loaded');
             console.log('SneakerStoreAuth available:', !!window.SneakerStoreAuth);
@@ -496,6 +572,21 @@
 
         // Загрузка пользователей
         async function loadUsers() {
+            const loadingElement = document.getElementById('users-loading');
+            const tableElement = document.getElementById('users-table');
+            const errorElement = document.getElementById('users-error');
+
+            if (errorElement) {
+                errorElement.style.display = 'none';
+                errorElement.textContent = '';
+            }
+            if (loadingElement) {
+                loadingElement.style.display = 'block';
+            }
+            if (tableElement) {
+                tableElement.style.display = 'none';
+            }
+
             try {
                 const apiClient = new SneakerStoreAPI.ApiClient();
                 const response = await apiClient.get('/users');
@@ -513,9 +604,26 @@
         // Отображение пользователей
         function displayUsers(users) {
             const tbody = document.getElementById('users-tbody');
+            const loadingElement = document.getElementById('users-loading');
+            const errorElement = document.getElementById('users-error');
+            const tableElement = document.getElementById('users-table');
+
+            if (loadingElement) {
+                loadingElement.style.display = 'none';
+            }
+            if (errorElement) {
+                errorElement.style.display = 'none';
+                errorElement.textContent = '';
+            }
+            if (tableElement) {
+                tableElement.style.display = 'table';
+            }
+
+            usersCache = users.map(user => ({ ...user, id: String(user.id) }));
+
             tbody.innerHTML = '';
 
-            users.forEach(user => {
+            usersCache.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${user.id}</td>
@@ -525,15 +633,12 @@
                     <td>${new Date(user.createdAt).toLocaleDateString()}</td>
                     <td>${user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Никогда'}</td>
                     <td>
-                        <button class="btn btn-primary" onclick="editUser(${user.id})">Редактировать</button>
-                        <button class="btn btn-danger" onclick="deleteUser(${user.id})">Удалить</button>
+                        <button class="btn btn-primary" onclick="editUser('${user.id}')">Редактировать</button>
+                        <button class="btn btn-danger" onclick="deleteUser('${user.id}')">Удалить</button>
                     </td>
                 `;
                 tbody.appendChild(row);
             });
-
-            document.getElementById('users-loading').style.display = 'none';
-            document.getElementById('users-table').style.display = 'table';
         }
 
         // Загрузка товаров
@@ -673,6 +778,182 @@
             }
         }
 
+        function initializeUserForm() {
+            userFormState.modal = document.getElementById('user-modal');
+            userFormState.form = document.getElementById('user-form');
+            userFormState.submitButton = document.getElementById('user-form-submit');
+            userFormState.errorContainer = document.getElementById('user-form-error');
+            userFormState.cancelButton = document.getElementById('user-modal-cancel');
+
+            if (!userFormState.modal || !userFormState.form) {
+                return;
+            }
+
+            userFormState.form.addEventListener('submit', handleUserFormSubmit);
+
+            if (userFormState.cancelButton) {
+                userFormState.cancelButton.addEventListener('click', closeUserModal);
+            }
+
+            userFormState.modal.addEventListener('click', (event) => {
+                if (event.target === userFormState.modal) {
+                    closeUserModal();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                const modalOpen = userFormState.modal && !userFormState.modal.hasAttribute('hidden');
+                if (event.key === 'Escape' && modalOpen) {
+                    closeUserModal();
+                }
+            });
+        }
+
+        function openUserModal(user) {
+            if (!userFormState.modal || !userFormState.form) {
+                return;
+            }
+
+            userFormState.currentUser = user;
+            if (userFormState.errorContainer) {
+                userFormState.errorContainer.textContent = '';
+            }
+
+            fillUserForm(user);
+
+            userFormState.modal.removeAttribute('hidden');
+            updateBodyModalState();
+            requestAnimationFrame(() => {
+                userFormState.modal.classList.add('is-open');
+            });
+
+            const firstField = userFormState.form.querySelector('input:not([type="hidden"]), textarea, select');
+            if (firstField) {
+                firstField.focus();
+            }
+        }
+
+        function closeUserModal() {
+            if (!userFormState.modal || !userFormState.form) {
+                return;
+            }
+
+            userFormState.modal.classList.remove('is-open');
+            setTimeout(() => {
+                userFormState.modal.setAttribute('hidden', '');
+                updateBodyModalState();
+            }, 150);
+            userFormState.form.reset();
+            if (userFormState.errorContainer) {
+                userFormState.errorContainer.textContent = '';
+            }
+            userFormState.currentUser = null;
+        }
+
+        function fillUserForm(user) {
+            const form = userFormState.form;
+            form.reset();
+
+            form.elements['userId'].value = user.id ?? '';
+            form.elements['firstName'].value = user.firstName ?? '';
+            form.elements['lastName'].value = user.lastName ?? '';
+            form.elements['email'].value = user.email ?? '';
+            form.elements['phone'].value = user.phone ?? '';
+            form.elements['role'].value = user.role ?? '';
+            if (form.elements['isAdmin']) {
+                form.elements['isAdmin'].checked = !!(user.isAdmin || user.role === 'admin');
+            }
+            form.elements['password'].value = '';
+
+            const address = user.address || {};
+            form.elements['street'].value = address.street ?? '';
+            form.elements['city'].value = address.city ?? '';
+            form.elements['state'].value = address.state ?? '';
+            form.elements['zipCode'].value = address.zipCode ?? '';
+            form.elements['country'].value = address.country ?? '';
+        }
+
+        async function handleUserFormSubmit(event) {
+            event.preventDefault();
+
+            if (!userFormState.form || !userFormState.currentUser) {
+                return;
+            }
+
+            const form = userFormState.form;
+            const formData = new FormData(form);
+            const userId = formData.get('userId');
+
+            const isAdminChecked = form.elements['isAdmin'] ? form.elements['isAdmin'].checked : false;
+            let roleValue = (formData.get('role') || '').trim().toLowerCase();
+            if (isAdminChecked) {
+                roleValue = 'admin';
+            }
+            if (!roleValue) {
+                roleValue = 'customer';
+            }
+
+            const updatedUser = {
+                ...userFormState.currentUser,
+                firstName: (formData.get('firstName') || '').trim(),
+                lastName: (formData.get('lastName') || '').trim(),
+                email: (formData.get('email') || '').trim().toLowerCase(),
+                phone: (formData.get('phone') || '').trim(),
+                role: roleValue,
+                isAdmin: isAdminChecked,
+                address: {
+                    ...(userFormState.currentUser.address || {}),
+                    street: (formData.get('street') || '').trim(),
+                    city: (formData.get('city') || '').trim(),
+                    state: (formData.get('state') || '').trim(),
+                    zipCode: (formData.get('zipCode') || '').trim(),
+                    country: (formData.get('country') || '').trim()
+                }
+            };
+
+            const newPassword = (formData.get('password') || '').trim();
+            if (newPassword) {
+                updatedUser.password = newPassword;
+            }
+
+            updatedUser.updatedAt = new Date().toISOString();
+
+            const submitButton = userFormState.submitButton;
+            const originalButtonText = submitButton ? submitButton.textContent : '';
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Сохранение...';
+            }
+            if (userFormState.errorContainer) {
+                userFormState.errorContainer.textContent = '';
+            }
+
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.put(`/users/${userId}`, updatedUser);
+
+                if (!response.success) {
+                    throw new Error(response.error || 'Не удалось сохранить изменения');
+                }
+
+                await loadUsers();
+                await loadStats();
+                closeUserModal();
+                alert('Пользователь успешно обновлен');
+            } catch (error) {
+                console.error('Ошибка сохранения пользователя:', error);
+                if (userFormState.errorContainer) {
+                    userFormState.errorContainer.textContent = error.message || 'Не удалось сохранить изменения';
+                }
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText || 'Сохранить';
+                }
+            }
+        }
+
         function initializeProductForm() {
             productFormState.modal = document.getElementById('product-modal');
             productFormState.form = document.getElementById('product-form');
@@ -717,10 +998,10 @@
             fillProductForm(product);
 
             productFormState.modal.removeAttribute('hidden');
+            updateBodyModalState();
             requestAnimationFrame(() => {
                 productFormState.modal.classList.add('is-open');
             });
-            document.body.classList.add('admin-modal-open');
 
             const firstField = productFormState.form.querySelector('input:not([type="hidden"]), textarea, select');
             if (firstField) {
@@ -736,8 +1017,8 @@
             productFormState.modal.classList.remove('is-open');
             setTimeout(() => {
                 productFormState.modal.setAttribute('hidden', '');
+                updateBodyModalState();
             }, 150);
-            document.body.classList.remove('admin-modal-open');
             productFormState.form.reset();
             if (productFormState.errorContainer) {
                 productFormState.errorContainer.textContent = '';
@@ -876,14 +1157,58 @@
         }
 
         // Действия с пользователями
-        function editUser(userId) {
-            alert(`Редактирование пользователя #${userId} (функция в разработке)`);
+        async function editUser(userId) {
+            const normalizedId = String(userId);
+            let user = usersCache.find(item => item.id === normalizedId);
+
+            if (!user) {
+                user = await fetchUserById(normalizedId);
+                if (!user) {
+                    alert('Не удалось загрузить данные пользователя. Попробуйте обновить страницу.');
+                    return;
+                }
+            }
+
+            openUserModal(user);
         }
 
-        function deleteUser(userId) {
-            if (confirm(`Вы уверены, что хотите удалить пользователя #${userId}?`)) {
-                alert(`Удаление пользователя #${userId} (функция в разработке)`);
+        async function deleteUser(userId) {
+            const normalizedId = String(userId);
+            if (!confirm(`Вы уверены, что хотите удалить пользователя #${normalizedId}?`)) {
+                return;
             }
+
+            if (userFormState.currentUser && userFormState.currentUser.id === normalizedId) {
+                closeUserModal();
+            }
+
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.delete(`/users/${normalizedId}`);
+                if (!response.success) {
+                    throw new Error(response.error || 'Не удалось удалить пользователя');
+                }
+
+                await loadUsers();
+                await loadStats();
+                alert('Пользователь успешно удалён');
+            } catch (error) {
+                console.error('Ошибка удаления пользователя:', error);
+                alert('Не удалось удалить пользователя. Проверьте консоль для подробностей.');
+            }
+        }
+
+        async function fetchUserById(userId) {
+            try {
+                const apiClient = new SneakerStoreAPI.ApiClient();
+                const response = await apiClient.get(`/users/${userId}`);
+                if (response.success && response.data) {
+                    return { ...response.data, id: String(response.data.id ?? userId) };
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки пользователя:', error);
+            }
+            return null;
         }
 
         async function fetchProductById(productId) {
@@ -959,6 +1284,13 @@
             if (loadingElement) {
                 loadingElement.style.display = 'none';
             }
+        }
+
+        function updateBodyModalState() {
+            const userModalOpen = userFormState.modal && !userFormState.modal.hasAttribute('hidden');
+            const productModalOpen = productFormState.modal && !productFormState.modal.hasAttribute('hidden');
+            const shouldLock = userModalOpen || productModalOpen;
+            document.body.classList.toggle('admin-modal-open', shouldLock);
         }
     </script>
 

@@ -20,25 +20,6 @@
       "lastLogin": "2025-11-10T18:03:59.125Z"
     },
     {
-      "id": "2",
-      "email": "jane.smith@example.com",
-      "password": "password123",
-      "firstName": "Jane",
-      "lastName": "Smith",
-      "phone": "+1-555-0124",
-      "address": {
-        "street": "456 Oak Ave",
-        "city": "Los Angeles",
-        "state": "CA",
-        "zipCode": "90210",
-        "country": "USA"
-      },
-      "isAdmin": false,
-      "role": "customer",
-      "createdAt": "2024-01-10T08:15:00Z",
-      "lastLogin": "2024-01-19T16:45:00Z"
-    },
-    {
       "id": "3",
       "email": "mike.johnson@example.com",
       "password": "password123",
@@ -192,7 +173,7 @@
     },
     {
       "id": "7e12",
-      "firstName": "Adam",
+      "firstName": "Адамантиум",
       "lastName": "Smith",
       "middleName": "",
       "nickname": "strongadamsmith674",
@@ -211,7 +192,8 @@
         "country": "Belarus"
       },
       "createdAt": "2025-10-18T09:39:11.756Z",
-      "lastLogin": "2025-10-30T12:11:58.977Z"
+      "lastLogin": "2025-10-30T12:11:58.977Z",
+      "updatedAt": "2025-11-10T18:42:30.119Z"
     }
   ],
   "products": [
