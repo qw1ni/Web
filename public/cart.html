@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/styles.css">
-    <title>Sneaker Store - Корзина</title>
+    <title>Sneaker Store - Cart</title>
     <style>
         .cart-container {
             max-width: 1200px;
@@ -405,64 +405,61 @@
     <main class="content">
         <div class="cart-container">
             <div class="cart-header">
-                <h1>🛒 Корзина покупок</h1>
-                <p>Проверьте товары перед оформлением заказа</p>
+                <h1 data-i18n="cart.page.title">🛒 Shopping Cart</h1>
+                <p data-i18n="cart.page.subtitle">Review your items before checkout</p>
             </div>
 
             <div class="cart-layout">
                 <!-- Основной контент корзины -->
                 <main class="cart-main">
                     <div id="cart-content">
-                        <div class="loading">Загрузка корзины...</div>
+                        <div class="loading" data-i18n="cart.loading">Loading cart...</div>
                     </div>
                 </main>
 
                 <!-- Боковая панель с итогами -->
                 <aside class="cart-sidebar">
-                    <h2 class="sidebar-title">Итого заказа</h2>
+                    <h2 class="sidebar-title" data-i18n="cart.summary.title">Order summary</h2>
                     
                     <div class="order-summary" id="order-summary">
                         <div class="summary-row">
-                            <span class="summary-label">Товары:</span>
-                            <span class="summary-value" id="items-count">0 шт.</span>
+                            <span class="summary-label" data-i18n="cart.summary.items">Items:</span>
+                            <span class="summary-value" id="items-count">0 items</span>
                         </div>
                         <div class="summary-row">
-                            <span class="summary-label">Сумма товаров:</span>
+                            <span class="summary-label" data-i18n="cart.summary.subtotal">Subtotal:</span>
                             <span class="summary-value" id="subtotal">$0.00</span>
                         </div>
                         <div class="summary-row">
-                            <span class="summary-label">Доставка:</span>
-                            <span class="summary-value" id="shipping">Бесплатно</span>
+                            <span class="summary-label" data-i18n="cart.summary.shipping">Shipping:</span>
+                            <span class="summary-value" id="shipping" data-i18n="cart.summary.free">Free</span>
                         </div>
                         <div class="summary-row total">
-                            <span class="summary-label">Итого:</span>
+                            <span class="summary-label" data-i18n="cart.summary.total">Total:</span>
                             <span class="summary-value" id="total">$0.00</span>
                         </div>
                     </div>
 
-                    <button class="checkout-btn" id="checkout-btn" disabled>
-                        Оформить заказ
+                    <button class="checkout-btn" id="checkout-btn" disabled data-i18n="cart.buttons.checkout">
+                        Checkout
                     </button>
                     
-                    <button class="secondary-btn" onclick="continueShopping()">
-                        Продолжить покупки
+                    <button class="secondary-btn" onclick="continueShopping()" data-i18n="cart.buttons.continue">
+                        Continue shopping
                     </button>
                     
-                    <button class="secondary-btn" onclick="clearCart()" id="clear-cart-btn" style="display: none;">
-                        Очистить корзину
+                    <button class="secondary-btn" onclick="clearCart()" id="clear-cart-btn" style="display: none;" data-i18n="cart.buttons.clear">
+                        Clear cart
                     </button>
                 </aside>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer__container container">
-            <p>&copy; 2024 Sneaker Store. All Rights Reserved</p>
-        </div>
-    </footer>
+    <div data-include="footer"></div>
 
     <script src="./scripts/partials.js"></script>
+    <script src="./scripts/i18n.js"></script>
     <script src="./scripts/api.js"></script>
     <script src="./scripts/auth.js"></script>
     <script src="./scripts/cart.js"></script>
