@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/styles.css">
-    <title>Sneaker Store - Детали товара</title>
+    <title>Sneaker Store - Product Details</title>
     <style>
         .product-detail-container {
             max-width: 1200px;
@@ -281,19 +281,19 @@
             align-items: center;
             gap: 10px;
             padding: 15px;
-            background: #f8f9fa;
+            background: #7b1e3a;
             border-radius: 10px;
         }
         
         .feature-icon {
             width: 24px;
             height: 24px;
-            color: #667eea;
+            color: #ffe9f1;
         }
         
         .feature-text {
             font-size: 14px;
-            color: #666;
+            color: #ffe9f1;
         }
         
         .product-specs {
@@ -524,20 +524,20 @@
     <main class="content" id="main-content" role="main">
         <div class="product-detail-container">
             <!-- Хлебные крошки -->
-            <nav class="breadcrumbs" aria-label="Навигационные хлебные крошки">
-                <a href="index.html">Главная</a> / 
-                <a href="catalog.html">Каталог</a> / 
-                <span id="breadcrumb-product">Товар</span>
+            <nav class="breadcrumbs" aria-label="Breadcrumb navigation" data-i18n-aria-label="productDetail.breadcrumbs.label">
+                <a href="index.html" data-i18n="productDetail.breadcrumbs.home">Home</a> / 
+                <a href="catalog.html" data-i18n="productDetail.breadcrumbs.catalog">Catalog</a> / 
+                <span id="breadcrumb-product" data-i18n="productDetail.breadcrumbs.current">Product</span>
             </nav>
 
             <!-- Основная информация о товаре -->
             <div class="product-detail" id="product-detail">
-                <div class="loading">Загрузка товара...</div>
+                <div class="loading" data-i18n="productDetail.loading">Loading product...</div>
             </div>
 
             <!-- Похожие товары -->
             <div class="related-products" id="related-products" style="display: none;">
-                <h2 class="related-title">Похожие товары</h2>
+                <h2 class="related-title" data-i18n="productDetail.related.title">Related products</h2>
                 <div class="related-grid" id="related-grid">
                 </div>
             </div>
@@ -547,6 +547,7 @@
     <div data-include="footer"></div>
 
     <script src="./scripts/partials.js"></script>
+    <script src="./scripts/i18n.js"></script>
     <script src="./scripts/api.js"></script>
     <script src="./scripts/auth.js"></script>
     <script src="./scripts/preloader.js"></script>
@@ -563,7 +564,136 @@
         window.addEventListener('unhandledrejection', function(event) {
             console.error('Unhandled promise rejection:', event.reason);
         });
-        
+ 
+        const productDetailFallbacks = {
+            'productDetail.breadcrumbs.label': 'Breadcrumb navigation',
+            'productDetail.breadcrumbs.home': 'Home',
+            'productDetail.breadcrumbs.catalog': 'Catalog',
+            'productDetail.breadcrumbs.current': 'Product',
+            'productDetail.loading': 'Loading product...',
+            'productDetail.related.title': 'Related products',
+            'productDetail.errors.pageLoad': 'Failed to load the page',
+            'productDetail.errors.display': 'Failed to render the product: {reason}',
+            'productDetail.errors.loadProduct': 'Failed to load the product: {reason}',
+            'productDetail.errors.productNotFound': 'Product not found',
+            'productDetail.errors.cartMissing': 'Cart is not initialized',
+            'productDetail.errors.addToCart': 'Failed to add to cart: {reason}',
+            'productDetail.messages.tempUnavailable': 'Product temporarily unavailable',
+            'productDetail.messages.selectSize': 'Please choose a size',
+            'productDetail.messages.addedToCart': 'Item added to cart!',
+            'productDetail.rating.reviewsSuffix': 'reviews',
+            'productDetail.options.size': 'Size',
+            'productDetail.options.color': 'Color',
+            'productDetail.actions.add': 'Add to cart',
+            'productDetail.actions.outOfStock': 'Out of stock',
+            'productDetail.features.quality': 'Premium quality',
+            'productDetail.features.authentic': 'Authentic product',
+            'productDetail.features.delivery': 'Fast delivery',
+            'productDetail.features.warranty': 'Quality guarantee',
+            'productDetail.specs.title': 'Specifications',
+            'productDetail.specs.brand': 'Brand:',
+            'productDetail.specs.model': 'Model:',
+            'productDetail.specs.category': 'Category:',
+            'productDetail.specs.gender': 'Gender:',
+            'productDetail.specs.rating': 'Rating:',
+            'productDetail.specs.ratingOf': 'out of 5',
+            'productDetail.specs.reviews': 'Reviews:',
+            'productDetail.specs.availability': 'Availability:',
+            'productDetail.specs.inStock': 'In stock',
+            'productDetail.specs.outOfStock': 'Out of stock',
+            'productDetail.specs.stock': 'Stock:',
+            'productDetail.specs.stockUnit': 'pcs.',
+            'productDetail.specs.release': 'Release date:',
+            'productDetail.specs.tags': 'Tags:',
+            'productDetail.error.title': 'Error'
+        };
+
+        function t(key, replacements = {}) {
+            const translateFn = window.I18n && typeof window.I18n.translate === 'function'
+                ? window.I18n.translate
+                : () => key;
+            let result = translateFn(key);
+            if (result === key && productDetailFallbacks[key]) {
+                result = productDetailFallbacks[key];
+            }
+            result = String(result);
+            Object.entries(replacements).forEach(([placeholder, value]) => {
+                result = result.replace(`{${placeholder}}`, value);
+            });
+            return result;
+        }
+
+        function getCurrentLanguage() {
+            return window.I18n && typeof window.I18n.getCurrentLanguage === 'function'
+                ? window.I18n.getCurrentLanguage()
+                : 'en';
+        }
+
+        function formatLocalizedDate(value) {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) {
+                return value;
+            }
+            const locale = getCurrentLanguage() === 'ru' ? 'ru-RU' : 'en-US';
+            try {
+                return new Intl.DateTimeFormat(locale, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }).format(date);
+            } catch (error) {
+                console.warn('Date formatting failed, falling back to ISO string.', error);
+                return date.toISOString().split('T')[0];
+            }
+        }
+
+        function formatCurrency(value) {
+            const amount = Number(value) || 0;
+            const locale = getCurrentLanguage() === 'ru' ? 'ru-RU' : 'en-US';
+            try {
+                return new Intl.NumberFormat(locale, {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(amount);
+            } catch (error) {
+                console.warn('Currency formatting failed, falling back to USD string.', error);
+                return `$${amount.toFixed(2)}`;
+            }
+        }
+
+        function formatNumber(value) {
+            const amount = Number(value) || 0;
+            const locale = getCurrentLanguage() === 'ru' ? 'ru-RU' : 'en-US';
+            try {
+                return new Intl.NumberFormat(locale).format(amount);
+            } catch (error) {
+                console.warn('Number formatting failed, falling back to plain value.', error);
+                return String(amount);
+            }
+        }
+
+        function updateBreadcrumbs() {
+            const breadcrumbs = {
+                home: document.querySelector('.breadcrumbs a[href="index.html"]'),
+                catalog: document.querySelector('.breadcrumbs a[href="catalog.html"]'),
+                current: document.getElementById('breadcrumb-product')
+            };
+
+            if (breadcrumbs.home) breadcrumbs.home.textContent = t('productDetail.breadcrumbs.home');
+            if (breadcrumbs.catalog) breadcrumbs.catalog.textContent = t('productDetail.breadcrumbs.catalog');
+            if (breadcrumbs.current && currentProduct) breadcrumbs.current.textContent = currentProduct.name;
+
+            const breadcrumbsNav = document.querySelector('.breadcrumbs');
+            if (breadcrumbsNav) {
+                const localizedLabel = t('productDetail.breadcrumbs.label');
+                if (localizedLabel !== 'productDetail.breadcrumbs.label') {
+                    breadcrumbsNav.setAttribute('aria-label', localizedLabel);
+                }
+            }
+        }
+
         // Проверяем загрузку скриптов
         console.log('Scripts loaded:');
         console.log('- SneakerStoreAPI:', !!window.SneakerStoreAPI);
@@ -573,6 +703,7 @@
         let currentProduct = null;
         let selectedSize = '';
         let selectedColor = '';
+        let relatedProductsCache = [];
 
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', async function() {
@@ -633,11 +764,11 @@
                 if (productId) {
                     await loadProduct(productId);
                 } else {
-                    showError('Товар не найден');
+                    showError(t('productDetail.errors.productNotFound'));
                 }
             } catch (error) {
                 console.error('Error initializing page:', error);
-                showError('Ошибка загрузки страницы');
+                showError(t('productDetail.errors.pageLoad'));
             } finally {
                 // Скрываем прелоадер после загрузки
                 if (preloader) {
@@ -677,7 +808,7 @@
                         console.log('Product displayed successfully');
                     } catch (displayError) {
                         console.error('Error displaying product:', displayError);
-                        showError('Ошибка отображения товара: ' + displayError.message);
+                        showError(t('productDetail.errors.display', { reason: displayError.message }));
                     }
                     
                     try {
@@ -689,11 +820,11 @@
                     }
                 } else {
                     console.log('Product not found');
-                    showError('Товар не найден');
+                    showError(t('productDetail.errors.productNotFound'));
                 }
             } catch (error) {
                 console.error('Error loading product:', error);
-                showError('Ошибка загрузки товара: ' + error.message);
+                showError(t('productDetail.errors.loadProduct', { reason: error.message }));
             }
         }
 
@@ -724,7 +855,7 @@
                 Math.round((1 - currentProduct.price / currentProduct.originalPrice) * 100) : 0;
             
             // Обновляем хлебные крошки
-            document.getElementById('breadcrumb-product').textContent = currentProduct.name;
+            updateBreadcrumbs();
             
             container.innerHTML = `
                 <div class="product-main">
@@ -748,24 +879,24 @@
                         <div class="product-rating">
                             <span class="rating-stars">${'★'.repeat(Math.floor(currentProduct.rating))}</span>
                             <span class="rating-value">${currentProduct.rating}</span>
-                            <span class="rating-count">(${currentProduct.reviewsCount} отзывов)</span>
+                            <span class="rating-count">(${formatNumber(currentProduct.reviewsCount)} ${t('productDetail.rating.reviewsSuffix')})</span>
                         </div>
                         
                         <div class="product-price">
-                            <span class="price-current">$${currentProduct.price}</span>
+                            <span class="price-current">${formatCurrency(currentProduct.price)}</span>
                             ${currentProduct.originalPrice > currentProduct.price ? 
-                                `<span class="price-original">$${currentProduct.originalPrice}</span>` : ''
+                                `<span class="price-original">${formatCurrency(currentProduct.originalPrice)}</span>` : ''
                             }
-                            ${discount > 0 ? `<span class="price-discount">-${discount}%</span>` : ''}
+                            ${discount > 0 ? `<span class="price-discount">-${formatNumber(discount)}%</span>` : ''}
                         </div>
                         
                         <div class="product-description">
-                            ${currentProduct.description}
+                            ${currentProduct.description || ''}
                         </div>
                         
                         <div class="product-options">
                             <div class="option-group">
-                                <div class="option-label">Размер:</div>
+                                <div class="option-label">${t('productDetail.options.size')}:</div>
                                 <div class="option-buttons">
                                     ${currentProduct.sizes.map(size => `
                                         <button class="option-btn" onclick="selectSize('${size}')">${size}</button>
@@ -774,7 +905,7 @@
                             </div>
                             
                             <div class="option-group">
-                                <div class="option-label">Цвет:</div>
+                                <div class="option-label">${t('productDetail.options.color')}:</div>
                                 <div class="option-buttons">
                                     ${currentProduct.colors.map(color => `
                                         <button class="option-btn" onclick="selectColor('${color}')">${color}</button>
@@ -785,7 +916,7 @@
                         
                         <div class="product-actions">
                             <button class="btn btn-primary" onclick="addToCart()">
-                                ${currentProduct.inStock ? 'Добавить в корзину' : 'Нет в наличии'}
+                                ${currentProduct.inStock ? t('productDetail.actions.add') : t('productDetail.actions.outOfStock')}
                             </button>
                         </div>
                         
@@ -794,71 +925,71 @@
                                 <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                                 </svg>
-                                <span class="feature-text">Высокое качество</span>
+                                <span class="feature-text">${t('productDetail.features.quality')}</span>
                             </div>
                             <div class="feature-item">
                                 <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                                 </svg>
-                                <span class="feature-text">Оригинальная продукция</span>
+                                <span class="feature-text">${t('productDetail.features.authentic')}</span>
                             </div>
                             <div class="feature-item">
                                 <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M19 7h-8v6h8V7zm-2 4h-4V9h4v2zm4.5-9H15v2h6.5c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-13c-.83 0-1.5-.67-1.5-1.5v-11C2 2.67 2.67 2 3.5 2H10V0H3.5C1.57 0 0 1.57 0 3.5v11C0 16.43 1.57 18 3.5 18h13c1.93 0 3.5-1.57 3.5-3.5v-11C20 1.57 18.43 0 16.5 0z"/>
                                 </svg>
-                                <span class="feature-text">Быстрая доставка</span>
+                                <span class="feature-text">${t('productDetail.features.delivery')}</span>
                             </div>
                             <div class="feature-item">
                                 <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                                 </svg>
-                                <span class="feature-text">Гарантия качества</span>
+                                <span class="feature-text">${t('productDetail.features.warranty')}</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="product-specs">
-                    <h3 class="specs-title">Характеристики</h3>
+                    <h3 class="specs-title">${t('productDetail.specs.title')}</h3>
                     <div class="specs-grid">
                         <div class="spec-item">
-                            <span class="spec-label">Бренд:</span>
+                            <span class="spec-label">${t('productDetail.specs.brand')}</span>
                             <span class="spec-value">${currentProduct.brand}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Модель:</span>
+                            <span class="spec-label">${t('productDetail.specs.model')}</span>
                             <span class="spec-value">${currentProduct.model}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Категория:</span>
+                            <span class="spec-label">${t('productDetail.specs.category')}</span>
                             <span class="spec-value">${currentProduct.category}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Пол:</span>
+                            <span class="spec-label">${t('productDetail.specs.gender')}</span>
                             <span class="spec-value">${currentProduct.gender}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Рейтинг:</span>
-                            <span class="spec-value">${currentProduct.rating} из 5</span>
+                            <span class="spec-label">${t('productDetail.specs.rating')}</span>
+                            <span class="spec-value">${currentProduct.rating} ${t('productDetail.specs.ratingOf')}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Отзывы:</span>
-                            <span class="spec-value">${currentProduct.reviewsCount}</span>
+                            <span class="spec-label">${t('productDetail.specs.reviews')}</span>
+                            <span class="spec-value">${formatNumber(currentProduct.reviewsCount)}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Наличие:</span>
-                            <span class="spec-value">${currentProduct.inStock ? 'В наличии' : 'Нет в наличии'}</span>
+                            <span class="spec-label">${t('productDetail.specs.availability')}</span>
+                            <span class="spec-value">${currentProduct.inStock ? t('productDetail.specs.inStock') : t('productDetail.specs.outOfStock')}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Остаток:</span>
-                            <span class="spec-value">${currentProduct.stockQuantity} шт.</span>
+                            <span class="spec-label">${t('productDetail.specs.stock')}</span>
+                            <span class="spec-value">${formatNumber(currentProduct.stockQuantity)} ${t('productDetail.specs.stockUnit')}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Дата релиза:</span>
-                            <span class="spec-value">${new Date(currentProduct.releaseDate).toLocaleDateString()}</span>
+                            <span class="spec-label">${t('productDetail.specs.release')}</span>
+                            <span class="spec-value">${formatLocalizedDate(currentProduct.releaseDate)}</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Теги:</span>
+                            <span class="spec-label">${t('productDetail.specs.tags')}</span>
                             <span class="spec-value">${currentProduct.tags.join(', ')}</span>
                         </div>
                     </div>
@@ -886,15 +1017,17 @@
 
         // Отображение похожих товаров
         function displayRelatedProducts(products) {
+            relatedProductsCache = products || [];
+
             const container = document.getElementById('related-grid');
-            container.innerHTML = products.map(product => `
+            container.innerHTML = relatedProductsCache.map(product => `
                 <div class="related-card" onclick="openProduct(${product.id})">
                     <div class="related-image">
                         <img src="./images/catalogItem${(product.id % 6) + 1}.svg" alt="${product.name}">
                     </div>
                     <div class="related-info">
                         <div class="related-name">${product.name}</div>
-                        <div class="related-price">$${product.price}</div>
+                        <div class="related-price">${formatCurrency(product.price)}</div>
                     </div>
                 </div>
             `).join('');
@@ -942,19 +1075,21 @@
             const preloader = window.Preloader ? new Preloader() : null;
             
             if (!currentProduct.inStock) {
+                const message = t('productDetail.messages.tempUnavailable');
                 if (preloader) {
-                    preloader.showMessage('Товар временно недоступен', 3000, 'error');
+                    preloader.showMessage(message, 3000, 'error');
                 } else {
-                    alert('Товар временно недоступен');
+                    alert(message);
                 }
                 return;
             }
             
             if (!selectedSize) {
+                const message = t('productDetail.messages.selectSize');
                 if (preloader) {
-                    preloader.showMessage('Пожалуйста, выберите размер', 3000, 'error');
+                    preloader.showMessage(message, 3000, 'error');
                 } else {
-                    alert('Пожалуйста, выберите размер');
+                    alert(message);
                 }
                 return;
             }
@@ -964,7 +1099,7 @@
                 
                 // Проверяем наличие корзины
                 if (!window.SneakerStoreCart) {
-                    throw new Error('Корзина не инициализирована');
+                    throw new Error(t('productDetail.errors.cartMissing'));
                 }
                 
                 const result = await window.SneakerStoreCart.addItem(
@@ -977,10 +1112,11 @@
                 if (preloader) await preloader.stop();
                 
                 if (result.success) {
+                    const message = t('productDetail.messages.addedToCart');
                     if (preloader) {
-                        preloader.showMessage('Товар добавлен в корзину!', 2000);
+                        preloader.showMessage(message, 2000);
                     } else {
-                        alert('Товар добавлен в корзину!');
+                        alert(message);
                     }
                     
                     // Анимация добавления в корзину
@@ -989,19 +1125,21 @@
                         window.SneakerStoreCart.cartManager.animateAddToCart(button);
                     }
                 } else {
+                    const message = t('productDetail.errors.addToCart', { reason: result.error });
                     if (preloader) {
-                        preloader.showMessage(result.error, 3000, 'error');
+                        preloader.showMessage(message, 3000, 'error');
                     } else {
-                        alert(result.error);
+                        alert(message);
                     }
                 }
             } catch (error) {
                 if (preloader) await preloader.stop();
                 console.error('Error adding to cart:', error);
+                const message = t('productDetail.errors.addToCart', { reason: error.message });
                 if (preloader) {
-                    preloader.showMessage('Ошибка добавления в корзину: ' + error.message, 3000, 'error');
+                    preloader.showMessage(message, 3000, 'error');
                 } else {
-                    alert('Ошибка добавления в корзину: ' + error.message);
+                    alert(message);
                 }
             }
         }
@@ -1017,11 +1155,21 @@
             const container = document.getElementById('product-detail');
             container.innerHTML = `
                 <div class="error">
-                    <h3>Ошибка</h3>
+                    <h3>${t('productDetail.error.title')}</h3>
                     <p>${message}</p>
                 </div>
             `;
         }
+
+        document.addEventListener('languageChanged', () => {
+            updateBreadcrumbs();
+            if (currentProduct) {
+                displayProduct();
+            }
+            if (relatedProductsCache.length > 0) {
+                displayRelatedProducts(relatedProductsCache);
+            }
+        });
     </script>
 </body>
 </html>
