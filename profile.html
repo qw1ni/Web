@@ -93,6 +93,92 @@
             border-radius: 5px;
             margin: 10px 0;
         }
+        .profile-modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            padding: 20px;
+            transition: opacity 0.15s ease;
+            opacity: 0;
+        }
+        .profile-modal[hidden] {
+            display: none;
+        }
+        .profile-modal.is-open {
+            opacity: 1;
+        }
+        .profile-modal__dialog {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 680px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .profile-modal__title {
+            margin: 0 0 20px 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .profile-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .profile-form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .profile-form-field label {
+            font-weight: 600;
+            color: #333;
+        }
+        .profile-form-field input,
+        .profile-form-field textarea,
+        .profile-form-field select {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .profile-form-field textarea {
+            resize: vertical;
+        }
+        .profile-form-field--full {
+            grid-column: 1 / -1;
+        }
+        .profile-modal__actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .profile-modal__error {
+            flex: 1;
+            margin: 0;
+            font-size: 14px;
+            color: #dc3545;
+        }
+        body.profile-modal-open {
+            overflow: hidden;
+        }
+        @media (max-width: 768px) {
+            .profile-form-grid {
+                grid-template-columns: 1fr;
+            }
+            .profile-modal__dialog {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -128,13 +214,68 @@
                 <h2 class="section-title" data-i18n="profile.sections.actions">⚙️ Actions</h2>
                 <div style="text-align: center;">
                     <button class="btn btn-primary" onclick="editProfile()" data-i18n="profile.buttons.edit">Edit profile</button>
-                    <button class="btn btn-primary" onclick="viewOrders()" data-i18n="profile.buttons.orders">My orders</button>
-                    <button class="btn btn-primary" onclick="viewWishlist()" data-i18n="profile.buttons.wishlist">Wishlist</button>
+
                     <button class="btn btn-danger" onclick="logout()" data-i18n="profile.buttons.logout">Sign out</button>
                 </div>
             </div>
         </div>
     </main>
+
+    <div id="profile-modal" class="profile-modal" hidden>
+        <div class="profile-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+            <h3 class="profile-modal__title" id="profile-modal-title">Edit profile</h3>
+            <form id="profile-form" class="profile-form">
+                <input type="hidden" name="userId" id="profile-user-id">
+                <div class="profile-form-grid">
+                    <div class="profile-form-field">
+                        <label for="profile-first-name">First name*</label>
+                        <input type="text" id="profile-first-name" name="firstName" required>
+                    </div>
+                    <div class="profile-form-field">
+                        <label for="profile-last-name">Last name*</label>
+                        <input type="text" id="profile-last-name" name="lastName" required>
+                    </div>
+                    <div class="profile-form-field">
+                        <label for="profile-email">Email*</label>
+                        <input type="email" id="profile-email" name="email" required>
+                    </div>
+                    <div class="profile-form-field">
+                        <label for="profile-phone">Phone</label>
+                        <input type="tel" id="profile-phone" name="phone" placeholder="+1-555-0100">
+                    </div>
+                    <div class="profile-form-field">
+                        <label for="profile-street">Street</label>
+                        <input type="text" id="profile-street" name="street">
+                    </div>
+                    <div class="profile-form-field">
+                        <label for="profile-city">City</label>
+                        <input type="text" id="profile-city" name="city">
+                    </div>
+                    <div class="profile-form-field">
+                        <label for="profile-state">State/Region</label>
+                        <input type="text" id="profile-state" name="state">
+                    </div>
+                    <div class="profile-form-field">
+                        <label for="profile-zip">ZIP/Postal code</label>
+                        <input type="text" id="profile-zip" name="zipCode">
+                    </div>
+                    <div class="profile-form-field">
+                        <label for="profile-country">Country</label>
+                        <input type="text" id="profile-country" name="country" placeholder="USA">
+                    </div>
+                    <div class="profile-form-field profile-form-field--full">
+                        <label for="profile-password">New password</label>
+                        <input type="password" id="profile-password" name="password" placeholder="Leave blank to keep current password">
+                    </div>
+                </div>
+                <div class="profile-modal__actions">
+                    <p class="profile-modal__error" id="profile-form-error"></p>
+                    <button type="button" class="btn btn-secondary" id="profile-modal-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="profile-form-submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div data-include="footer"></div>
 
@@ -170,9 +311,13 @@
             'profile.errors.userStats': 'Failed to load statistics: {reason}',
             'profile.errors.general': 'Failed to load profile data: {reason}',
             'profile.errors.apiUnavailable': 'The API client is unavailable.',
-            'profile.alerts.editProfile': 'Profile editing is coming soon.',
+            'profile.errors.updateFailed': 'Failed to update profile: {reason}',
+            'profile.alerts.updateSuccess': 'Profile updated successfully.',
             'profile.alerts.orders': 'Order history is coming soon.',
             'profile.alerts.wishlist': 'Wishlist view is coming soon.',
+            'profile.forms.validation.required': 'Please fill out required fields.',
+            'profile.forms.validation.email': 'Enter a valid email address.',
+            'profile.forms.validation.password': 'Password must be at least 8 characters.',
             'profile.roles.customer': 'Customer',
             'profile.roles.manager': 'Manager',
             'profile.roles.admin': 'Admin',
@@ -199,12 +344,23 @@
             stats: null
         };
 
+        const profileFormState = {
+            modal: null,
+            form: null,
+            submitButton: null,
+            errorContainer: null,
+            cancelButton: null,
+            currentUser: null
+        };
+
         document.addEventListener('DOMContentLoaded', async () => {
             if (!isAuthenticated()) {
                 alert(t('profile.messages.loginRequired'));
                 window.location.href = './login.html';
                 return;
             }
+
+            initializeProfileForm();
 
             await loadProfileData();
 
@@ -378,6 +534,232 @@
             container.style.display = 'grid';
         }
 
+        function initializeProfileForm() {
+            profileFormState.modal = document.getElementById('profile-modal');
+            profileFormState.form = document.getElementById('profile-form');
+            profileFormState.submitButton = document.getElementById('profile-form-submit');
+            profileFormState.errorContainer = document.getElementById('profile-form-error');
+            profileFormState.cancelButton = document.getElementById('profile-modal-cancel');
+
+            if (!profileFormState.modal || !profileFormState.form) {
+                return;
+            }
+
+            profileFormState.form.addEventListener('submit', handleProfileFormSubmit);
+
+            if (profileFormState.cancelButton) {
+                profileFormState.cancelButton.addEventListener('click', closeProfileModal);
+            }
+
+            profileFormState.modal.addEventListener('click', (event) => {
+                if (event.target === profileFormState.modal) {
+                    closeProfileModal();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && profileFormState.modal && !profileFormState.modal.hasAttribute('hidden')) {
+                    closeProfileModal();
+                }
+            });
+        }
+
+        function updateBodyModalState() {
+            const isOpen = profileFormState.modal && !profileFormState.modal.hasAttribute('hidden');
+            document.body.classList.toggle('profile-modal-open', isOpen);
+        }
+
+        function openProfileModal(user) {
+            if (!profileFormState.modal || !profileFormState.form) {
+                return;
+            }
+
+            profileFormState.currentUser = user;
+            if (profileFormState.errorContainer) {
+                profileFormState.errorContainer.textContent = '';
+            }
+
+            fillProfileForm(user);
+
+            profileFormState.modal.removeAttribute('hidden');
+            updateBodyModalState();
+            requestAnimationFrame(() => {
+                profileFormState.modal.classList.add('is-open');
+            });
+
+            const firstField = profileFormState.form.querySelector('input:not([type="hidden"]):not([disabled])');
+            if (firstField) {
+                firstField.focus();
+            }
+        }
+
+        function closeProfileModal() {
+            if (!profileFormState.modal || !profileFormState.form) {
+                return;
+            }
+
+            profileFormState.modal.classList.remove('is-open');
+            setTimeout(() => {
+                profileFormState.modal.setAttribute('hidden', '');
+                updateBodyModalState();
+            }, 150);
+
+            profileFormState.form.reset();
+            if (profileFormState.errorContainer) {
+                profileFormState.errorContainer.textContent = '';
+            }
+            profileFormState.currentUser = null;
+        }
+
+        function fillProfileForm(user) {
+            const form = profileFormState.form;
+            if (!form) return;
+
+            const address = user.address || {};
+
+            form.elements['userId'].value = user.id ?? '';
+            form.elements['firstName'].value = user.firstName ?? '';
+            form.elements['lastName'].value = user.lastName ?? '';
+            form.elements['email'].value = user.email ?? '';
+            form.elements['phone'].value = user.phone ?? '';
+            form.elements['street'].value = address.street ?? '';
+            form.elements['city'].value = address.city ?? '';
+            form.elements['state'].value = address.state ?? '';
+            form.elements['zipCode'].value = address.zipCode ?? '';
+            form.elements['country'].value = address.country ?? '';
+            form.elements['password'].value = '';
+        }
+
+        function validateProfileForm() {
+            if (!profileFormState.form) return { valid: false, message: t('profile.forms.validation.required') };
+
+            const form = profileFormState.form;
+            const firstName = form.elements['firstName'].value.trim();
+            const lastName = form.elements['lastName'].value.trim();
+            const email = form.elements['email'].value.trim();
+            const newPassword = form.elements['password'].value.trim();
+
+            if (!firstName || !lastName) {
+                return { valid: false, message: t('profile.forms.validation.required') };
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                return { valid: false, message: t('profile.forms.validation.email') };
+            }
+
+            if (newPassword && newPassword.length < 8) {
+                return { valid: false, message: t('profile.forms.validation.password') };
+            }
+
+            return { valid: true, message: '' };
+        }
+
+        function getRememberPreference(authManager) {
+            try {
+                return !!localStorage.getItem(authManager.sessionKey);
+            } catch (error) {
+                return false;
+            }
+        }
+
+        async function handleProfileFormSubmit(event) {
+            event.preventDefault();
+
+            const validation = validateProfileForm();
+            if (!validation.valid) {
+                if (profileFormState.errorContainer) {
+                    profileFormState.errorContainer.textContent = validation.message;
+                }
+                return;
+            }
+
+            if (!profileState.user) {
+                if (profileFormState.errorContainer) {
+                    profileFormState.errorContainer.textContent = t('profile.errors.updateFailed', { reason: 'No user loaded' });
+                }
+                return;
+            }
+
+            const form = profileFormState.form;
+            const formData = new FormData(form);
+            const userId = formData.get('userId');
+
+            const updatedUser = {
+                ...profileState.user,
+                firstName: formData.get('firstName').trim(),
+                lastName: formData.get('lastName').trim(),
+                email: formData.get('email').trim().toLowerCase(),
+                phone: formData.get('phone').trim(),
+                address: {
+                    ...(profileState.user.address || {}),
+                    street: formData.get('street').trim(),
+                    city: formData.get('city').trim(),
+                    state: formData.get('state').trim(),
+                    zipCode: formData.get('zipCode').trim(),
+                    country: formData.get('country').trim()
+                }
+            };
+
+            const newPassword = formData.get('password').trim();
+            if (newPassword) {
+                updatedUser.password = newPassword;
+            }
+
+            const submitButton = profileFormState.submitButton;
+            const originalButtonText = submitButton ? submitButton.textContent : '';
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Saving...';
+            }
+            if (profileFormState.errorContainer) {
+                profileFormState.errorContainer.textContent = '';
+            }
+
+            try {
+                const ApiClient = window.SneakerStoreAPI && window.SneakerStoreAPI.ApiClient;
+                const authManager = window.SneakerStoreAuth && window.SneakerStoreAuth.authManager;
+
+                if (!ApiClient || !authManager) {
+                    throw new Error(t('profile.errors.apiUnavailable'));
+                }
+
+                const apiClient = new ApiClient();
+                const response = await apiClient.put(`/users/${userId}`, updatedUser);
+
+                if (!response.success) {
+                    throw new Error(response.error || 'Unknown error');
+                }
+
+                const savedUser = response.data || updatedUser;
+
+                profileState.user = savedUser;
+                renderProfileHeader(savedUser);
+                displayUserInfo(savedUser);
+
+                authManager.currentUser = savedUser;
+                const remember = getRememberPreference(authManager);
+                authManager.saveSession(remember);
+                if (typeof authManager.updateUI === 'function') {
+                    authManager.updateUI();
+                }
+
+                closeProfileModal();
+                alert(t('profile.alerts.updateSuccess'));
+            } catch (error) {
+                console.error('Failed to update profile:', error);
+                if (profileFormState.errorContainer) {
+                    profileFormState.errorContainer.textContent = t('profile.errors.updateFailed', { reason: error.message });
+                }
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText || 'Save changes';
+                }
+            }
+        }
+
         function formatAddress(address) {
             if (!address || typeof address !== 'object') {
                 return t('profile.values.notProvided');
@@ -489,7 +871,9 @@
         }
 
         function editProfile() {
-            alert(t('profile.alerts.editProfile'));
+            if (profileState.user) {
+                openProfileModal(profileState.user);
+            }
         }
 
         function viewOrders() {
