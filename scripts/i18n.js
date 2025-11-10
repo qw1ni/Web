@@ -97,6 +97,12 @@ const translations = {
         'catalog.messages.productNotFound': 'Product not found',
         'catalog.messages.productLoadError': 'Error loading product',
         
+        // New Arrivals page
+        'new.title1': 'FRESHLY DROPPED',
+        'new.title2': 'LATEST',
+        'new.title3': 'COLLECTION',
+        'new.lead': '<p>Brand-new colorways, cutting-edge materials, and limited editions you won’t want to miss.</p>',
+        
         // Explore section
         'explore.title': 'WE PROVIDE MODERN SHOES',
         'explore.text': 'Design for the way you live your life. Atoms are beautiful in their simplicity, supporting your feet with absolute comfort.',
@@ -263,6 +269,12 @@ const translations = {
         'catalog.csv.header.rating': 'Рейтинг',
         'catalog.messages.productNotFound': 'Товар не найден',
         'catalog.messages.productLoadError': 'Ошибка загрузки товара',
+        
+        // New Arrivals page
+        'new.title1': 'СВЕЖИЕ ПОСТУПЛЕНИЯ',
+        'new.title2': 'ПОСЛЕДНЯЯ',
+        'new.title3': 'КОЛЛЕКЦИЯ',
+        'new.lead': '<p>Совершенно новые расцветки, передовые материалы и лимитированные серии, которые нельзя пропустить.</p>',
         
         // Explore section
         'explore.title': 'МЫ ПРЕДОСТАВЛЯЕМ СОВРЕМЕННУЮ<br> ОБУВЬ',
