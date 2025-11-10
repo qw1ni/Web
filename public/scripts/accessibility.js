@@ -87,8 +87,10 @@ function createAccessibilityButton() {
     button.setAttribute('aria-label', 'Открыть настройки доступности');
     button.style.cssText = `
         position: fixed !important;
-        top: 20px !important;
-        right: 20px !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: 20px !important;
+        left: 20px !important;
         width: 50px !important;
         height: 50px !important;
         background: #007bff !important;

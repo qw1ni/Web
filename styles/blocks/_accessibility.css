@@ -306,8 +306,10 @@
         width: 45px;
         height: 45px;
         font-size: 18px;
-        top: 15px;
-        right: 15px;
+        top: auto;
+        right: auto;
+        bottom: 15px;
+        left: 15px;
     }
 }
 
