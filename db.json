@@ -199,7 +199,7 @@
   "products": [
     {
       "id": "2",
-      "name": "Nike Air Max 270",
+      "name": "Nike Air Max 200",
       "brand": "Nike",
       "model": "Air Max 270",
       "price": 150,
@@ -244,7 +244,8 @@
         "casual"
       ],
       "releaseDate": "2024-01-10",
-      "createdAt": "2024-01-01T00:00:00Z"
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2025-11-10T18:49:11.267Z"
     },
     {
       "id": "3",
