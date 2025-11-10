@@ -103,6 +103,19 @@ const translations = {
         'new.title3': 'COLLECTION',
         'new.lead': '<p>Brand-new colorways, cutting-edge materials, and limited editions you won’t want to miss.</p>',
         
+        // Men page
+        'men.title': '<p>PERFORMANCE FOR HIM</p>',
+        'men.text': 'Engineered for speed, built for everyday comfort.',
+        
+        // Women page
+        'women.title': '<p>ELEVATED STYLE FOR HER</p>',
+        'women.text': 'From studio to street—lightweight, supportive, effortlessly chic.',
+        
+        // Kids page
+        'kids.title': 'FOR GROWING CHAMPIONS',
+        'kids.lead': '<p>PLAY. LEARN. MOVE.</p>',
+        'kids.text': '<p>Durable uppers, easy-on straps, big smiles.</p>',
+        
         // Explore section
         'explore.title': 'WE PROVIDE MODERN SHOES',
         'explore.text': 'Design for the way you live your life. Atoms are beautiful in their simplicity, supporting your feet with absolute comfort.',
@@ -275,6 +288,19 @@ const translations = {
         'new.title2': 'ПОСЛЕДНЯЯ',
         'new.title3': 'КОЛЛЕКЦИЯ',
         'new.lead': '<p>Совершенно новые расцветки, передовые материалы и лимитированные серии, которые нельзя пропустить.</p>',
+        
+        // Men page
+        'men.title': '<p>СОЗДАНО ДЛЯ НЕГО</p>',
+        'men.text': 'Разработано для скорости, создано для комфорта каждый день.',
+        
+        // Women page
+        'women.title': '<p>СТИЛЬ ДЛЯ НЕЁ</p>',
+        'women.text': 'От студии до улицы — лёгкость, поддержка и безупречный стиль.',
+        
+        // Kids page
+        'kids.title': 'ДЛЯ РАСТУЩИХ ЧЕМПИОНОВ',
+        'kids.lead': '<p>ИГРАЙ. УЧИСЬ. ДВИГАЙСЯ.</p>',
+        'kids.text': '<p>Прочные материалы, удобные застёжки и счастливая улыбка.</p>',
         
         // Explore section
         'explore.title': 'МЫ ПРЕДОСТАВЛЯЕМ СОВРЕМЕННУЮ<br> ОБУВЬ',
