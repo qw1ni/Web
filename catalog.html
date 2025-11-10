@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/styles.css">
-    <title>Sneaker Store - Каталог</title>
+    <title>Sneaker Store - Catalog</title>
     <style>
         .catalog-container {
             max-width: 1400px;
@@ -619,129 +619,129 @@
     <main class="content">
         <div class="catalog-container">
             <div class="catalog-header">
-                <h1>👟 Каталог кроссовок</h1>
-                <p>Найдите идеальную пару для себя</p>
+                <h1 data-i18n="catalog.page.title">👟 Sneaker Catalog</h1>
+                <p data-i18n="catalog.page.subtitle">Find the perfect pair for you</p>
             </div>
 
             <div class="catalog-layout">
                 <!-- Боковая панель фильтров -->
                 <aside class="filters-sidebar">
-                    <h2 class="filters-title">🔍 Фильтры</h2>
+                    <h2 class="filters-title" data-i18n="catalog.filters.title">🔍 Filters</h2>
                     
                     <!-- Поиск -->
                     <div class="filter-group">
-                        <input type="text" class="search-box" id="search-input" placeholder="Поиск по названию...">
+                        <input type="text" class="search-box" id="search-input" placeholder="Search by name..." data-i18n-placeholder="catalog.filters.search.placeholder">
                     </div>
                     
                     <!-- Категории -->
                     <div class="filter-group">
-                        <div class="filter-group-title">Категории</div>
+                        <div class="filter-group-title" data-i18n="catalog.filters.categories">Categories</div>
                         <div class="filter-options" id="category-filters">
-                            <div class="loading">Загрузка...</div>
+                            <div class="loading" data-i18n="catalog.loading">Loading...</div>
                         </div>
                     </div>
                     
                     <!-- Бренды -->
                     <div class="filter-group">
-                        <div class="filter-group-title">Бренды</div>
+                        <div class="filter-group-title" data-i18n="catalog.filters.brands">Brands</div>
                         <div class="filter-options" id="brand-filters">
-                            <div class="loading">Загрузка...</div>
+                            <div class="loading" data-i18n="catalog.loading">Loading...</div>
                         </div>
                     </div>
                     
                     <!-- Цена -->
                     <div class="filter-group">
-                        <div class="filter-group-title">Цена</div>
+                        <div class="filter-group-title" data-i18n="catalog.filters.price">Price</div>
                         <div class="price-range">
-                            <input type="number" class="price-input" id="min-price" placeholder="Мин" min="0">
+                            <input type="number" class="price-input" id="min-price" placeholder="Min" min="0" data-i18n-placeholder="catalog.filters.minPrice">
                             <span>-</span>
-                            <input type="number" class="price-input" id="max-price" placeholder="Макс" min="0">
+                            <input type="number" class="price-input" id="max-price" placeholder="Max" min="0" data-i18n-placeholder="catalog.filters.maxPrice">
                         </div>
                     </div>
                     
                     <!-- Пол -->
                     <div class="filter-group">
-                        <div class="filter-group-title">Пол</div>
+                        <div class="filter-group-title" data-i18n="catalog.filters.gender">Gender</div>
                         <div class="filter-options" id="gender-filters">
-                            <div class="loading">Загрузка...</div>
+                            <div class="loading" data-i18n="catalog.loading">Loading...</div>
                         </div>
                     </div>
                     
                     <!-- Размеры -->
                     <div class="filter-group">
-                        <div class="filter-group-title">Размеры</div>
+                        <div class="filter-group-title" data-i18n="catalog.filters.sizes">Sizes</div>
                         <div class="filter-options" id="size-filters">
-                            <div class="loading">Загрузка...</div>
+                            <div class="loading" data-i18n="catalog.loading">Loading...</div>
                         </div>
                     </div>
                     
                     <!-- Рейтинг -->
                     <div class="filter-group">
-                        <div class="filter-group-title">Рейтинг</div>
+                        <div class="filter-group-title" data-i18n="catalog.filters.rating">Rating</div>
                         <div class="filter-options">
                             <div class="filter-option">
                                 <input type="checkbox" id="rating-4" value="4">
-                                <label for="rating-4">4+ звезд</label>
+                                <label for="rating-4" data-i18n="catalog.filters.rating4">4+ stars</label>
                             </div>
                             <div class="filter-option">
                                 <input type="checkbox" id="rating-3" value="3">
-                                <label for="rating-3">3+ звезд</label>
+                                <label for="rating-3" data-i18n="catalog.filters.rating3">3+ stars</label>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Наличие -->
                     <div class="filter-group">
-                        <div class="filter-group-title">Наличие</div>
+                        <div class="filter-group-title" data-i18n="catalog.filters.availability">Availability</div>
                         <div class="filter-options">
                             <div class="filter-option">
                                 <input type="checkbox" id="in-stock" checked>
-                                <label for="in-stock">В наличии</label>
+                                <label for="in-stock" data-i18n="catalog.filters.inStock">In stock</label>
                             </div>
                         </div>
                     </div>
                     
-                    <button class="clear-filters" onclick="clearAllFilters()">Очистить фильтры</button>
+                    <button class="clear-filters" onclick="clearAllFilters()" data-i18n="catalog.filters.clear">Clear filters</button>
                 </aside>
 
                 <!-- Основной контент -->
                 <main class="catalog-main">
                     <!-- Панель инструментов -->
                     <div class="catalog-toolbar">
-                        <div class="results-count" id="results-count">
-                            Загрузка товаров...
+                        <div class="results-count" id="results-count" data-i18n="catalog.loadingProducts">
+                            Loading products...
                         </div>
                         
                         <!-- Роль-специфичные действия -->
                         <div class="role-actions admin-only" style="display: none;">
-                            <button class="role-btn" onclick="addNewProduct()">+ Добавить товар</button>
-                            <button class="role-btn" onclick="exportProducts()">📊 Экспорт</button>
+                            <button class="role-btn" onclick="addNewProduct()" data-i18n="catalog.admin.addProduct">+ Add product</button>
+                            <button class="role-btn" onclick="exportProducts()" data-i18n="catalog.admin.export">📊 Export</button>
                         </div>
                         
                         <div class="role-actions manager-only" style="display: none;">
-                            <button class="role-btn" onclick="manageInventory()">📦 Управление складом</button>
-                            <button class="role-btn" onclick="viewOrders()">📋 Заказы</button>
+                            <button class="role-btn" onclick="manageInventory()" data-i18n="catalog.manager.inventory">📦 Manage inventory</button>
+                            <button class="role-btn" onclick="viewOrders()" data-i18n="catalog.manager.orders">📋 Orders</button>
                         </div>
                         
                         <div class="sort-options">
-                            <label for="sort-select">Сортировка:</label>
+                            <label for="sort-select" data-i18n="catalog.sort.label">Sort by:</label>
                             <select class="sort-select" id="sort-select">
-                                <option value="name-asc">Название А-Я</option>
-                                <option value="name-desc">Название Я-А</option>
-                                <option value="price-asc">Цена по возрастанию</option>
-                                <option value="price-desc">Цена по убыванию</option>
-                                <option value="rating-desc">По рейтингу</option>
-                                <option value="newest">Сначала новые</option>
-                                <option value="oldest">Сначала старые</option>
+                                <option value="name-asc" data-i18n="catalog.sort.nameAsc">Name A-Z</option>
+                                <option value="name-desc" data-i18n="catalog.sort.nameDesc">Name Z-A</option>
+                                <option value="price-asc" data-i18n="catalog.sort.priceAsc">Price: Low to High</option>
+                                <option value="price-desc" data-i18n="catalog.sort.priceDesc">Price: High to Low</option>
+                                <option value="rating-desc" data-i18n="catalog.sort.ratingDesc">Top rated</option>
+                                <option value="newest" data-i18n="catalog.sort.newest">Newest first</option>
+                                <option value="oldest" data-i18n="catalog.sort.oldest">Oldest first</option>
                             </select>
                             
                             <div class="view-toggle">
-                                <button class="view-btn active" data-view="grid" title="Сетка">
+                                <button class="view-btn active" data-view="grid" title="Grid" data-i18n-title="catalog.view.grid">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 0h7v7h-7v-7z"/>
                                     </svg>
                                 </button>
-                                <button class="view-btn" data-view="list" title="Список">
+                                <button class="view-btn" data-view="list" title="List" data-i18n-title="catalog.view.list">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
                                     </svg>
@@ -752,39 +752,88 @@
 
                     <!-- Список товаров -->
                     <div id="products-container">
-                        <div class="loading">Загрузка товаров...</div>
+                        <div class="loading" data-i18n="catalog.loadingProducts">Loading products...</div>
                     </div>
 
                     <!-- Пагинация -->
                     <div class="pagination" id="pagination" style="display: none;">
-                        <button class="pagination-btn" id="prev-btn" disabled>← Назад</button>
+                        <button class="pagination-btn" id="prev-btn" disabled data-i18n="catalog.pagination.prev">← Previous</button>
                         <div id="pagination-numbers"></div>
-                        <button class="pagination-btn" id="next-btn">Вперед →</button>
+                        <button class="pagination-btn" id="next-btn" data-i18n="catalog.pagination.next">Next →</button>
                     </div>
                 </main>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer__container container">
-            <p>&copy; 2024 Sneaker Store. All Rights Reserved</p>
-        </div>
-    </footer>
+    <div data-include="footer"></div>
 
     <script src="./scripts/partials.js"></script>
     <script src="./scripts/api.js"></script>
     <script src="./scripts/cart.js"></script>
     <script src="./scripts/accessibility.js"></script>
     <script src="./scripts/modal.js"></script>
+    <script src="./scripts/i18n.js"></script>
     
     <script>
-        console.log('Каталог загружается...');
+        console.log('Catalog page loading...');
+
+        const i18nFallbacks = {
+            'catalog.noResults.title': 'No products found',
+            'catalog.noResults.text': 'Try adjusting your filters',
+            'catalog.addToCart': 'Add to cart',
+            'catalog.quick-view': 'Quick View',
+            'catalog.results': 'Showing {start}-{end} of {count} products',
+            'catalog.pagination.prev': '← Previous',
+            'catalog.pagination.next': 'Next →',
+            'catalog.messages.addedToCart': 'Product added to cart!',
+            'catalog.messages.addToCartError': 'Error adding to cart: {reason}',
+            'catalog.messages.addedToWishlist': 'Product added to wishlist!',
+            'catalog.messages.loadError': 'Failed to load products',
+            'catalog.messages.loadErrorWithReason': 'Failed to load products: {reason}',
+            'catalog.error.title': 'Error',
+            'catalog.messages.addProductComingSoon': 'Product creation is available in the admin panel.',
+            'catalog.messages.editProduct': 'Product {id} editing is available in the admin panel.',
+            'catalog.messages.deleteConfirm': 'Are you sure you want to delete this product?',
+            'catalog.messages.productDeleted': 'Product {id} will be deleted.',
+            'catalog.messages.manageInventory': 'Inventory management is available in the manager panel.',
+            'catalog.messages.viewOrders': 'Order management is available in the manager panel.',
+            'catalog.messages.updateStockPrompt': 'Enter the new stock quantity:',
+            'catalog.messages.updateStockSuccess': 'Stock for product {id} updated to {stock}.',
+            'catalog.csv.header.id': 'ID',
+            'catalog.csv.header.name': 'Name',
+            'catalog.csv.header.brand': 'Brand',
+            'catalog.csv.header.category': 'Category',
+            'catalog.csv.header.price': 'Price',
+            'catalog.csv.header.stock': 'Stock',
+            'catalog.csv.header.rating': 'Rating',
+            'catalog.messages.productNotFound': 'Product not found',
+            'catalog.messages.productLoadError': 'Error loading product'
+        };
+
+        const t = (key, replacements = {}) => {
+            const translateFn = window.I18n && typeof window.I18n.translate === 'function'
+                ? window.I18n.translate
+                : () => key;
+            let result = translateFn(key);
+            if (result === key && i18nFallbacks[key]) {
+                result = i18nFallbacks[key];
+            }
+            Object.entries(replacements).forEach(([placeholder, value]) => {
+                result = result.replace(`{${placeholder}}`, value);
+            });
+            return result;
+        };
+
+        const updateDynamicTranslations = () => {
+            updateResultsCount();
+            updatePagination();
+        };
         
         // Простой preloader
         const preloader = {
-            start: async () => { console.log('Загрузка...'); },
-            stop: async () => { console.log('Загрузка завершена'); },
+            start: async () => { console.log('Loading...'); },
+            stop: async () => { console.log('Loading finished'); },
             showMessage: (msg, duration, type) => {
                 console.log(`${type || 'info'}: ${msg}`);
                 alert(msg);
@@ -838,8 +887,8 @@
         // Простое приложение
         window.SneakerStoreApp = {
             addToWishlist: async (productId, size, color) => {
-                console.log('Товар добавлен в избранное:', productId);
-                alert('Товар добавлен в избранное!');
+                console.log('Product added to wishlist:', productId);
+                alert(t('catalog.messages.addedToWishlist'));
             }
         };
         
@@ -885,10 +934,10 @@
                     displayProducts();
                     updateResultsCount();
                 } else {
-                    showError('Ошибка загрузки товаров');
+                    showError('catalog.messages.loadError');
                 }
             } catch (error) {
-                showError('Ошибка загрузки товаров: ' + error.message);
+                showError('catalog.messages.loadErrorWithReason', { reason: error.message });
             }
         }
 
@@ -1077,6 +1126,8 @@
                         return 0;
                 }
             });
+
+    document.addEventListener('languageChanged', updateDynamicTranslations);
         }
 
         // Отображение товаров
@@ -1086,8 +1137,8 @@
             if (filteredProducts.length === 0) {
                 container.innerHTML = `
                     <div class="no-results">
-                        <h3>Товары не найдены</h3>
-                        <p>Попробуйте изменить фильтры поиска</p>
+                        <h3 data-i18n="catalog.noResults.title">${t('catalog.noResults.title')}</h3>
+                        <p data-i18n="catalog.noResults.text">${t('catalog.noResults.text')}</p>
                     </div>
                 `;
                 return;
@@ -1139,11 +1190,11 @@
                             <span class="rating-value">${product.rating} (${product.reviewsCount})</span>
                         </div>
                         <div class="product-actions">
-                            <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart(${product.id})">
-                                В корзину
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart(${product.id})" data-i18n="catalog.addToCart">
+                                ${t('catalog.addToCart')}
                             </button>
-                            <button class="btn btn-secondary quick-view-btn" data-product-id="${product.id}">
-                                Quick View
+                            <button class="btn btn-secondary quick-view-btn" data-product-id="${product.id}" data-i18n="catalog.quick-view">
+                                ${t('catalog.quick-view')}
                             </button>
                             <div class="role-actions admin-only" style="display: none;">
                                 <button class="btn btn-warning" onclick="event.stopPropagation(); editProduct(${product.id})">
@@ -1189,9 +1240,9 @@
                             <span class="rating-value">${product.rating} (${product.reviewsCount})</span>
                         </div>
                     </div>
-                    <div class="product-actions" style="flex-direction: column; width: 120px;">
-                        <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart(${product.id})">
-                            В корзину
+                        <div class="product-actions" style="flex-direction: column; width: 120px;">
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart(${product.id})" data-i18n="catalog.addToCart">
+                            ${t('catalog.addToCart')}
                         </button>
                     </div>
                 </div>
@@ -1205,7 +1256,7 @@
             const endIndex = Math.min(currentPage * itemsPerPage, count);
             
             document.getElementById('results-count').textContent = 
-                `Показано ${startIndex}-${endIndex} из ${count} товаров`;
+                t('catalog.results', { start: startIndex, end: endIndex, count });
         }
 
         // Обновление пагинации
@@ -1226,6 +1277,8 @@
             // Кнопки навигации
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = currentPage === totalPages;
+            prevBtn.textContent = t('catalog.pagination.prev');
+            nextBtn.textContent = t('catalog.pagination.next');
             
             // Номера страниц
             numbersContainer.innerHTML = '';
@@ -1283,7 +1336,7 @@
                 await preloader.stop();
                 
                 if (result.success) {
-                    preloader.showMessage('Товар добавлен в корзину!', 2000);
+                    preloader.showMessage(t('catalog.messages.addedToCart'), 2000);
                     
                     // Анимация добавления в корзину
                     const button = event?.target;
@@ -1295,19 +1348,19 @@
                 }
             } catch (error) {
                 await preloader.stop();
-                preloader.showMessage('Ошибка добавления в корзину: ' + error.message, 3000, 'error');
+                preloader.showMessage(t('catalog.messages.addToCartError', { reason: error.message }), 3000, 'error');
             }
         }
 
         // Функция addToWishlist удалена - кнопка "В избранное" убрана из каталога
 
         // Показ ошибок
-        function showError(message) {
+        function showError(messageKey, replacements = {}) {
             const container = document.getElementById('products-container');
             container.innerHTML = `
                 <div class="no-results">
-                    <h3>Ошибка</h3>
-                    <p>${message}</p>
+                    <h3 data-i18n="catalog.error.title">${t('catalog.error.title')}</h3>
+                    <p data-i18n="${messageKey}">${t(messageKey, replacements)}</p>
                 </div>
             `;
         }
@@ -1339,7 +1392,7 @@
 
         // Роль-специфичные действия для администраторов
         function addNewProduct() {
-            alert('Функция добавления товара будет реализована в админ-панели');
+            alert(t('catalog.messages.addProductComingSoon'));
             window.location.href = 'admin.html';
         }
 
@@ -1349,42 +1402,47 @@
         }
 
         function editProduct(productId) {
-            alert(`Редактирование товара ${productId} будет реализовано в админ-панели`);
+            alert(t('catalog.messages.editProduct', { id: productId }));
             window.location.href = `admin.html?edit=${productId}`;
         }
 
         function deleteProduct(productId) {
-            if (confirm('Вы уверены, что хотите удалить этот товар?')) {
-                // Здесь будет API вызов для удаления
-                alert(`Товар ${productId} будет удален`);
-                // Обновляем список товаров
+            if (confirm(t('catalog.messages.deleteConfirm'))) {
+                alert(t('catalog.messages.productDeleted', { id: productId }));
                 loadProducts();
             }
         }
 
         // Роль-специфичные действия для менеджеров
         function manageInventory() {
-            alert('Управление складом будет реализовано в панели менеджера');
+            alert(t('catalog.messages.manageInventory'));
             window.location.href = 'manager.html';
         }
 
         function viewOrders() {
-            alert('Просмотр заказов будет реализован в панели менеджера');
+            alert(t('catalog.messages.viewOrders'));
             window.location.href = 'manager.html';
         }
 
         function updateStock(productId) {
-            const newStock = prompt('Введите новое количество товара на складе:');
+            const newStock = prompt(t('catalog.messages.updateStockPrompt'));
             if (newStock !== null && !isNaN(newStock)) {
-                // Здесь будет API вызов для обновления остатка
-                alert(`Остаток товара ${productId} обновлен до ${newStock}`);
+                alert(t('catalog.messages.updateStockSuccess', { id: productId, stock: newStock }));
                 loadProducts();
             }
         }
 
         // Генерация CSV для экспорта
         function generateCSV(products) {
-            const headers = ['ID', 'Название', 'Бренд', 'Категория', 'Цена', 'Остаток', 'Рейтинг'];
+            const headers = [
+                t('catalog.csv.header.id'),
+                t('catalog.csv.header.name'),
+                t('catalog.csv.header.brand'),
+                t('catalog.csv.header.category'),
+                t('catalog.csv.header.price'),
+                t('catalog.csv.header.stock'),
+                t('catalog.csv.header.rating')
+            ];
             const rows = products.map(product => [
                 product.id,
                 product.name,
@@ -1439,20 +1497,20 @@
                         } else {
                             // Если товар не найден в локальных данных, загружаем с сервера
                             const response = await fetch(`http://localhost:3000/products?id=${productId}`);
-                            if (response.ok) {
-                                const productData = await response.json();
-                                if (productData.length > 0) {
-                                    window.ModalManager.showProductQuickView(productData[0]);
-                                } else {
-                                    window.ModalManager.showNotification('Product not found', 'error');
-                                }
+                        if (response.ok) {
+                            const productData = await response.json();
+                            if (productData.length > 0) {
+                                window.ModalManager.showProductQuickView(productData[0]);
                             } else {
-                                window.ModalManager.showNotification('Product not found', 'error');
+                                window.ModalManager.showNotification(t('catalog.messages.productNotFound'), 'error');
                             }
+                        } else {
+                            window.ModalManager.showNotification(t('catalog.messages.productNotFound'), 'error');
+                        }
                         }
                     } catch (error) {
                         console.error('Error loading product:', error);
-                        window.ModalManager.showNotification('Error loading product', 'error');
+                    window.ModalManager.showNotification(t('catalog.messages.productLoadError'), 'error');
                     }
                 }
             }
