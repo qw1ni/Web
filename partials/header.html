@@ -38,9 +38,27 @@
             <ul class="header__menu-icons-list">
 
                 <li class="header__menu-icons-item">
-                    <a href="./search.html" class="header__menu-icons-link">
-                        <img src="./images/Search.svg" alt="Search" loading="lazy">
-                    </a>
+                    <div class="header__search-container">
+                        <button type="button" class="header__menu-icons-link header__search-toggle" id="search-toggle" aria-label="Search">
+                            <img src="./images/Search.svg" alt="Search" loading="lazy">
+                        </button>
+                        <div class="header__search-box" id="header-search-box" style="display: none;">
+                            <form class="header__search-form" id="header-search-form" onsubmit="handleHeaderSearch(event)">
+                                <input type="text" 
+                                       class="header__search-input" 
+                                       id="header-search-input" 
+                                       placeholder="Search products..." 
+                                       autocomplete="off"
+                                       aria-label="Search products">
+                                <button type="submit" class="header__search-submit" aria-label="Submit search">
+                                    <img src="./images/Search.svg" alt="Search" loading="lazy">
+                                </button>
+                                <button type="button" class="header__search-close" id="header-search-close" aria-label="Close search">
+                                    ×
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </li>
                 <li class="header__menu-icons-item">
                     <button class="language-toggle" id="language-toggle" aria-label="Change language"

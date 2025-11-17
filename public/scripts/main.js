@@ -392,8 +392,35 @@
             if (e.target.closest('.header__mobile-close') || e.target.closest('.header__backdrop')) {
                 setMenuOpen(false);
             }
+            // Search toggle
+            if (e.target.closest('#search-toggle')) {
+                var searchBox = document.getElementById('header-search-box');
+                var searchInput = document.getElementById('header-search-input');
+                if (searchBox && searchInput) {
+                    var isVisible = searchBox.style.display !== 'none';
+                    searchBox.style.display = isVisible ? 'none' : 'block';
+                    if (!isVisible) {
+                        setTimeout(function() { searchInput.focus(); }, 10);
+                    }
+                }
+            }
+            // Close search on outside click
+            if (e.target.closest('#header-search-close')) {
+                var searchBox = document.getElementById('header-search-box');
+                if (searchBox) {
+                    searchBox.style.display = 'none';
+                }
+            }
         });
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenuOpen(false); });
+        document.addEventListener('keydown', function (e) { 
+            if (e.key === 'Escape') {
+                setMenuOpen(false);
+                var searchBox = document.getElementById('header-search-box');
+                if (searchBox) {
+                    searchBox.style.display = 'none';
+                }
+            }
+        });
         var observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
@@ -427,6 +454,19 @@
         start();
     }
 })();
+
+// Global function for header search
+function handleHeaderSearch(event) {
+    event.preventDefault();
+    var searchInput = document.getElementById('header-search-input');
+    if (!searchInput) return;
+    
+    var searchQuery = searchInput.value.trim();
+    if (searchQuery) {
+        // Redirect to catalog with search query
+        window.location.href = './catalog.html?search=' + encodeURIComponent(searchQuery);
+    }
+}
 
 
 

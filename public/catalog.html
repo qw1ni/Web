@@ -921,6 +921,16 @@
 
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', async function() {
+            // Read search parameter from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            if (searchQuery) {
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.value = searchQuery;
+                }
+            }
+            
             await loadProducts();
             setupEventListeners();
             applyFilters();
